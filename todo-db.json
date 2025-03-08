@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "fullName": "fasansi sodiq ajagun",
+      "email": "fasansisodiqajagun@gmail.com",
+      "password": "1234abc",
+      "confirmPassword": "1234abc"
+    },
+    {
+      "id": "2",
+      "fullName": "john peter obi",
+      "email": "johnobi@gmail.com",
+      "password": "5678def",
+      "confirmPassword": "5678def"
+    }
+  ]
+}

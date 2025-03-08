@@ -1,0 +1,30 @@
+@import "tailwindcss";
+a.active {
+  color: #000;
+}
+
+/* @plugin "tailwindcss-motion"; */
+/* @theme {
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+    50% {
+      transform: rotate(3deg);
+    }
+  }
+} */
+/* @theme {
+--animate-slideOutRight: slideOutRight infinte linear
+  @keyframes slideOutRight {
+    0% {
+        transform: translate3d(0, 0, 0),
+    }
+    100% {
+        visibility: hidden;
+        transform: translate3d(100%, 0, 0),
+    }
+  }
+} */
