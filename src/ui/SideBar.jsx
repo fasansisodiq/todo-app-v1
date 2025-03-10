@@ -15,7 +15,7 @@ import Work from "./Work";
 
 function SideBar({ setShow }) {
   return (
-    <div className=" w-110 h-screen bg-[#f0f4f3]  flex flex-col justify-between px-6  text-center border-r-2 border-r-green-700 ">
+    <div className="w-35 md:w-70 lg:w-90 h-full bg-[#f0f4f3]  flex flex-col gap-4 px-2  text-center border-r-1 border-r-slate-300 ">
       <Profile setShow={setShow} />
       <Search />
       <Today />

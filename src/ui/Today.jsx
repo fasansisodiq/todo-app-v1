@@ -1,6 +1,6 @@
 import { IoTodaySharp } from "react-icons/io5";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 
 function Today() {
   return (

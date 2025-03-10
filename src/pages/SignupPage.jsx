@@ -9,7 +9,7 @@ import {
 } from "react-router";
 import { BiSolidRightArrowCircle } from "react-icons/bi";
 import { CreateUser } from "../services/apiUserData";
-import { Form } from "react-router";
+import { Form } from "react-router-dom";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -87,9 +87,9 @@ function SignupPage() {
   );
 }
 export async function action({ request }) {
-  const formData = await request.formData({ request });
+  const formData = await request.formData();
   const user = Object.fromEntries(formData);
-
+  console.log(user);
   const errors = {};
   if (!user.fullName.trim()) {
     errors.fullName = "Username is required";
@@ -116,7 +116,10 @@ export async function action({ request }) {
 
   const newUser = await CreateUser(user);
   console.log(newUser);
-  if (newUser) return newUser;
+  // if (newUser) {
+  //   return redirect("/login");
+  // }
+  // return newUser;
   return redirect("/login");
 }
 export default SignupPage;

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import SmallButton from "../utils/SmallButton";
 
 function Logout() {

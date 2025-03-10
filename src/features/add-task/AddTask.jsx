@@ -9,8 +9,8 @@ function AddTask() {
     e.preventDefault();
   }
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center  capitalize shadow-lg text-[#001900]">
-      <h1 className="flex self-start pl-30 text-[#183a1f]    text-4xl font-bold">
+    <div className="w-full h-full flex flex-col pt-5 px-5 items-center  capitalize shadow-lg text-slate-800">
+      <h1 className="flex self-start px-5 md:pl-15 lg:pl-96 text-green-600  text-[1rem]   lg:text-4xl font-bold">
         create task
       </h1>
       <Form
@@ -44,9 +44,9 @@ function AddTask() {
             id={"dueDate"}
           />
         </ColumnDiv>
-        <div className="flex flex-col self-start">
+        <div className="flex flex-col self-start px-5 md:pr-10 lg:pl-30">
           <Label htmlFor="task type"> task class</Label>
-          <select className="capitalize border-0 p-2  rounded-2xl bg-[#fff] shadow">
+          <select className="capitalize border-0 lg:p-2 text-[0.8rem] rounded-2xl bg-[#fff] shadow">
             <option>work</option>
             <option>planned</option>
             <option>assigned</option>
@@ -57,24 +57,26 @@ function AddTask() {
             <option>social</option>
           </select>
         </div>
-        <div className="flex self-start items-center gap-2 normal-case">
+        <div className="flex self-start items-center px-5 lg:pl-30 text-[0.8rem] gap-2 normal-case">
           <input type="checkbox" name={"priority"} id={"priority"} />
           <label>want to give your task priority?</label>
         </div>
 
-        <ColumnDiv>
-          <Label htmlFor="task description">description</Label>
-          <textarea
-            className="w-[30rem] h-35 pl-4 pt-4 rounded-lg
-          outline-0 shadow-0.5 bg-[#fff]  hover:bg-emerald-100 focus:outline-2 focus:outline-offset-2 focus:outline-emerald-700 text-[#183a1f]
+        <div className=" lg:pl-30">
+          <ColumnDiv>
+            <Label htmlFor="task description">description</Label>
+            <textarea
+              className="w-50 md:w-80 lg:w-120 h-20 md:h-25 lg:h-35 pl-4 pt-4 rounded-lg
+          outline-0 shadow-0.5 bg-[#fff]  hover:bg-emerald-100 focus:outline-2 focus:outline-offset-2 focus:outline-emerald-700 text-slate-700
           shadow
           "
-            placeholder={"Description for the task"}
-            name={"description"}
-            id={"description"}
-          />
-        </ColumnDiv>
-        <div className="flex items-center gap-5 self-end  pr-15">
+              placeholder={"Description for the task"}
+              name={"description"}
+              id={"description"}
+            />
+          </ColumnDiv>
+        </div>
+        <div className="flex items-center gap-5 self-end lg:pr-30  pr-15">
           <SmallButton w={20} label={"submit"} />
           <SmallButton w={20} label={"cancel"} onClick={handleCancel} />
         </div>

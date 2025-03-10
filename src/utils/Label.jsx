@@ -1,6 +1,9 @@
 function Label({ name, children }) {
   return (
-    <label className="text-[#183a1f] text-xl opacity-80  mb-1" htmlFor={name}>
+    <label
+      className="text-slate-800 text-[0.8rem] lg:text-xl font-semibold  mb-1"
+      htmlFor={name}
+    >
       {children}
     </label>
   );

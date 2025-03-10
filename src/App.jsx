@@ -1,5 +1,5 @@
-import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
+import { createBrowserRouter } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 
 import WelcomePage from "./pages/WelcomePage";
 import SignupPage, { action as createAccountAction } from "./pages/SignupPage";
@@ -19,6 +19,7 @@ import FriendPage from "./pages/FriendPage";
 import LoginPage, { loader as userLoader } from "./pages/LoginPage";
 import Error from "./utils/Error";
 import AddTask, { action as addTaskAction } from "./features/add-task/AddTask";
+import NotificationPage from "./pages/NotificationPage";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,7 @@ const router = createBrowserRouter([
         path: "/layout/friend",
         element: <FriendPage />,
       },
+      { path: "/layout/notification", element: <NotificationPage /> },
       { path: "/layout/new-task", element: <AddTask />, action: addTaskAction },
     ],
   },
@@ -103,6 +105,3 @@ function App() {
 }
 
 export default App;
-{
-  /* <MdNotificationImportant/> */
-}

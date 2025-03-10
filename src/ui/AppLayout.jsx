@@ -6,12 +6,13 @@ import SuggestionScreen from "./SuggestionScreen";
 function AppLayout() {
   const [show, setShow] = useState(true);
   return (
-    <div className="w-full h-full bg-[#183a1f] flex justify-between border-t-8 border-t-green-700 ">
+    <div className="w-full h-full  flex justify-between border-t-8 border-t-green-700 ">
       <SideBar setShow={setShow} />
       <OverviewScreen show={show} />
-      <SuggestionScreen />
+      {/* <SuggestionScreen /> */}
     </div>
   );
 }
 
 export default AppLayout;
+// bg-[#183a1f]

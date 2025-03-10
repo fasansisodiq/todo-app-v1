@@ -1,11 +1,5 @@
-import React from 'react'
-
 function Setting() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div></div>;
 }
 
-export default Setting
+export default Setting;

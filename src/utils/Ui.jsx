@@ -7,19 +7,21 @@ function Ui({ icon, label, taskNum }) {
   // }
   return (
     <div
-      className={` w-100 flex justify-between items-center text-2xl text-[#183a1f]  cursor-pointer hover:bg-[#cbedd2]  hover:h-10 hover:px-2 hover:border-l-6
+      className={` w-35  md:w-70 lg-w-90 hover:w-35 md:hover:w-70 lg:w-90 flex justify-between items-center pr-3 text-lg lg:text-xl text-slate-800  cursor-pointer hover:bg-[#cbedd2] hover:h-4 md:hover:h-6 lg:hover:h-8 hover:px-1 md:hover:px-2 lg:hover:px-3 transition-all duration-75  hover:border-l-6
           border-l-green-800 
      `}
       // onClick={handleIsActive}
       // key={label}
     >
-      <span className="flex justify-center items-center gap-4 text-lg ">
+      <span className="flex justify-between items-center gap-1 text-[0.8rem] lg:gap-4 lg:text-lg ">
         <span>{icon}</span>
-        <span className=" capitalize font-semibold text-lg opacity-75">
+        <span className=" capitalize font-semibold text-[0.8rem] lg:text-lg opacity-75">
           {label}
         </span>
       </span>
-      <span className="text-xl font-light opacity-75">{taskNum}</span>
+      <div className=" flex self-end mr-1 text-[0.8rem] lg:text-xl font-semi-bold text-emerald-950 opacity-75">
+        {taskNum}
+      </div>
     </div>
   );
 }

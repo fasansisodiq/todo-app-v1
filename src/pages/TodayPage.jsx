@@ -1,9 +1,9 @@
-import Task from "./Task";
+import TaskItems from "./TaskItems";
 
 function TodayPage() {
   return (
-    <div>
-      <Task />
+    <div className="w-full">
+      <TaskItems />
     </div>
   );
 }

@@ -13,7 +13,7 @@ import { getUser } from "../services/apiUserData";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { users } = useLoaderData();
+  const users = useLoaderData();
   console.log(users);
   return (
     <div className=" w-250 h-full bg-[#f0f4f3] flex flex-col justify-center items-center gap-5 text-center ">
@@ -62,10 +62,13 @@ function LoginPage() {
     </div>
   );
 }
-("/layout");
+
 export async function loader() {
   const users = await getUser();
-  redirect("/layout");
-  return users;
+  console.log(users);
+  if (users) {
+    return redirect("/layout");
+  }
+  return users || null;
 }
 export default LoginPage;
