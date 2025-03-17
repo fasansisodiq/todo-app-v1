@@ -3,10 +3,10 @@ const API__URl = "http://localhost:9000";
 export async function CreateUser(newUser) {
   try {
     const res = await fetch(`${API__URl}/users`, {
-      method: "POST",
-      Body: JSON.stringify(newUser),
+      method: "post",
+      Body: JSON.stringify({newUser}),
       headers: {
-        Content_Type: "application/json",
+        'Content-Type': "application/json",
       },
     });
     if (!res.ok) throw Error();
@@ -17,6 +17,7 @@ export async function CreateUser(newUser) {
     throw Error("Account Creation failed");
   }
 }
+
 export async function getUser() {
   const res = await fetch(`${API__URl}/users`);
 
@@ -25,4 +26,21 @@ export async function getUser() {
   const { data } = await res.json();
 
   return data;
+}
+export async function createTask(newTask) {
+  try {
+    const res = await fetch(`${API__URl}/tasks`, {
+      method: "POST",
+      Body: JSON.stringify({newTask}),
+      headers: {
+        'Content-Type': "application/json",
+      },
+    });
+    if (!res.ok) throw Error();
+    const { task } = await res.json();
+    console.log(task);
+    return task;
+  } catch {
+    throw Error("Task Creation failed");
+  }
 }

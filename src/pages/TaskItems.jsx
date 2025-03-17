@@ -1,3 +1,4 @@
+import TaskOverviewHeader from "../ui/TaskOverviewHeader";
 import TaskItem from "./TaskItem";
 
 function TaskItems() {
@@ -32,10 +33,11 @@ function TaskItems() {
     },
   ];
   return (
-    <div className=" ">
+    <div className="flex flex-col gap-2 ">
+      <TaskOverviewHeader /> 
       <ul>
         {tasks.map((task, idx) => (
-          <TaskItem task={task} key={idx + 1} idx={idx} />
+          <TaskItem task={task} key={task.id} idx={idx} />
         ))}
       </ul>
     </div>

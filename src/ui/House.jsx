@@ -1,11 +1,12 @@
 import { HiHomeModern } from "react-icons/hi2";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router-dom";
+import PageNavigator from "../utils/PageNavigator";
+
 
 function House() {
   return (
-    <div>
-      <NavLink to="/layout/house">
+    <>
+      <PageNavigator to="/layout/house" activeClassName={" h-6"}   >
         <Ui
           label={"house"}
           taskNum={4}
@@ -15,8 +16,8 @@ function House() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+    </>
   );
 }
 

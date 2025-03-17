@@ -1,11 +1,12 @@
 import { BiTask } from "react-icons/bi";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router-dom";
+import PageNavigator from "../utils/PageNavigator";
+
 
 function Task() {
   return (
-    <div className="">
-      <NavLink to="/layout/task">
+    <>
+      <PageNavigator to="/layout/task" activeClassName={" h-6"}   >
         <Ui
           label={"task"}
           taskNum={8}
@@ -15,8 +16,8 @@ function Task() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+    </>
   );
 }
 

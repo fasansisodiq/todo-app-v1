@@ -1,11 +1,12 @@
 import { BiCalendarEvent } from "react-icons/bi";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router-dom";
+import PageNavigator from "../utils/PageNavigator";
+
 
 function Planned() {
   return (
-    <div className="">
-      <NavLink to="/layout/planned">
+    <>
+      <PageNavigator to="/layout/planned" activeClassName={" h-6"}   >
         <Ui
           label={"planned"}
           taskNum={2}
@@ -15,8 +16,8 @@ function Planned() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+    </>
   );
 }
 

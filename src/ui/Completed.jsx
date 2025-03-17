@@ -1,11 +1,12 @@
 import { MdDone } from "react-icons/md";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router-dom";
+import PageNavigator from "../utils/PageNavigator";
+
 
 function Completed() {
   return (
-    <div>
-      <NavLink to="/layout/completed">
+    <>
+      <PageNavigator to="/layout/completed" activeClassName={" h-6"}   >
         <Ui
           label={"completed"}
           taskNum={10}
@@ -15,8 +16,8 @@ function Completed() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+    </>
   );
 }
 

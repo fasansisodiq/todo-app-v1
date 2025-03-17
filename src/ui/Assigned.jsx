@@ -1,11 +1,12 @@
 import { CgAssign } from "react-icons/cg";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router-dom";
+import PageNavigator from "../utils/PageNavigator";
+
 
 function Assigned() {
   return (
-    <div>
-      <NavLink to="/layout/assigned">
+    <>
+      <PageNavigator to="/layout/assigned" activeClassName={" h-6"}   >
         <Ui
           label={"assigned"}
           taskNum={2}
@@ -15,8 +16,8 @@ function Assigned() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+    </>
   );
 }
 

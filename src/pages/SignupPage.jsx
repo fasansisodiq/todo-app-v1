@@ -116,10 +116,10 @@ export async function action({ request }) {
 
   const newUser = await CreateUser(user);
   console.log(newUser);
-  // if (newUser) {
-  //   return redirect("/login");
-  // }
-  // return newUser;
-  return redirect("/login");
+  if (newUser) {
+    return redirect("/login");
+  }
+  return {newUser};
+  // return redirect("/login");
 }
 export default SignupPage;

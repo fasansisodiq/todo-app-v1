@@ -1,12 +1,19 @@
-function ModalBtn({ children, icon, onClick }) {
+import { PiGreaterThanBold } from "react-icons/pi";
+
+function ModalBtn({ children, leftIcon, onClick }) {
   return (
-    <button
+    <div className="xl:hover:w-full hover:bg-slate-200">
+      <button
       onClick={onClick}
-      className=" flex  items-center gap-4 pl-10 hover:pl-10  w-60 h-6 hover:px-5 hover:bg-slate-200"
+      className=" flex justify-between items-center gap-4 py-3 w-full  xl:w-full xl:h-8  pl-8  h-fit  xl:pr-4   "
     >
-      <span className="text-slate-700 ">{icon}</span>
+      <div className="flex justify-center items-center gap-2">
+        <span className="text-slate-700 ">{leftIcon}</span>
       <span>{children}</span>
+      </div>
+      <span><PiGreaterThanBold/></span>
     </button>
+    </div>
   );
 }
 

@@ -1,15 +1,14 @@
 import { IoTodaySharp } from "react-icons/io5";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router-dom";
+import PageNavigator from "../utils/PageNavigator";
+
 
 function Today() {
   return (
-    <div>
-      <NavLink
-        to="/layout/today"
-        className={({ isActive }) =>
-          isActive ? "text - rose - 500" : "text - gray - 500"
-        }
+    
+      <PageNavigator
+        to="/layout/today" 
+        activeClassName={" h-6"}    
       >
         <Ui
           label={"today"}
@@ -20,8 +19,8 @@ function Today() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+
   );
 }
 

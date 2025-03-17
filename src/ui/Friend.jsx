@@ -1,11 +1,12 @@
-import { NavLink } from "react-router-dom";
+
+import PageNavigator from "../utils/PageNavigator";
 import Ui from "../utils/Ui";
 import { FaUserFriends } from "react-icons/fa";
 
 function Friend() {
   return (
-    <div>
-      <NavLink to="/layout/friend">
+    <>
+      <PageNavigator to="/layout/friend" activeClassName={" h-6"}   >
         <Ui
           label={"friend"}
           taskNum={3}
@@ -15,8 +16,8 @@ function Friend() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator> 
+    </>
   );
 }
 

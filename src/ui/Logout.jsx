@@ -4,7 +4,7 @@ import SmallButton from "../utils/SmallButton";
 function Logout() {
   const navigate = useNavigate();
   return (
-    <div className="ml-45">
+    <div className="">
       <SmallButton
         label={"log out"}
         w={30}

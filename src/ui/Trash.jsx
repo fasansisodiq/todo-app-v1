@@ -1,11 +1,12 @@
 import { FaTrash } from "react-icons/fa";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router-dom";
+import PageNavigator from "../utils/PageNavigator";
+
 
 function Trash() {
   return (
-    <div>
-      <NavLink to="/layout/trash">
+    <>
+      <PageNavigator to="/layout/trash" activeClassName={" h-6"}   >
         <Ui
           label={"trash"}
           taskNum={12}
@@ -15,8 +16,8 @@ function Trash() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+    </>
   );
 }
 

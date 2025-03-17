@@ -1,9 +1,12 @@
+import CustomButton from "../utils/CustomButton"
 
 
 function ImportantPage() {
   return (
-    <div>
-      
+    <div className="
+    ">
+    
+    
     </div>
   )
 }

@@ -18,8 +18,12 @@ import TrashPage from "./pages/TrashPage";
 import FriendPage from "./pages/FriendPage";
 import LoginPage, { loader as userLoader } from "./pages/LoginPage";
 import Error from "./utils/Error";
-import AddTask, { action as addTaskAction } from "./features/add-task/AddTask";
+import AddNewTask, { action as addTaskAction } from "./features/add-task/AddNewTask";
 import NotificationPage from "./pages/NotificationPage";
+import ProgressPage from "./pages/ProgressPage";
+import HelpPage from "./pages/HelpPage";
+import MenuPage from "./pages/MenuPage";
+import SettingsPage from "./pages/SettingsPage";
 
 const router = createBrowserRouter([
   {
@@ -38,11 +42,18 @@ const router = createBrowserRouter([
     loader: userLoader,
     errorElement: <Error />,
   },
+  
   {
     path: "/layout",
     element: <AppLayout />,
     children: [
+      
       {
+        index: "/layout/today",
+        element: <TodayPage />,
+      },
+      {
+        
         path: "/layout/today",
         element: <TodayPage />,
       },
@@ -91,15 +102,37 @@ const router = createBrowserRouter([
         element: <FriendPage />,
       },
       { path: "/layout/notification", element: <NotificationPage /> },
-      { path: "/layout/new-task", element: <AddTask />, action: addTaskAction },
+       {
+        path: "/layout/settings",
+        element: <SettingsPage />,
+      },
+       {
+        path: "/layout/progress",
+        element: <ProgressPage />,
+      },
+       {
+        path: "/layout/help",
+        element: <HelpPage />,
+      },
+       {
+        path: "/layout/menu",
+        element: <MenuPage />,
+      },
+      {
+    path: "/layout/new-task",
+    element: <AddNewTask />,
+    action: addTaskAction,
+    errorElement: <Error />,
+  },
     ],
   },
 ]);
 
 function App() {
   return (
-    <div className="font-sans flex justify-center items-center  w-screen h-screen shadow  ">
+    <div className="font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto ">
       <RouterProvider router={router} />
+    
     </div>
   );
 }

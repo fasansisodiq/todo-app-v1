@@ -1,11 +1,13 @@
-import { NavLink } from "react-router-dom";
+
+import PageNavigator from "../utils/PageNavigator";
 import Ui from "../utils/Ui";
 import { IoInformation } from "react-icons/io5";
 
+
 function Important() {
   return (
-    <div>
-      <NavLink to="/layout/important">
+    <>
+      <PageNavigator to="/layout/important" activeClassName={"h-6"}    >
         <Ui
           icon={
             <span className="text-green-500">
@@ -15,8 +17,8 @@ function Important() {
           label={"important"}
           taskNum={3}
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+    </>
   );
 }
 

@@ -1,11 +1,12 @@
 import { GiSelfLove } from "react-icons/gi";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router-dom";
+import PageNavigator from "../utils/PageNavigator";
+
 
 function Personal() {
   return (
-    <div>
-      <NavLink to="/layout/personal">
+    <>
+      <PageNavigator to="/layout/personal" activeClassName={" h-6"}   >
         <Ui
           label={"personal"}
           taskNum={5}
@@ -15,8 +16,8 @@ function Personal() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+    </>
   );
 }
 

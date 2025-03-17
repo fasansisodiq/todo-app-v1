@@ -1,73 +1,63 @@
 import { useState } from "react";
 import Table from "../utils/Table";
 import Operation from "../ui/Operation";
-import { BsThreeDots } from "react-icons/bs";
+import {  BsThreeDotsVertical } from "react-icons/bs";
+import DisplayHoverMessage from "../utils/DisplayHoverMessage";
+import Modal from "../utils/Modal";
+import CustomButton from "../utils/CustomButton";
 
 function TaskItem({ task, idx }) {
   task = { ...task, priority: task.priority };
   const [openModal, setOpenModal] = useState(false);
-  const [showMore, setShowMore] = useState(false);
-
-  function handleClick() {
-    setShowMore((showMore) => !showMore);
-  }
-  function handleShow() {
+  
+  function handleShowModal() {
     setOpenModal((openModal) => !openModal);
   }
   function handleCloseModal() {
-    if (!showMore) return setShowMore(false);
-    if (openModal) return setOpenModal(false);
+    if (openModal) setOpenModal(false);
   }
 
   return (
-    <div className="relative w-full">
-      <button
-        // onMouseEnter={() => setShowMore(true)}
-        // onMouseLeave={() => setShowMore(false)}
-        onClick={handleClick}
-        className="z-10 w-full text-stone-600"
-      >
-        <Table bg={"bg-green-80"}>
+    <div className=" w-full relative">
+     
+        <Table bg={"bg-green-80"} col={7}>
           <span className="md:mr-4">{idx + 1}</span>
-          <span>{task.tittle}</span>
-          <span>{task.assignee}</span>
-          <span className="md:ml-3">{task.dueDate}</span>
-          <span className="ml-4">{task.taskClass}</span>
-          <span>
-            {task.priority === "yes" ? (task.priority = "true") : "false"}
+          <span className="pr-8 ">{task.tittle}</span>
+          <span className="pl-1">{task.assignee}</span>
+          <span className="pl-2 ">{task.dueDate}</span>
+          <span className="pl-6">{task.taskClass}</span>
+          <span className="pl-7">
+            {task.priority}
+            {/* {task.priority === "yes" ? (task.priority = "true") : "false"} */}
           </span>
-
-          {/* <span className="text-2 cursor-pointer">{task.description}</span> */}
-        </Table>
-      </button>
-      {showMore ? (
-        <span className="absolute right-0">
-          {openModal ? (
-            ""
-          ) : (
-            <span className="w-4 h-4 px-0.5 z-20 rounded-full border-1 border-slate-300 shadow-xl bg-slate-300">
+         <DisplayHoverMessage element={ <span className="   
+         
+          p-2  w-10 h-10 
+                lg:hover:w-10 lg:hover:h-10 hover:rounded-ful hover:bg-slate-300">
               <button
-                // onMouseEnter={() => setOpenModal(true)}
-                // onMouseLeave={() => setOpenModal(false)}
-                onClick={handleShow}
+              className="lg:text-2xl  "
+                onClick={handleShowModal}
               >
-                <BsThreeDots />
+                <BsThreeDotsVertical />
               </button>
             </span>
-          )}
-        </span>
-      ) : (
-        ""
-      )}
-      {showMore && openModal ? (
-        <Operation
+            }
+            message={"show more"}
+             mClassName={'w-18 md:w-24 sm:w-6 lg:w-28 xl:w-35 xl:h-10 h-4 sm:h-6 md:h-7 right-5 bottom-5  lg:w-30 lg:h-8 lg:right-6 lg:bottom-10 xl:-right-10'}
+            />
+        </Table>
+   
+     
+      {openModal && (
+        <Modal openModal={openModal} onClose={handleCloseModal}>
+          <Operation
           onCloseModal={handleCloseModal}
           description={task.description}
           tittle={task.tittle}
         />
-      ) : (
-        ""
-      )}
+        </Modal>
+      ) }
+    
     </div>
   );
 }

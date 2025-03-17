@@ -8,8 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "json-server --watch todo-db.json --port 9000"
+    "server": "json-server --watch todo-db.json --port 7000"
   },
+ 
   "dependencies": {
     "@tailwindcss/vite": "^4.0.9",
     "json-server": "^1.0.0-beta.3",
@@ -29,6 +30,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "kill-port": "^2.0.1",
     "vite": "^6.2.0"
   }
 }

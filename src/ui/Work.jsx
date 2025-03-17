@@ -1,11 +1,12 @@
 import { MdWork } from "react-icons/md";
 import Ui from "../utils/Ui";
-import { NavLink } from "react-router-dom";
+import PageNavigator from "../utils/PageNavigator";
+
 
 function Work() {
   return (
-    <div>
-      <NavLink to="/layout/work">
+    <>
+      <PageNavigator to="/layout/work" activeClassName={" h-6"}   >
         <Ui
           label={"work"}
           taskNum={12}
@@ -15,8 +16,8 @@ function Work() {
             </span>
           }
         />
-      </NavLink>
-    </div>
+      </PageNavigator>
+    </>
   );
 }
 

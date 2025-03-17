@@ -1,7 +1,8 @@
-function Table({ bg, children }) {
+function Table({ bg, children, col, className }) {
   return (
     <div
-      className={`w-full grid grid-cols-6 text-center md:w-full   rounded py-1 md:my-0 md:ml-0   lg:my-4  lg:ml-2 lg:mt-4 lg:gap-10 capitalize text-[0.6rem] font-semibold ${bg}  lg:text-xl border-1 border-slate-200 border-x-0  `}
+      className={`w-full grid grid-cols-${col} items-center gap-4 justify-between  grid-rows-1 text-center  capitalize text-[0.6rem] font-semibold ${bg} sm:text-sm md:text-lg  lg:text-xl border-1 border-slate-200 border-t-0 border-x-0
+       ${className} `}
     >
       {children}
     </div>
@@ -9,3 +10,4 @@ function Table({ bg, children }) {
 }
 
 export default Table;
+  // lg:my-4  lg:ml-2 lg:mt-4 
