@@ -21,9 +21,10 @@ function Operation({ onCloseModal, description, tittle }) {
   const [show, setShow] = useState(false);
   const [showNextModal, setShowNextModal] = useState(false);
   const [deleteTask, setDeleteTask] = useState(false);
-  function handleShowDescription(id) {
-     setShow((show) => !show);
-    // setShow(true);
+  function handleShowD
+(id) {
+    // setShow((show) => !show)
+     setShow(true);
   }
   function handleDeleteTask() {
      setDeleteTask((del) => !del);
@@ -39,16 +40,16 @@ function handleClose () {
       <h1 className="text-center font-semibold capitalize">task operations</h1>
       <ChildModal
       show={show}
-      onShow={handleShowDescription}
+      onShow={handleShow}
       showNextModal={showNextModal}
       setShowNextModal={setShowNextModal}
-      modal={ <ModalBtn onClick={handleShowDescription} leftIcon={<MdDescription />}>
+      modal={ <ModalBtn onClick={handleShow} leftIcon={<MdDescription />}>
         View description
       </ModalBtn>}
       childModal={ <TaskDescription
             description={description}
             tittle={tittle}
-            onShowDescription={handleShowDescription}
+            onShowDescription={handleShow}
             onclose={handleClose}
           />}/>
      
