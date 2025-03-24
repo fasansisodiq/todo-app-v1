@@ -34,7 +34,7 @@ function TaskItems() {
   ];
   return (
     <div className="flex flex-col gap-2 ">
-      <TaskOverviewHeader /> 
+      <TaskOverviewHeader />
       <ul>
         {tasks.map((task, idx) => (
           <TaskItem task={task} key={task.id} idx={idx} />

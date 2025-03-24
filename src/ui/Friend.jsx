@@ -1,4 +1,3 @@
-
 import PageNavigator from "../utils/PageNavigator";
 import Ui from "../utils/Ui";
 import { FaUserFriends } from "react-icons/fa";
@@ -6,7 +5,7 @@ import { FaUserFriends } from "react-icons/fa";
 function Friend() {
   return (
     <>
-      <PageNavigator to="/layout/friend" activeClassName={" h-6"}   >
+      <PageNavigator to="/layout/friend" activeClassName={" h-6"}>
         <Ui
           label={"friend"}
           taskNum={3}
@@ -16,7 +15,7 @@ function Friend() {
             </span>
           }
         />
-      </PageNavigator> 
+      </PageNavigator>
     </>
   );
 }

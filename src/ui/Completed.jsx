@@ -2,11 +2,10 @@ import { MdDone } from "react-icons/md";
 import Ui from "../utils/Ui";
 import PageNavigator from "../utils/PageNavigator";
 
-
 function Completed() {
   return (
     <>
-      <PageNavigator to="/layout/completed" activeClassName={" h-6"}   >
+      <PageNavigator to="/layout/completed" activeClassName={" h-6"}>
         <Ui
           label={"completed"}
           taskNum={10}
