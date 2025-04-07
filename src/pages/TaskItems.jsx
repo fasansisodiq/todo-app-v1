@@ -1,7 +1,9 @@
+import { useTodos } from "../customHooks/TodosContext";
 import TaskOverviewHeader from "../ui/TaskOverviewHeader";
 import TaskItem from "./TaskItem";
 
 function TaskItems() {
+  const {onOpen} = useTodos()
   const tasks = [
     {
       id: 1,

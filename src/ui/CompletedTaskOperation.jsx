@@ -5,14 +5,15 @@ import TaskOperation from "../utils/TaskOperation";
 import { useTodos } from "../customHooks/TodosContext";
 
 function CompletedTaskOperation({ tittle }) {
-  const { onMarkTaskComp } = useTodos();
+  const { onMarkTaskComp,openMarkTaskComp } = useTodos();
   return (
     <>
       <TaskOperation
         onClick={onMarkTaskComp}
+        state={openMarkTaskComp}
         label={"Mark as completed"}
         icon={<FaCheckDouble />}
-        // childModal={<CompletedTaskModal tittle={tittle} />}
+        childModal={<CompletedTaskModal tittle={tittle} />}
       />
     </>
   );

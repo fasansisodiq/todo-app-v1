@@ -12,7 +12,7 @@ function DisplayHoverMessage({ mClassName, element, message }) {
       {showMessage && (
         <span
           className={`
-             absolute flex justify-center items-center  p-2 pb-3  text-slate-700 border-l-3 sm:border-l-4 md:border-l-5  lg:border-l-6 xl:border-l-7  border-t-green-600 border-l-green-600   shadow-3xl bg-white border-t-2  z-40  ${mClassName}`}
+             absolute flex justify-center items-center  p-2 pb-3  text-slate-700 border-l-3 sm:border-l-4 md:border-l-5  lg:border-l-6 xl:border-l-7  border-t-green-600 border-l-green-600   shadow-4xl bg-white border-t-2  z-40  ${mClassName}`}
         >
           <p className="capitalize">{message}</p>
         </span>

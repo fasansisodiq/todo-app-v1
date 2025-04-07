@@ -1,23 +1,21 @@
 import { createContext, useContext, useReducer, useState } from "react";
 
 const TodosContext = createContext();
-const initialState = {
+const modalInitialState = {
   openViewDesc: false,
   openDelTask: false,
   openMarkTaskComp: false,
   openMarkTaskPend: false,
-  tasks: {},
+  
 };
-
-function reducer(state, action) {
+// const taskInitial = {tasks: {}}
+function modalReducer(state, action) {
   switch (action.type) {
+    
     case "childModal/openViewDesc":
       return {
         ...state,
         openViewDesc: true,
-        openDelTask: false,
-        openMarkTaskComp: false,
-        openMarkTaskPend: false,
       };
     case "childModal/openDelTask":
       return {
@@ -32,9 +30,16 @@ function reducer(state, action) {
     case "childModal/openMarkTaskPend":
       return {
         ...state,
-
         openMarkTaskPend: true,
       };
+    case  "openViewDesc/close" :
+      return {...state,
+     openViewDesc: false,
+  // openDelTask: false,
+  // openMarkTaskComp: false,
+  // openMarkTaskPend: false,
+      }
+      
     case "task/deleted":
       return {
         ...state,
@@ -47,47 +52,64 @@ function reducer(state, action) {
 
 function TodosProvider({ children }) {
   const [isOpen, setIsOpen] = useState(null);
-  // const [openChild, setOpenChild] = useState(false);
-
+  const [hide, setHide] = useState(null)
   const [
     { openViewDesc, openDelTask, openMarkTaskComp, openMarkTaskPend, tasks },
     dispatch,
-  ] = useReducer(reducer, initialState);
+  ] = useReducer(modalReducer, modalInitialState);
+
 
   function handleIsOpen(id) {
-    setIsOpen((prev) => prev.id === id);
+    setIsOpen(id);
+    // setHide(true)
   }
   function handleClose() {
     setIsOpen(null);
   }
+//   function handleHide () {
+// setHide(true)
+//   }
   function handleOpenViewTaskDesc() {
-    dispatch({ type: "childModal/openViewDesc" });
+      dispatch({ type: "childModal/openViewDesc" });
+  }
+  function handleCloseViewTaskDesc() {
+      dispatch({ type: "childModal/close" });
   }
   function handleOpenDelTask() {
-    dispatch({ type: "childModal/openDelTask" });
+   dispatch({ type: "childModal/openDelTask" });
   }
   function handleOpenMarkTaskComp() {
     dispatch({ type: "childModal/openMarkTaskComp" });
   }
+  
   function handleOpenMarkTaskPend() {
     dispatch({ type: "childModal/openMarkTaskPend" });
   }
+  function handleCloseViewDesc(e){
+e.preventDefault()
+    dispatch({ type: "openViewDesc/close" });
+  }
+ 
   return (
     <TodosContext.Provider
       value={{
+         isOpen,
+        setIsOpen,
+        setHide,
+        onOpen: handleIsOpen,
+        onClose: handleClose,
         openViewDesc,
         openDelTask,
         openMarkTaskComp,
         openMarkTaskPend,
+        onCloseViewDesc : handleCloseViewTaskDesc,
+        onCloseDesc : handleCloseViewDesc,
         onViewDesc: handleOpenViewTaskDesc,
         onDelTask: handleOpenDelTask,
         onMarkTaskComp: handleOpenMarkTaskComp,
         onMarkTaskPend: handleOpenMarkTaskPend,
         dispatch,
-        isOpen,
-        setIsOpen,
-        onOpen: handleIsOpen,
-        onClose: handleClose,
+        hide,
         tasks,
       }}
     >

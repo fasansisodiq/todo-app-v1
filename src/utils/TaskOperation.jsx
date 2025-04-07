@@ -1,4 +1,6 @@
+
 import { useTodos } from "../customHooks/TodosContext";
+import { MdOutlineChevronRight } from "react-icons/md";
 
 function TaskOperation({
   childModal,
@@ -6,58 +8,34 @@ function TaskOperation({
   label,
   icon,
   onClick,
-  onClose,
+  state,
+  rightAngle,
 }) {
-  const { openViewDesc, openDelTask, openMarkTaskComp, openMarkTaskPend } =
-    useTodos();
+  const {openViewDesc,
+        openDelTask,
+        openMarkTaskComp,
+        openMarkTaskPend} = useTodos()
   return (
     <div
       type="button"
       onClick={onClick}
-      className=" w-full hover:w-full hover:bg-slate-200 h-fit   relative cursor-pointer "
-      onMouseEnter={onclick}
-      onMouseLeave={onClose}
+      className={`w-full hover:w-full  h-fit   relative cursor-pointer ${openViewDesc||
+        openDelTask||
+        openMarkTaskComp||
+        openMarkTaskPend ? "" : "hover:bg-slate-200" } `}
+       onMouseEnter={()=> {}}
+      // onMouseLeave={onClose}
     >
-      <div className=" flex justify-between items-center gap-2 py-3 w-full  xl:w-full sm:h-6 md:h-8 lg:h-9 xl:h-10  pl-8  h-fit  xl:pr-4   ">
-        <div className="flex justify-center items-center gap-2">
-          <span className="text-slate-700 ">{icon}</span>
-          <span>{label}</span>
+      <div className=" flex justify-between items-center   py-3 w-full  xl:w-full sm:h-6 md:h-8 lg:h-9 xl:h-10  pl-8  h-fit  xl:pr-4   ">
+        <div className={`flex  ${rightAngle === 'yes' ? "justify-between w-80":"justify-center"} items-center gap-2`}>
+          <span className="flex gap-2 lg:gap-4">
+            <span className="text-slate-700 sm:text-xl md:text-2xl lg:text-3xl ">{icon}</span>
+          <span className="capitalize">{label}</span>
+          </span>
+          <span>{rightAngle === 'yes'? <span className="lg:text-4xl"><MdOutlineChevronRight/></span>: ""}</span>
         </div>
-        {childModal}
-      </div>
-
-      {/* {openViewDesc && (
-        <span
-          className={` absolute 
-             flex justify-center items-center  z-40  ${mClassName}`}
-        >
-          {childModal}
-        </span>
-      )} */}
-      {openDelTask && (
-        <span
-          className={` absolute 
-             flex justify-center items-center  z-40  ${mClassName}`}
-        >
-          {childModal}
-        </span>
-      )}
-      {openMarkTaskPend && (
-        <span
-          className={` absolute 
-             flex justify-center items-center  z-40  ${mClassName}`}
-        >
-          {childModal}
-        </span>
-      )}
-      {openMarkTaskComp && (
-        <span
-          className={` absolute 
-             flex justify-center items-center  z-40  ${mClassName}`}
-        >
-          {childModal}
-        </span>
-      )}
+        {state && childModal}
+      </div>     
     </div>
   );
 }

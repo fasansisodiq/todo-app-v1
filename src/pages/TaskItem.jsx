@@ -4,9 +4,10 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import DisplayHoverMessage from "../utils/DisplayHoverMessage";
 import Modal from "../utils/Modal";
 import { useTodos } from "../customHooks/TodosContext";
+import TaskOperation from "../utils/TaskOperation";
 
 function TaskItem({ task, idx }) {
-  const { isOpen, setIsOpen, onClose } = useTodos();
+  const { isOpen, setIsOpen, onClose, hide } = useTodos();
   task = { ...task, priority: task.priority };
 
   return (
@@ -44,9 +45,9 @@ function TaskItem({ task, idx }) {
         />
       </Table>
 
-      {isOpen === task.id && (
+      {isOpen === task.id  &&  (
         <Modal isOpen={isOpen} onClose={onClose}>
-          <TaskOperations
+           <TaskOperations
             description={task.description}
             tittle={task.tittle}
             key={task.id}
@@ -54,6 +55,7 @@ function TaskItem({ task, idx }) {
           />
         </Modal>
       )}
+     
     </div>
   );
 }

@@ -22,3 +22,10 @@ function handleSubmit(e) {
     // Or you can get an array of name-value pairs.
     console.log([...formData.entries()]);
   }
+   case 'changed': {
+      const index = draft.findIndex(t =>
+        t.id === action.task.id
+      );
+      draft[index] = action.task;
+      break;
+    }

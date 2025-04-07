@@ -1,8 +1,10 @@
 import { FaCheckDouble } from "react-icons/fa6";
 import AlertingModal from "../utils/AlertingModal";
 import CustomButton from "../utils/CustomButton";
+import { useTodos } from "../customHooks/TodosContext";
 
 function CompletedTaskModal({ tittle }) {
+  const {dispatch} = useTodos()
   return (
     <AlertingModal
       tittle={tittle}
@@ -11,7 +13,7 @@ function CompletedTaskModal({ tittle }) {
       modalMessage={"want to mark this task completed?"}
       icon={<FaCheckDouble />}
     >
-      <CustomButton size={"sm"} type={"secondary"} label={"no"} />
+      <CustomButton onClick={''} size={"sm"} type={"secondary"} label={"no"} />
       <CustomButton size={"sm"} type={"primary"} label={"yes"} />
     </AlertingModal>
   );

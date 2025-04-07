@@ -1,11 +1,13 @@
 import OverviewScreen from "./OverviewScreen";
 import SideBar from "./sideBar";
 import Navbar from "./Navbar";
+import { useTodos } from "../customHooks/TodosContext";
 
 function AppLayout() {
+  const {onClose,isOpen} = useTodos()
   return (
     <div
-      onClick={onclose}
+      onClick={isOpen && onClose}
       className={`w-screen h-screen  flex justify-between border-t-8 border-t-green-700  relative 
        `}
     >

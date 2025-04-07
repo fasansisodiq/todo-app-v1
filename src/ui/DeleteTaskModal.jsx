@@ -1,10 +1,10 @@
 import { PiWarningCircle } from "react-icons/pi";
-import { useModal } from "../customHooks/useModal";
 import AlertingModal from "../utils/AlertingModal";
 import CustomButton from "../utils/CustomButton";
+import { useTodos } from "../customHooks/TodosContext";
 
 function DeleteTaskModal({ tittle, tasks, task }) {
-  const { onCloseChild } = useModal();
+  const { onCloseChild } = useTodos();
   function handleDeleteTask(id) {
     tasks.filter((task) => task.id !== id);
   }

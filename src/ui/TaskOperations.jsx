@@ -1,4 +1,4 @@
-import ViewDescriptionOperation from "./ViewDescriptionOperation";
+import TaskDescriptionOperation from "./TaskDescriptionOperation";
 import EditTaskOperation from "./EditTaskOperation";
 import DeleteTaskOperation from "./DeleteTaskOperation";
 import CompletedTaskOperation from "./CompletedTaskOperation";
@@ -7,19 +7,15 @@ import PendingTaskOperation from "./PendingTaskOperation";
 function TaskOperations({ description, tittle }) {
   return (
     <div
-      className={` relative border-y-15 justify-center items-start bg-white
-       border-y-green-700  z-50 w-50 h-58 sm:w-60 md:w-70 md:h-70 lg:w-70
-        lg:h-100 xl:w-80 xl:h-90 p-2   border-2  text-slate-700 flex flex-col
-        border-slate-200 rounded-7xl text-[1rem] sm:text-sm md:text-lg lg:text-xl
-         xl:text-xl shadow-gray-100   `}
+      className={`w-full h-full text-center sm:gap-8 `}
     >
-      <h1 className="self-center pb-4 font-semibold capitalize">
+      <h1 className="self-center pt-4 text-emerald-700 font-semibold capitalize lg:text-3xl xl:text-4xl lg:pb-4">
         task operations
       </h1>
-      <ViewDescriptionOperation
+      <TaskDescriptionOperation
         description={description}
         tittle={tittle}
-        key={"tittle"}
+        
       />
       <EditTaskOperation />
       <DeleteTaskOperation tittle={tittle} />

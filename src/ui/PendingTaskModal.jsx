@@ -1,8 +1,10 @@
 import { MdPending } from "react-icons/md";
 import AlertingModal from "../utils/AlertingModal";
 import CustomButton from "../utils/CustomButton";
+import { useTodos } from "../customHooks/TodosContext";
 
 function PendingTaskModal({ tittle }) {
+  const {onCloseChild} = useTodos()
   return (
     <AlertingModal
       tittle={tittle}
@@ -10,7 +12,7 @@ function PendingTaskModal({ tittle }) {
       modalMessage={"You want to mark this task as pending?"}
       icon={<MdPending />}
     >
-      <CustomButton size={"sm"} type={"secondary"} label={"no"} />
+      <CustomButton onClick={onCloseChild} size={"sm"} type={"secondary"} label={"no"} />
       <CustomButton
         size={"sm"}
         type={"others"}
