@@ -5,6 +5,7 @@ import TaskDescription from "./TaskDescription";
 import TaskOperation from "../utils/TaskOperation";
 import { useTodos } from "../customHooks/TodosContext";
 
+<<<<<<< HEAD:src/ui/TaskDescriptionOperation.jsx
 function TaskDescriptionOperation({ description, tittle }) {
   const { onViewDesc,openViewDesc, onHide } = useTodos();
   return (
@@ -12,6 +13,14 @@ function TaskDescriptionOperation({ description, tittle }) {
       <TaskOperation
         onClick={onViewDesc}
         state={openViewDesc}
+=======
+function ViewDescriptionOperation({ description, tittle }) {
+  // const { onViewDesc } = useTodos();
+  return (
+    <>
+      <TaskOperation
+        // onClick={onViewDesc}
+>>>>>>> b0528648e0864a1dea51f45cedd58e3e8dc69ba1:src/ui/ViewDescriptionOperation.jsx
         label={"View description"}
         icon={<MdDescription />}
         childModal={

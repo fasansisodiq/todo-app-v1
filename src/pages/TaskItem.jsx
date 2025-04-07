@@ -3,12 +3,35 @@ import TaskOperations from "../ui/TaskOperations";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import DisplayHoverMessage from "../utils/DisplayHoverMessage";
 import Modal from "../utils/Modal";
+<<<<<<< HEAD
 import { useTodos } from "../customHooks/TodosContext";
 import TaskOperation from "../utils/TaskOperation";
 
 function TaskItem({ task, idx }) {
   const { isOpen, setIsOpen, onClose, hide } = useTodos();
+=======
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal, openModal } from "../slices/modalSlice";
+
+function TaskItem({ task, idx }) {
+  const dispatch = useDispatch();
+  const isOpen = useSelector((state) => state.modal.isOpen);
+
+>>>>>>> b0528648e0864a1dea51f45cedd58e3e8dc69ba1
   task = { ...task, priority: task.priority };
+
+  function handleOpenModal() {
+    if (isOpen) return;
+    const modalToOpen = {
+      isOpen: true,
+      id: task.id,
+      componentName: task.tittle,
+    };
+    dispatch(openModal(modalToOpen));
+  }
+  function handleCloseModal() {
+    dispatch(closeModal());
+  }
 
   return (
     <div className=" w-full relative">
@@ -32,7 +55,7 @@ function TaskItem({ task, idx }) {
             >
               <button
                 className="sm:text-lg  lg:text-2xl"
-                onClick={() => setIsOpen(task.id)}
+                onClick={handleOpenModal}
               >
                 <BsThreeDotsVertical />
               </button>
@@ -45,9 +68,15 @@ function TaskItem({ task, idx }) {
         />
       </Table>
 
+<<<<<<< HEAD
       {isOpen === task.id  &&  (
         <Modal isOpen={isOpen} onClose={onClose}>
            <TaskOperations
+=======
+      {isOpen && task.id && (
+        <Modal isOpen={isOpen} onClose={handleCloseModal}>
+          <TaskOperations
+>>>>>>> b0528648e0864a1dea51f45cedd58e3e8dc69ba1
             description={task.description}
             tittle={task.tittle}
             key={task.id}

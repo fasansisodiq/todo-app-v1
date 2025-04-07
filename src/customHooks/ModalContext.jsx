@@ -34,4 +34,4 @@ function useModal() {
     throw new Error("useModal was used outside ModalContext");
   return context;
 }
-export { useModal, ModalProvider };
+export { ModalProvider, useModal };

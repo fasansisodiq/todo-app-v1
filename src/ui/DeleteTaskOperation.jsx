@@ -6,6 +6,7 @@ import ChildModal from "../utils/childModal";
 import TaskOperation from "../utils/TaskOperation";
 import { useTodos } from "../customHooks/TodosContext";
 
+<<<<<<< HEAD
 
 function DeleteTaskOperation({tittle}) {
   const {openDelTask,onDelTask} = useTodos()
@@ -13,6 +14,14 @@ function DeleteTaskOperation({tittle}) {
     <>
        <TaskOperation
         onClick={onDelTask}
+=======
+function DeleteTaskOperation() {
+  // const { dispatch } = useTodos();
+  return (
+    <>
+      <TaskOperation
+        onClick={() => {}}
+>>>>>>> b0528648e0864a1dea51f45cedd58e3e8dc69ba1
         label={"Delete"}
         state={openDelTask}
         icon={<PiWarningCircle />}

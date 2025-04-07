@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 import { useTodos } from "../customHooks/TodosContext";
 import CloseBtn from "./CloseBtn";
 
@@ -8,6 +9,10 @@ function Modal({isOpen, onClose, children }) {
         openMarkTaskComp,
         openMarkTaskPend} = useTodos()
   if(!isOpen) return null
+=======
+function Modal({ isOpen, onClose, children }) {
+  // if (!isOpen) return null;
+>>>>>>> b0528648e0864a1dea51f45cedd58e3e8dc69ba1
   return (
     <div
     onClick={onclose}

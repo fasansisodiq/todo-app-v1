@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 
 import { useTodos } from "../customHooks/TodosContext";
 import { MdOutlineChevronRight } from "react-icons/md";
 
+=======
+>>>>>>> b0528648e0864a1dea51f45cedd58e3e8dc69ba1
 function TaskOperation({
   childModal,
   mClassName,
@@ -11,10 +14,14 @@ function TaskOperation({
   state,
   rightAngle,
 }) {
+<<<<<<< HEAD
   const {openViewDesc,
         openDelTask,
         openMarkTaskComp,
         openMarkTaskPend} = useTodos()
+=======
+  const { openDelTask, openMarkTaskComp, openMarkTaskPend } = true;
+>>>>>>> b0528648e0864a1dea51f45cedd58e3e8dc69ba1
   return (
     <div
       type="button"

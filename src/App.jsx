@@ -26,8 +26,6 @@ import ProgressPage from "./pages/ProgressPage";
 import HelpPage from "./pages/HelpPage";
 import MenuPage from "./pages/MenuPage";
 import SettingsPage from "./pages/SettingsPage";
-import { ModalProvider } from "./customHooks/ModalContext";
-import { TodosProvider } from "./customHooks/TodosContext";
 
 const router = createBrowserRouter([
   {
@@ -132,11 +130,10 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <TodosProvider>
-      <div className="font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto ">
-        <RouterProvider router={router} />
-      </div>
-    </TodosProvider>
+    <div className="font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto ">
+      <RouterProvider router={router} />
+    </div>
+
     // <div className="font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto ">
     //   <RouterProvider router={router} />
     // </div>
