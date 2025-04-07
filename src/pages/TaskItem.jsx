@@ -3,11 +3,27 @@ import TaskOperations from "../ui/TaskOperations";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import DisplayHoverMessage from "../utils/DisplayHoverMessage";
 import Modal from "../utils/Modal";
-import { useTodos } from "../customHooks/TodosContext";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal, openModal } from "../slices/modalSlice";
 
 function TaskItem({ task, idx }) {
-  const { isOpen, setIsOpen, onClose } = useTodos();
+  const dispatch = useDispatch();
+  const isOpen = useSelector((state) => state.modal.isOpen);
+
   task = { ...task, priority: task.priority };
+
+  function handleOpenModal() {
+    if (isOpen) return;
+    const modalToOpen = {
+      isOpen: true,
+      id: task.id,
+      componentName: task.tittle,
+    };
+    dispatch(openModal(modalToOpen));
+  }
+  function handleCloseModal() {
+    dispatch(closeModal());
+  }
 
   return (
     <div className=" w-full relative">
@@ -31,7 +47,7 @@ function TaskItem({ task, idx }) {
             >
               <button
                 className="sm:text-lg  lg:text-2xl"
-                onClick={() => setIsOpen(task.id)}
+                onClick={handleOpenModal}
               >
                 <BsThreeDotsVertical />
               </button>
@@ -44,8 +60,8 @@ function TaskItem({ task, idx }) {
         />
       </Table>
 
-      {isOpen === task.id && (
-        <Modal isOpen={isOpen} onClose={onClose}>
+      {isOpen && task.id && (
+        <Modal isOpen={isOpen} onClose={handleCloseModal}>
           <TaskOperations
             description={task.description}
             tittle={task.tittle}

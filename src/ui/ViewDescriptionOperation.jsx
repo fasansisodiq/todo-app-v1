@@ -6,11 +6,11 @@ import TaskOperation from "../utils/TaskOperation";
 import { useTodos } from "../customHooks/TodosContext";
 
 function ViewDescriptionOperation({ description, tittle }) {
-  const { onViewDesc } = useTodos();
+  // const { onViewDesc } = useTodos();
   return (
     <>
       <TaskOperation
-        onClick={onViewDesc}
+        // onClick={onViewDesc}
         label={"View description"}
         icon={<MdDescription />}
         childModal={

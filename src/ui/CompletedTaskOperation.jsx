@@ -4,12 +4,12 @@ import { FaCheckDouble } from "react-icons/fa6";
 import TaskOperation from "../utils/TaskOperation";
 import { useTodos } from "../customHooks/TodosContext";
 
-function CompletedTaskOperation({ tittle }) {
-  const { onMarkTaskComp } = useTodos();
+function CompletedTaskOperation() {
+  // const { onMarkTaskComp } = useTodos();
   return (
     <>
       <TaskOperation
-        onClick={onMarkTaskComp}
+        onClick={() => {}}
         label={"Mark as completed"}
         icon={<FaCheckDouble />}
         // childModal={<CompletedTaskModal tittle={tittle} />}

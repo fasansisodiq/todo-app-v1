@@ -1,5 +1,3 @@
-import { useTodos } from "../customHooks/TodosContext";
-
 function TaskOperation({
   childModal,
   mClassName,
@@ -8,8 +6,7 @@ function TaskOperation({
   onClick,
   onClose,
 }) {
-  const { openViewDesc, openDelTask, openMarkTaskComp, openMarkTaskPend } =
-    useTodos();
+  const { openDelTask, openMarkTaskComp, openMarkTaskPend } = true;
   return (
     <div
       type="button"

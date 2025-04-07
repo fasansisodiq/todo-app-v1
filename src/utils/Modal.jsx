@@ -1,6 +1,7 @@
 import { MdCancel } from "react-icons/md";
 
 function Modal({ isOpen, onClose, children }) {
+  // if (!isOpen) return null;
   return (
     <div
       className={`  absolute inset-0 sm:inset-4 md:inset-x-2  flex justify-center items-center transition-colors z-50 

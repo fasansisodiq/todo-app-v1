@@ -3,16 +3,16 @@ import ChildModal from "../utils/childModal";
 import ModalBtn from "../utils/ModalBtn";
 import PendingTaskModal from "./PendingTaskModal";
 import { FaClock } from "react-icons/fa6";
-import { useModal } from "../customHooks/useModal";
+
 import TaskOperation from "../utils/TaskOperation";
 import { useTodos } from "../customHooks/TodosContext";
 
 function PendingTaskOperation({ tittle }) {
-  const { onMarkTaskPend } = useTodos();
+  // const { onMarkTaskPend } = useTodos();
   return (
     <>
       <TaskOperation
-        onClick={onMarkTaskPend}
+        onClick={() => {}}
         label={"Mark as pending"}
         icon={<MdPending />}
         // childModal={<PendingTaskModal tittle={tittle} />}
