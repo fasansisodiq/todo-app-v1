@@ -4,28 +4,27 @@ import { RouterProvider } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage";
 import SignupPage, { action as createAccountAction } from "./pages/SignupPage";
 import AppLayout from "./ui/appLayout";
-import TodayPage from "./pages/TodayPage";
-import ImportantPage from "./pages/ImportantPage";
-import PlannedPage from "./pages/PlannedPage";
-import AssignedPage from "./pages/AssignedPage";
-import TaskPage from "./pages/TaskPage";
-import WorkPage from "./pages/WorkPage";
-import PersonalPage from "./pages/PersonalPage";
-import HousePage from "./pages/HousePage";
-import SocialPage from "./pages/SocialPage";
-import CompletedPage from "./pages/CompletedPage";
-import TrashPage from "./pages/TrashPage";
-import FriendPage from "./pages/FriendPage";
+
 import LoginPage, { loader as userLoader } from "./pages/LoginPage";
 import Error from "./utils/Error";
-import AddNewTask, {
-  action as addTaskAction,
-} from "./features/add-task/AddNewTask";
-import NotificationPage from "./pages/NotificationPage";
-import ProgressPage from "./pages/ProgressPage";
-import HelpPage from "./pages/HelpPage";
-import MenuPage from "./pages/MenuPage";
-import SettingsPage from "./pages/SettingsPage";
+import AddNewTask, { action as addTaskAction } from "./ui/navBarUI/AddNewTask";
+import NotificationPage from "./pages/sideBarPages/NotificationPage";
+import SettingsPage from "./pages/navBarPages/SettingsPage";
+import ProgressPage from "./pages/navBarPages/ProgressPage";
+import MenuPage from "./pages/navBarPages/MenuPage";
+import HelpPage from "./pages/navBarPages/HelpPage";
+import TodayPage from "./pages/sideBarPages/TodayPage";
+import PlannedPage from "./pages/sideBarPages/PlannedPage";
+import ImportantPage from "./pages/sideBarPages/ImportantPage";
+import AssignedPage from "./pages/sideBarPages/AssignedPage";
+import TaskPage from "./pages/sideBarPages/TaskPage";
+import WorkPage from "./pages/sideBarPages/WorkPage";
+import PersonalPage from "./pages/sideBarPages/PersonalPage";
+import HousePage from "./pages/sideBarPages/HousePage";
+import SocialPage from "./pages/sideBarPages/SocialPage";
+import CompletedPage from "./pages/sideBarPages/CompletedPage";
+import TrashPage from "./pages/sideBarPages/TrashPage";
+import FriendPage from "./pages/sideBarPages/FriendPage";
 
 const router = createBrowserRouter([
   {
@@ -133,10 +132,6 @@ function App() {
     <div className="font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto ">
       <RouterProvider router={router} />
     </div>
-
-    // <div className="font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto ">
-    //   <RouterProvider router={router} />
-    // </div>
   );
 }
 

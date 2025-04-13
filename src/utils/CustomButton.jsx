@@ -7,8 +7,6 @@ function CustomButton({
   hoverClass,
   onClick,
 }) {
-  // let bgs = bg.split("bg-")[1];
-  // console.log(bgs);
   return (
     <button
       onClick={onClick}

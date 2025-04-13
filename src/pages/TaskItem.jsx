@@ -1,49 +1,29 @@
 import Table from "../utils/Table";
-import TaskOperations from "../ui/TaskOperations";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import DisplayHoverMessage from "../utils/DisplayHoverMessage";
 import Modal from "../utils/Modal";
-<<<<<<< HEAD
-import { useTodos } from "../customHooks/TodosContext";
-import TaskOperation from "../utils/TaskOperation";
+import TaskOperations from "../ui/taskOperations/TaskOperations";
+import { useOperation } from "../customHooks/useOperation";
 
 function TaskItem({ task, idx }) {
-  const { isOpen, setIsOpen, onClose, hide } = useTodos();
-=======
-import { useDispatch, useSelector } from "react-redux";
-import { closeModal, openModal } from "../slices/modalSlice";
-
-function TaskItem({ task, idx }) {
-  const dispatch = useDispatch();
-  const isOpen = useSelector((state) => state.modal.isOpen);
-
->>>>>>> b0528648e0864a1dea51f45cedd58e3e8dc69ba1
-  task = { ...task, priority: task.priority };
-
-  function handleOpenModal() {
-    if (isOpen) return;
-    const modalToOpen = {
-      isOpen: true,
-      id: task.id,
-      componentName: task.tittle,
-    };
-    dispatch(openModal(modalToOpen));
-  }
-  function handleCloseModal() {
-    dispatch(closeModal());
-  }
+  // const [openModal, setOpenModal] = useState(null);
+  const { openModal, setOpenModal } = useOperation();
 
   return (
-    <div className=" w-full relative">
-      <Table bg={"bg-green-80"} col={7}>
+    <div className={`${task?.completed === "yes" && "text-green-600"}`}>
+      <Table bg={"bg-green-80"} col={8}>
         <span className="md:mr-4">{idx + 1}</span>
-        <span className="pr-8 ">{task.tittle}</span>
-        <span className="pl-1">{task.assignee}</span>
-        <span className="pl-2 ">{task.dueDate}</span>
-        <span className="pl-6">{task.taskClass}</span>
+        <span className="pr-8 ">{task?.tittle}</span>
+        <span className="pl-1">{task?.assignee}</span>
+        <span className="pl-2 ">{task?.dueDate}</span>
+        <span className="pl-6">{task?.taskClass}</span>
         <span className="pl-7">
-          {task.priority}
-          {/* {task.priority === "yes" ? (task.priority = "true") : "false"} */}
+          {task?.priority}
+          {/* {task?.priority === "yes" ? (task?.priority = "true") : "false"} */}
+        </span>
+        <span className={``}>
+          {task?.completed}
+          {/* {task?.completed === true ? (task.completed = "yes") : "no"} */}
         </span>
         <DisplayHoverMessage
           element={
@@ -55,7 +35,7 @@ function TaskItem({ task, idx }) {
             >
               <button
                 className="sm:text-lg  lg:text-2xl"
-                onClick={handleOpenModal}
+                onClick={(id) => setOpenModal(id)}
               >
                 <BsThreeDotsVertical />
               </button>
@@ -68,23 +48,15 @@ function TaskItem({ task, idx }) {
         />
       </Table>
 
-<<<<<<< HEAD
-      {isOpen === task.id  &&  (
-        <Modal isOpen={isOpen} onClose={onClose}>
-           <TaskOperations
-=======
-      {isOpen && task.id && (
-        <Modal isOpen={isOpen} onClose={handleCloseModal}>
+      {openModal && (
+        <Modal isOpen={openModal} onClose={() => setOpenModal(null)}>
           <TaskOperations
->>>>>>> b0528648e0864a1dea51f45cedd58e3e8dc69ba1
-            description={task.description}
-            tittle={task.tittle}
-            key={task.id}
-            id={task.id}
+            description={task?.description}
+            tittle={task?.tittle}
+            task={task}
           />
         </Modal>
       )}
-     
     </div>
   );
 }
