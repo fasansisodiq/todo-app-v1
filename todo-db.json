@@ -13,38 +13,94 @@
       "email": "johnobi@gmail.com",
       "password": "5678def",
       "confirmPassword": "5678def"
+    },
+    {
+      "id": "4efe"
     }
   ],
   "tasks": [
     {
-      "id": 1,
+      "id": "1",
       "tittle": "reading",
       "assignee": "myself",
-      "dueDate": "02/05/2025",
-      "taskClass": "personal",
+      "dueDate": "20/05/2025",
+      "taskClass": "house",
       "priority": "yes",
+      "completed": "no",
       "description": "exam reading according to exam times table"
     },
     {
-      "id": 2,
+      "id": "2",
       "tittle": "wedding",
       "assignee": "myself",
-      "dueDate": "22/05/2025",
-      "taskClass": "social",
+      "dueDate": "22/12/2025",
+      "taskClass": "project",
       "priority": "no",
+      "completed": "no",
       "description": "kazeem wedding"
     },
     {
-      "id": 3,
+      "id": "3",
+      "tittle": "e-commerce app",
+      "assignee": "myself",
+      "dueDate": "24/12/2025",
+      "taskClass": "work",
+      "priority": "yes",
+      "completed": "yes",
+      "description": "front-end design and development of jumial mobile and desktop app"
+    },
+    {
+      "id": "4",
+      "tittle": "wedding",
+      "assignee": "myself",
+      "dueDate": "07/12/2025",
+      "taskClass": "assigned",
+      "priority": "no",
+      "completed": "no",
+      "description": "kazeem wedding"
+    },
+    {
+      "id": "5",
+      "tittle": "reading",
+      "assignee": "myself",
+      "dueDate": "08/05/2025",
+      "taskClass": "personal",
+      "priority": "yes",
+      "completed": "yes",
+      "description": "exam reading according to exam times table"
+    },
+    {
+      "id": "6",
+      "tittle": "wedding",
+      "assignee": "myself",
+      "dueDate": "05/05/2025",
+      "taskClass": "social",
+      "priority": "no",
+      "completed": "no",
+      "description": "kazeem wedding"
+    },
+    {
+      "id": "7",
       "tittle": "bank app project",
       "assignee": "myself",
-      "dueDate": "03/06/2025",
+      "dueDate": "04/12/2025",
       "taskClass": "planned",
       "priority": "yes",
+      "completed": "no",
       "description": "front-end design and development for bank of nigeria mobile app"
     },
     {
-      "id": "d732"
+      "id": "8",
+      "tittle": "wedding",
+      "assignee": "myself",
+      "dueDate": "25/5/2025",
+      "taskClass": "friend",
+      "priority": "no",
+      "completed": "no",
+      "description": "kazeem wedding"
+    },
+    {
+      "id": "ae09"
     }
   ]
 }

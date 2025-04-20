@@ -1,9 +1,9 @@
 import { MdEdit } from "react-icons/md";
-import { useOperation } from "../../../customHooks/useOperation";
 import TaskOperation from "../../../utils/TaskOperation";
 import EditTaskModal from "./EditTaskModal";
+import { useOperation } from "../../../customHooks/operation/useOperation";
 
-function EditTaskOperation({ tittle }) {
+function EditTaskOperation({ tittle, id, task }) {
   const { openEdit, onOpenEdit } = useOperation();
   return (
     <>
@@ -13,7 +13,7 @@ function EditTaskOperation({ tittle }) {
         open={openEdit}
         onClick={onOpenEdit}
       >
-        <EditTaskModal tittle={tittle} />
+        <EditTaskModal tittle={tittle} id={id} task={task} />
       </TaskOperation>
     </>
   );

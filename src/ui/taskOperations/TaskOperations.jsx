@@ -13,7 +13,7 @@ function TaskOperations({ task, description, tittle }) {
       </h1>
       <div className="flex flex-col lg:gap-2 justify-center items-center w-full h-full">
         <TaskDescriptionOperation description={description} tittle={tittle} />
-        <EditTaskOperation tittle={tittle} id={task.id} />
+        <EditTaskOperation tittle={tittle} id={task.id} task={task} />
         <DeleteTaskOperation tittle={tittle} id={task.id} />
         <CompletedTaskOperation tittle={tittle} id={task.id} />
         <PendingTaskOperation tittle={tittle} id={task.id} />

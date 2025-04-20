@@ -1,5 +1,6 @@
 import { useTasks } from "../customHooks/tasks/useTasks";
-import TaskItem from "../pages/TaskItem";
+import TaskItem from "../pages/tasks/TaskItem";
+
 import TaskOverviewHeader from "../ui/taskOverviewUI/TaskOverviewHeader";
 
 function TaskFetcher({ taskClass }) {

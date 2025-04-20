@@ -10,7 +10,7 @@ function Friend() {
       <PageNavigator to="/layout/friend" activeClassName={" h-6"}>
         <Ui
           label={"friend"}
-          taskNum={friendTaskNum}
+          taskNum={friendTaskNum < 1 ? "" : friendTaskNum}
           icon={
             <span className="text-pink-700">
               <FaUserFriends />

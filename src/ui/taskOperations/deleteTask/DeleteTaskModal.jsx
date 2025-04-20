@@ -1,16 +1,17 @@
 import { PiWarningCircle } from "react-icons/pi";
 import AlertingModal from "../../../utils/AlertingModal";
 import CustomButton from "../../../utils/CustomButton";
-import { useOperation } from "../../../customHooks/useOperation";
 import { useTasks } from "../../../customHooks/tasks/useTasks";
+import { useOperation } from "../../../customHooks/operation/useOperation";
 
 function DeleteTaskModal({ tittle, id }) {
-  const { openDelete, onCloseDelete } = useOperation();
+  const { openDelete, onCloseDelete, setOpenModal } = useOperation();
   const { setTasks } = useTasks();
 
   function handleDeleteTask() {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     onCloseDelete();
+    setOpenModal(null);
   }
   return (
     <AlertingModal

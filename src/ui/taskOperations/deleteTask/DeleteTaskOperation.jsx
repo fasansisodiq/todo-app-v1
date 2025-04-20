@@ -1,7 +1,7 @@
 import { PiWarningCircle } from "react-icons/pi";
 import DeleteTaskModal from "./DeleteTaskModal";
 import TaskOperation from "../../../utils/TaskOperation";
-import { useOperation } from "../../../customHooks/useOperation";
+import { useOperation } from "../../../customHooks/operation/useOperation";
 
 function DeleteTaskOperation({ id, tittle }) {
   const { openDelete, onOpenDelete } = useOperation();

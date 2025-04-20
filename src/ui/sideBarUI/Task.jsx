@@ -1,29 +1,18 @@
-import { BiTask } from "react-icons/bi";
-import Ui from "../../utils/Ui";
-import PageNavigator from "../../utils/PageNavigator";
-import { useTaskNumberFetcher } from "../../customHooks/tasks/TaskNumberFetcher";
+import TaskItem from "../../pages/tasks/TaskItem";
+import { getTask } from "../../services/apiTaskData";
+import TaskOverviewHeader from "../taskOverviewUI/TaskOverviewHeader";
 
 function Task() {
-  const taskNum = useTaskNumberFetcher("task");
   return (
-    <>
-      <PageNavigator
-        to="/layout/task"
-        activeClassName={" h-6"}
-        notActiveClassName={"hover:bg-slate-300 hover:px-0.5 px-0.5"}
-      >
-        <Ui
-          label={"task"}
-          taskNum={taskNum}
-          icon={
-            <span className="text-blue-400">
-              <BiTask />
-            </span>
-          }
-        />
-      </PageNavigator>
-    </>
+    <div>
+      <TaskOverviewHeader />
+      <TaskItem />
+    </div>
   );
 }
-
+export async function loader({ params }) {
+  const order = await getTask(params.taskId);
+  console.log(order);
+  return null;
+}
 export default Task;

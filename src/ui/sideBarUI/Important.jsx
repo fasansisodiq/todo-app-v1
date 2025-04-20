@@ -6,7 +6,7 @@ import { IoInformation } from "react-icons/io5";
 function Important() {
   const { tasks } = useTasks();
   const importantTaskNum = tasks.filter(
-    (task) => task.priority === "yes"
+    (task) => task.completed === "no" && task.priority === "yes"
   ).length;
   return (
     <>
@@ -18,7 +18,7 @@ function Important() {
             </span>
           }
           label={"important"}
-          taskNum={importantTaskNum}
+          taskNum={importantTaskNum < 1 ? "" : importantTaskNum}
         />
       </PageNavigator>
     </>

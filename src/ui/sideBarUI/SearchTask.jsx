@@ -1,9 +1,21 @@
+import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { getTasks } from "../../services/apiTaskData";
 
-// shadow-0.5
-function Search() {
+function SearchTask() {
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!query) return;
+    navigate(`task/${query}`);
+    setQuery("");
+  }
+
   return (
-    <div
+    <form
+      onSubmit={handleSubmit}
       className="
         w-30 h-5 sm:w-45 md:w-50 lg:w-65 shadow text-center    bg-white border-2 border-white sm:h-7
       md:h-8 lg:h-10 flex justify-center self-center  rounded-full  items-center  pl-1 hover:pl-1
@@ -19,10 +31,12 @@ function Search() {
         type="search"
         name="search"
         id="search"
-        placeholder="Search here..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search task #"
       />
-    </div>
+    </form>
   );
 }
 
-export default Search;
+export default SearchTask;

@@ -1,0 +1,5 @@
+function Message({ message }) {
+  return <div className="">{message}</div>;
+}
+
+export default Message;

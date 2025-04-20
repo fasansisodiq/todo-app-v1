@@ -1,6 +1,6 @@
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
-import TaskItem from "../TaskItem";
+import TaskItem from "../tasks/TaskItem";
 
 function TodayPage() {
   const { tasks, todayDate } = useTasks();
@@ -19,7 +19,6 @@ function TodayPage() {
       </ul>
     </div>
   );
-  ayTasks;
 }
 
 export default TodayPage;

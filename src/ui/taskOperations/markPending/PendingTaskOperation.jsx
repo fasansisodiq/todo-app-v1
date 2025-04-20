@@ -1,7 +1,7 @@
 import { MdPending } from "react-icons/md";
 import PendingTaskModal from "./PendingTaskModal";
 import TaskOperation from "../../../utils/TaskOperation";
-import { useOperation } from "../../../customHooks/useOperation";
+import { useOperation } from "../../../customHooks/operation/useOperation";
 
 function PendingTaskOperation({ tittle }) {
   const { openMarkPend, onOpenMarkPend } = useOperation();

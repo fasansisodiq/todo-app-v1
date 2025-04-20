@@ -10,7 +10,7 @@ function Social() {
       <PageNavigator to="/layout/social" activeClassName={" h-6"}>
         <Ui
           label={"social"}
-          taskNum={socialTaskNum}
+          taskNum={socialTaskNum < 1 ? "" : socialTaskNum}
           icon={
             <span className="text-amber-500">
               <TbSocial />

@@ -13,7 +13,7 @@ function Today() {
     <PageNavigator to="/layout/today" activeClassName={" h-6"}>
       <Ui
         label={"today"}
-        taskNum={todayNumTasks}
+        taskNum={todayNumTasks < 1 ? "" : todayNumTasks}
         icon={
           <span className="text-rose-500">
             <IoTodaySharp />

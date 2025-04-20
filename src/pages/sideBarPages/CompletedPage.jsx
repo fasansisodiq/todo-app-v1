@@ -1,7 +1,7 @@
 import { useComplete } from "../../customHooks/tasks/useComplete";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
-import TaskItem from "../TaskItem";
+import TaskItem from "../tasks/TaskItem";
 
 function CompletedPage() {
   const { tasks } = useTasks();

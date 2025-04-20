@@ -1,16 +1,16 @@
-import Table from "../utils/Table";
+import Table from "../../utils/Table";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import DisplayHoverMessage from "../utils/DisplayHoverMessage";
-import Modal from "../utils/Modal";
-import TaskOperations from "../ui/taskOperations/TaskOperations";
-import { useOperation } from "../customHooks/useOperation";
+import DisplayHoverMessage from "../../utils/DisplayHoverMessage";
+import Modal from "../../utils/Modal";
+import TaskOperations from "../../ui/taskOperations/TaskOperations";
+import { useOperation } from "../../customHooks/operation/useOperation";
 
 function TaskItem({ task, idx }) {
   // const [openModal, setOpenModal] = useState(null);
   const { openModal, setOpenModal } = useOperation();
 
   return (
-    <div className={`${task?.completed === "yes" && "text-green-600"}`}>
+    <div className={``}>
       <Table bg={"bg-green-80"} col={8}>
         <span className="md:mr-4">{idx + 1}</span>
         <span className="pr-8 ">{task?.tittle}</span>

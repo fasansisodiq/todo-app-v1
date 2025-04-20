@@ -5,7 +5,7 @@ function AddNewTaskBtn() {
   return (
     <div className="flex ">
       <TodoNavigator
-        to="new-task"
+        to="task/new"
         mClassName={
           "w-21 h-4 sm:h-5 sm:w-23 sm:-right-9 sm:-bottom-6 md:h-6 md:w-26 md:-right-9 md:-bottom-7 lg:w-6 lg:h-8 -right-6 -bottom-5.5  lg:w-35 xl:w-38  lg:-right-35 lg:-bottom-12 xl:h-10 xl:-right-14 xl:-bottom-12 "
         }

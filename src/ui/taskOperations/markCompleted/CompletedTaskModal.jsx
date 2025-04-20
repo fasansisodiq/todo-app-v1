@@ -1,8 +1,8 @@
 import { FaCheckDouble } from "react-icons/fa6";
 import AlertingModal from "../../../utils/AlertingModal";
 import CustomButton from "../../../utils/CustomButton";
-import { useOperation } from "../../../customHooks/useOperation";
 import { useComplete } from "../../../customHooks/tasks/useComplete";
+import { useOperation } from "../../../customHooks/operation/useOperation";
 
 function CompletedTaskModal({ id, tittle }) {
   const { openMarkComp, onCloseMarkComp } = useOperation();

@@ -1,7 +1,7 @@
 import { MdPending } from "react-icons/md";
 import AlertingModal from "../../../utils/AlertingModal";
 import CustomButton from "../../../utils/CustomButton";
-import { useOperation } from "../../../customHooks/useOperation";
+import { useOperation } from "../../../customHooks/operation/useOperation";
 
 function PendingTaskModal({ tittle }) {
   const { openMarkPend, onCloseMarkPend } = useOperation();

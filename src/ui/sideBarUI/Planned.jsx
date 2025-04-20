@@ -14,7 +14,7 @@ function Planned() {
       >
         <Ui
           label={"planned"}
-          taskNum={plannedNumTasks}
+          taskNum={plannedNumTasks < 1 ? "" : plannedNumTasks}
           icon={
             <span className="text-blue-600">
               <BiCalendarEvent />

@@ -9,13 +9,13 @@ function Error() {
       <span>Sorry, an unexpected error has occurred.</span>
       <p className="">
         <span className="py-0 px-2 sm:px-3 md:px-4 lg:px-5 ">
-          {error.data || error.message}.
+          {error.statusTest || error.message}.
         </span>
         <button
           className="capitalize  text-sm font-medium text-blue-800 hover:text-blue-800 hover:underline"
           onClick={() => navigate(-1)}
         >
-          &larr; go back
+          &larr; Go back
         </button>
       </p>
     </div>

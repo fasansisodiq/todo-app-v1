@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Input from "../utils/Input";
 import Button from "../utils/Button";
 import {
@@ -18,7 +17,7 @@ function SignupPage() {
   const formErrors = useActionData();
 
   return (
-    <div className="w-250 h-full bg-[#f0f4f3]  flex flex-col  items-center gap-4 ">
+    <div className="w-100 md:w-150 lg:w-170  h-150 shadow-2xl bg-[#f0f4f3]  flex flex-col  items-center gap-4 ">
       <h1 className="capitalize text-3xl md:text-5xl text-[#204e2a] font-bold mt-10">
         welcome onboard!!
       </h1>
@@ -74,8 +73,12 @@ function SignupPage() {
       </Form>
       <div className="flex justify-center items-center gap-2  capitalize text-xl md:text-2xl text-[#38884a]">
         <span>existing user ?</span>
-        <button onClick={() => navigate("/login")}>
-          <span className="flex justify-center items-center gap-2">
+        <button
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          <span className="flex justify-center items-center gap-2 text-blue-600 hover:underline">
             <span>sign in</span>
             <span className="text-3xl">
               <BiSolidRightArrowCircle />
@@ -86,40 +89,40 @@ function SignupPage() {
     </div>
   );
 }
-export async function action({ request }) {
-  const formData = await request.formData();
-  const user = Object.fromEntries(formData);
-  console.log(user);
-  const errors = {};
-  if (!user.fullName.trim()) {
-    errors.fullName = "Username is required";
-  } else if (user.fullName.length < 4) {
-    errors.fullName = "Username must be at least 4 characters long";
-  }
-  if (!user.email.trim()) {
-    errors.email = "Email is required";
-  } else if (!/\S+@\S+\.\S+/.test(user.email)) {
-    errors.email = "Email is invalid";
-  }
+// export async function action({ request }) {
+//   const formData = await request.formData();
+//   const user = Object.fromEntries(formData);
+//   console.log(user);
+//   const errors = {};
+//   if (!user.fullName.trim()) {
+//     errors.fullName = "Username is required";
+//   } else if (user.fullName.length < 4) {
+//     errors.fullName = "Username must be at least 4 characters long";
+//   }
+//   if (!user.email.trim()) {
+//     errors.email = "Email is required";
+//   } else if (!/\S+@\S+\.\S+/.test(user.email)) {
+//     errors.email = "Email is invalid";
+//   }
 
-  if (!user.password) {
-    errors.password = "Password is required";
-  } else if (user.password.length < 8) {
-    errors.password = "Password must be at least 8 characters long";
-  }
+//   if (!user.password) {
+//     errors.password = "Password is required";
+//   } else if (user.password.length < 8) {
+//     errors.password = "Password must be at least 8 characters long";
+//   }
 
-  if (user.confirmPassword !== user.password) {
-    errors.confirmPassword = "Passwords do not match";
-  }
+//   if (user.confirmPassword !== user.password) {
+//     errors.confirmPassword = "Passwords do not match";
+//   }
 
-  if (Object.keys(errors) > 0) return errors;
+//   if (Object.keys(errors) > 0) return errors;
 
-  const newUser = await CreateUser(user);
-  console.log(newUser);
-  if (newUser) {
-    return redirect("/login");
-  }
-  return {newUser};
-  // return redirect("/login");
-}
+//   const newUser = await CreateUser(user);
+//   console.log(newUser);
+//   if (newUser) {
+//     return redirect("/login");
+//   }
+//   return { newUser };
+//   // return redirect("/login");
+// }
 export default SignupPage;

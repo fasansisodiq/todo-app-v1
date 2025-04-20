@@ -14,7 +14,7 @@ function Completed() {
       <PageNavigator to="/layout/completed" activeClassName={" h-6"}>
         <Ui
           label={"completed"}
-          taskNum={completedTaskNum}
+          taskNum={completedTaskNum < 1 ? "" : completedTaskNum}
           icon={
             <span className="text-black-600">
               <MdDone />

@@ -29,3 +29,124 @@ function handleSubmit(e) {
       draft[index] = action.task;
       break;
     }
+    // const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <WelcomePage />,
+//   },
+//   {
+//     path: "/signup",
+//     element: <SignupPage />,
+//     action: createAccountAction,
+//     errorElement: <Error />,
+//   },
+//   {
+//     path: "/login",
+//     element: <LoginPage />,
+//     // loader: userLoader,
+//     // errorElement: <Error />,
+//   },
+
+//   {
+//     path: "/layout",
+//     element: <AppLayout />,
+//     children: [
+//       {
+//         index: "/layout/today",
+//         element: <TodayPage />,
+//       },
+//       {
+//         path: "/layout/today",
+//         element: <TodayPage />,
+//       },
+//       {
+//         path: "/layout/planned",
+//         element: <PlannedPage />,
+//       },
+//       {
+//         path: "/layout/important",
+//         element: <ImportantPage />,
+//       },
+//       {
+//         path: "/layout/assigned",
+//         element: <AssignedPage />,
+//       },
+//       {
+//         path: "/layout/project",
+//         element: <TaskPage />,
+//       },
+//       {
+//         path: "/layout/work",
+//         element: <WorkPage />,
+//       },
+//       {
+//         path: "/layout/personal",
+//         element: <PersonalPage />,
+//       },
+//       {
+//         path: "/layout/house",
+//         element: <HousePage />,
+//       },
+//       {
+//         path: "/layout/social",
+//         element: <SocialPage />,
+//       },
+//       {
+//         path: "/layout/completed",
+//         element: <CompletedPage />,
+//       },
+//       {
+//         path: "/layout/trash",
+//         element: <TrashPage />,
+//       },
+//       {
+//         path: "/layout/friend",
+//         element: <FriendPage />,
+//       },
+//       { path: "/layout/notification", element: <NotificationPage /> },
+//       {
+//         path: "/layout/settings",
+//         element: <SettingsPage />,
+//       },
+//       {
+//         path: "/layout/progress",
+//         element: <ProgressPage />,
+//       },
+//       {
+//         path: "/layout/help",
+//         element: <HelpPage />,
+//       },
+//       {
+//         path: "/layout/menu",
+//         element: <MenuPage />,
+//       },
+//       {
+//         path: "/layout/task/new",
+//         element: <AddNewTask />,
+//         // action: addNewTaskAction,
+//         errorElement: <Error />,
+//       },
+//       {
+//         path: "/layout/task/:taskId",
+//         element: <Task />,
+//         loader: taskLoader,
+//         errorElement: <Error />,
+//       },
+//       {
+//         path: "/layout/task/:taskId/edit",
+//         element: <EditTask />,
+//         // loader: editTaskLoader,
+//         // action: editTaskAction,
+//         // errorElement: <Error />,
+//       },
+//     ],
+//   },
+// ]);
+
+// function App() {
+//   return (
+//     <div className="font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto ">
+//       <RouterProvider router={router} />
+//     </div>
+//   );
+// }

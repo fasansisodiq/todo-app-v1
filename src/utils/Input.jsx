@@ -16,7 +16,7 @@ function Input({
          border-[#fff] outline-0 shadow-0.5 bg-[#fff] 
           hover:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-offset-2
            focus:ring-emerald-700 text-slate-800 shadow placeholder:text-[0.8rem] 
-           lg:placeholder:text-lg
+           lg:placeholder:text-md
            md:placeholder:text-xsm"
         type={type}
         placeholder={placeholder}

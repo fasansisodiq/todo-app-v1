@@ -10,7 +10,7 @@ function House() {
       <PageNavigator to="/layout/house" activeClassName={" h-6"}>
         <Ui
           label={"house"}
-          taskNum={houseTaskNum}
+          taskNum={houseTaskNum < 1 ? "" : houseTaskNum}
           icon={
             <span className="text-orange-400">
               <HiHomeModern />

@@ -1,7 +1,7 @@
 import { MdDescription } from "react-icons/md";
 import TaskOperation from "../../../utils/TaskOperation";
 import TaskDescriptionModal from "./TaskDescriptionModal";
-import { useOperation } from "../../../customHooks/useOperation";
+import { useOperation } from "../../../customHooks/operation/useOperation";
 
 function TaskDescriptionOperation({ description, tittle }) {
   const { openDesc, onOpenDesc } = useOperation();

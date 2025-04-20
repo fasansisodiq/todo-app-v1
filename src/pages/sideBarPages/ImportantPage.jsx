@@ -1,6 +1,6 @@
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
-import TaskItem from "../TaskItem";
+import TaskItem from "../tasks/TaskItem";
 
 function ImportantPage() {
   const { tasks } = useTasks();
@@ -11,7 +11,9 @@ function ImportantPage() {
         {tasks &&
           tasks.length > 0 &&
           tasks
-            .filter((task) => task.priority === "yes")
+            .filter(
+              (task) => task.completed === "no" && task.priority === "yes"
+            )
             .map((task, idx) => (
               <TaskItem task={task} key={task.id} idx={idx} />
             ))}

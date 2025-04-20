@@ -10,7 +10,7 @@ function Work() {
       <PageNavigator to="/layout/work" activeClassName={" h-6"}>
         <Ui
           label={"work"}
-          taskNum={workTaskNum}
+          taskNum={workTaskNum < 1 ? "" : workTaskNum}
           icon={
             <span className="text-orange-600">
               <MdWork />

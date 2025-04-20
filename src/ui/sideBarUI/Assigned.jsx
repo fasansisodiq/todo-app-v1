@@ -10,7 +10,7 @@ function Assigned() {
       <PageNavigator to="/layout/assigned" activeClassName={" h-6"}>
         <Ui
           label={"assigned"}
-          taskNum={assignedNumTasks}
+          taskNum={assignedNumTasks < 1 ? "" : assignedNumTasks}
           icon={
             <span className="text-lime-500">
               <CgAssign />
