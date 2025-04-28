@@ -4,9 +4,9 @@ import Ui from "../../utils/Ui";
 import { IoInformation } from "react-icons/io5";
 
 function Important() {
-  const { tasks } = useTasks();
-  const importantTaskNum = tasks.filter(
-    (task) => task.completed === "no" && task.priority === "yes"
+  const { taskData } = useTasks();
+  const importantTaskNum = taskData.filter(
+    (task) => task.completed === false && task.priority === "on"
   ).length;
   return (
     <>

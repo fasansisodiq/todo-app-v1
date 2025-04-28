@@ -1,13 +1,13 @@
 import { IoTodaySharp } from "react-icons/io5";
 import Ui from "../../utils/Ui";
 import PageNavigator from "../../utils/PageNavigator";
-import { todayDate } from "../../customHooks/tasks/DateFormerter";
+import { formattedTodayDate } from "../../customHooks/tasks/DateFormerter";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 
 function Today() {
-  const { tasks } = useTasks();
-  const todayNumTasks = tasks.filter(
-    (task) => task.dueDate === todayDate
+  const { taskData } = useTasks();
+  const todayNumTasks = taskData.filter(
+    (task) => task.dueDate === formattedTodayDate
   ).length;
   return (
     <PageNavigator to="/layout/today" activeClassName={" h-6"}>

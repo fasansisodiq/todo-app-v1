@@ -4,9 +4,9 @@ import PageNavigator from "../../utils/PageNavigator";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 
 function Completed() {
-  const { tasks } = useTasks();
-  const completedTaskNum = tasks.filter(
-    (task) => task.completed === "yes"
+  const { taskData } = useTasks();
+  const completedTaskNum = taskData.filter(
+    (task) => task.completed === true
   ).length;
 
   return (

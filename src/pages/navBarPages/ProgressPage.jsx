@@ -1,5 +1,11 @@
+import BarChart from "../../features/reports/BarCharts";
+
 function ProgressPage() {
-  return <div>progress page</div>;
+  return (
+    <div>
+      <BarChart />
+    </div>
+  );
 }
 
 export default ProgressPage;

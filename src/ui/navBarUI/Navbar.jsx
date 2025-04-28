@@ -3,7 +3,7 @@ import TodoNavigator from "../../utils/TodoNavigator";
 
 import DisplayHoverMessage from "../../utils/DisplayHoverMessage";
 import Logout from "./Logout";
-import AddNewTaskBtn from "./AddNewTaskBtn";
+import AddNewTaskBtn from "../../features/add-task/AddNewTaskBtn";
 
 function Navbar() {
   return (

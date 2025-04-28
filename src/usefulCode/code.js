@@ -1,4 +1,14 @@
-import { useState } from "react";
+import React from 'react';
+  
+  const Code = () =>  {
+	return (
+	  <div>
+	  </div>
+	);
+  }
+  
+  export default Code;
+  import { useState } from "react";
 const [tittle, setTittle] = useState('reading')
 const [assignee, setAssignee] = useState('sodia')
 const [dueDate, setDueDate] = useState('2025/05/02')

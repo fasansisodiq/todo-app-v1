@@ -1,12 +1,21 @@
 import { FaCheckDouble } from "react-icons/fa6";
-import AlertingModal from "../../../utils/AlertingModal";
-import CustomButton from "../../../utils/CustomButton";
-import { useComplete } from "../../../customHooks/tasks/useComplete";
-import { useOperation } from "../../../customHooks/operation/useOperation";
+import AlertingModal from "../../utils/AlertingModal";
+import CustomButton from "../../utils/CustomButton";
+import { useOperation } from "../../customHooks/operation/useOperation";
+import { useTasks } from "../../customHooks/tasks/useTasks";
+import { useNavigate } from "react-router";
 
 function CompletedTaskModal({ id, tittle }) {
-  const { openMarkComp, onCloseMarkComp } = useOperation();
-  const { completedTask } = useComplete();
+  const navigate = useNavigate();
+  const { openMarkComp, onCloseMarkComp, setOpenModal } = useOperation();
+  const { updateTask } = useTasks();
+
+  async function handleMarkAsComplete() {
+    await updateTask(id, { completed: true });
+    onCloseMarkComp();
+    () => setOpenModal(false);
+    navigate(-1);
+  }
 
   return (
     <AlertingModal
@@ -25,7 +34,7 @@ function CompletedTaskModal({ id, tittle }) {
         label={"no"}
       />
       <CustomButton
-        onClick={() => completedTask(id)}
+        onClick={handleMarkAsComplete}
         size={"sm"}
         type={"primary"}
         label={"yes"}

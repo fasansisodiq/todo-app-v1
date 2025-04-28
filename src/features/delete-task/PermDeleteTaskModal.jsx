@@ -1,26 +1,28 @@
+import React from "react";
+import { useOperation } from "../../customHooks/operation/useOperation";
+import { useTasks } from "../../customHooks/tasks/useTasks";
+import AlertingModal from "../../utils/AlertingModal";
+import CustomButton from "../../utils/CustomButton";
 import { PiWarningCircle } from "react-icons/pi";
-import AlertingModal from "../../../utils/AlertingModal";
-import CustomButton from "../../../utils/CustomButton";
-import { useTasks } from "../../../customHooks/tasks/useTasks";
-import { useOperation } from "../../../customHooks/operation/useOperation";
 
-function DeleteTaskModal({ tittle, id }) {
+function PermDeleteTaskModal({ title, id, task }) {
   const { openDelete, onCloseDelete, setOpenModal } = useOperation();
-  const { setTasks } = useTasks();
+  const { deleteTask } = useTasks();
 
-  function handleDeleteTask() {
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  async function handlePermDeleteTask() {
+    await deleteTask(id, task);
+
     onCloseDelete();
     setOpenModal(null);
   }
   return (
     <AlertingModal
-      tittle={tittle}
+      title={title}
       isOpen={openDelete}
       onClick={onCloseDelete}
       iconColor={"text-rose-400 "}
       // animation={" animate-ping"}
-      modalMessage={" Are you sure you want to delete this task?"}
+      modalMessage={" Clicking delete will permanently delete this task?"}
       icon={<PiWarningCircle />}
     >
       <CustomButton
@@ -30,7 +32,7 @@ function DeleteTaskModal({ tittle, id }) {
         label={"cancel"}
       />
       <CustomButton
-        onClick={handleDeleteTask}
+        onClick={handlePermDeleteTask}
         size={"sm"}
         type={"others"}
         bg={"bg-rose-600"}
@@ -41,4 +43,4 @@ function DeleteTaskModal({ tittle, id }) {
   );
 }
 
-export default DeleteTaskModal;
+export default PermDeleteTaskModal;

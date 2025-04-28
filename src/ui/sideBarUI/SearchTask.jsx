@@ -1,21 +1,30 @@
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { getTasks } from "../../services/apiTaskData";
+import { useTasks } from "../../customHooks/tasks/useTasks";
 
 function SearchTask() {
-  const [query, setQuery] = useState("");
   const navigate = useNavigate();
-  function handleSubmit(e) {
+
+  const { searchData } = useTasks();
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = async (e) => {
     e.preventDefault();
     if (!query) return;
-    navigate(`task/${query}`);
+
+    const results = await searchData(query);
+    setSearchResults(results);
+    console.log(query);
+    // navigate(`task/${query}`);
     setQuery("");
-  }
+    console.log(searchResults);
+  };
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSearch}
       className="
         w-30 h-5 sm:w-45 md:w-50 lg:w-65 shadow text-center    bg-white border-2 border-white sm:h-7
       md:h-8 lg:h-10 flex justify-center self-center  rounded-full  items-center  pl-1 hover:pl-1

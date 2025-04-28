@@ -7,6 +7,8 @@ const initialState = {
   openDelete: false,
   openMarkComp: false,
   openMarkPend: false,
+  openRestore: false,
+  openTrash: false,
 };
 const operationReducer = (state, action) => {
   switch (action.type) {
@@ -20,6 +22,10 @@ const operationReducer = (state, action) => {
       return { ...state, openMarkComp: action.payload };
     case "operation/setOpenMarkPend":
       return { ...state, openMarkPend: action.payload };
+    case "operation/setOpenRestore":
+      return { ...state, openRestore: action.payload };
+    case "operation/setOpenTrash":
+      return { ...state, openTrash: action.payload };
     default:
       return state;
   }
@@ -68,8 +74,29 @@ export function OperationProvider({ children }) {
     dispatch({ type: "operation/setOpenMarkPend", payload: false });
   }
 
+  function handleOpenRestore() {
+    dispatch({ type: "operation/setOpenRestore", payload: true });
+  }
+  function handleCloseRestore() {
+    dispatch({ type: "operation/setOpenRestore", payload: false });
+  }
+
+  function handleOpenTrash() {
+    dispatch({ type: "operation/setOpenTrash", payload: true });
+  }
+  function handleCloseTrash() {
+    dispatch({ type: "operation/setOpenTrash", payload: false });
+  }
   const [
-    { openDesc, openEdit, openDelete, openMarkComp, openMarkPend },
+    {
+      openDesc,
+      openEdit,
+      openDelete,
+      openMarkComp,
+      openMarkPend,
+      openRestore,
+      openTrash,
+    },
     dispatch,
   ] = useReducer(operationReducer, initialState);
 
@@ -99,6 +126,14 @@ export function OperationProvider({ children }) {
         // setOpenMarkPend,
         onOpenMarkPend: handleOpenMarkPend,
         onCloseMarkPend: handleCloseMarkPend,
+
+        openRestore,
+        onOpenRestore: handleOpenRestore,
+        onCloseRestore: handleCloseRestore,
+
+        openTrash,
+        onOpenTrash: handleOpenTrash,
+        onCloseTrash: handleCloseTrash,
       }}
     >
       {children}

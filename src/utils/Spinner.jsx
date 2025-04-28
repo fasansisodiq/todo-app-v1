@@ -1,21 +1,9 @@
-import { useNavigate } from "react-router";
-
-function Spinner({ text }) {
-  const navigation = useNavigate();
-  const isNavigating = Boolean(navigation.state !== "idle");
+function Spinner() {
   return (
-    <div className="">
-      <div className="animate-spin">
-        <span className="capitalize">{text}…</span>
+    <div id="spinner-container" className="space-y-10">
+      <div className="flex justify-center">
+        <div className="w-20 h-20 border-10 border-emerald-500 border-t-transparent rounded-full  animate-spin"></div>
       </div>
-      {/* {isNavigating || (
-        <button type="button" className="bg-emerald-500 " disabled>
-          <span className="mr-3 size-5 animate-spin " viewBox="0 0 24 24">
-            ...
-          </span>
-          <span className="capitalize">{text}…</span>
-        </button>
-      )} */}
     </div>
   );
 }

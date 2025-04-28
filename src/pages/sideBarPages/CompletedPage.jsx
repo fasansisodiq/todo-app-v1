@@ -1,19 +1,17 @@
-import { useComplete } from "../../customHooks/tasks/useComplete";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
 import TaskItem from "../tasks/TaskItem";
 
 function CompletedPage() {
-  const { tasks } = useTasks();
+  const { taskData } = useTasks();
 
   return (
     <div className="w-full">
       <TaskOverviewHeader />
       <ul>
-        {tasks &&
-          tasks.length > 0 &&
-          tasks
-            .filter((task) => task.completed === "yes")
+        {taskData?.length > 0 &&
+          taskData
+            .filter((task) => task.completed === true)
             .map((task, idx) => (
               <TaskItem task={task} key={task.id} idx={idx} />
             ))}

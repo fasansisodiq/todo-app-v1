@@ -1,7 +1,7 @@
 import CompletedTaskModal from "./CompletedTaskModal";
 import { FaCheckDouble } from "react-icons/fa6";
-import TaskOperation from "../../../utils/TaskOperation";
-import { useOperation } from "../../../customHooks/operation/useOperation";
+import TaskOperation from "../../utils/TaskOperation";
+import { useOperation } from "../../customHooks/operation/useOperation";
 
 function CompletedTaskOperation({ id, tittle }) {
   const { openMarkComp, onOpenMarkComp } = useOperation();

@@ -1,8 +1,8 @@
 import { useTasks } from "./useTasks";
 
 export function useTaskNumberFetcher(taskClass) {
-  const { tasks } = useTasks();
-  return tasks.filter(
-    (task) => task.completed === "no" && task.taskClass === taskClass
+  const { taskData } = useTasks();
+  return taskData?.filter(
+    (task) => task.completed === false && task.taskClass === taskClass
   ).length;
 }

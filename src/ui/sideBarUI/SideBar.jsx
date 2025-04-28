@@ -12,6 +12,7 @@ import Task from "./Project";
 import Today from "./Today";
 import Trash from "./Trash";
 import Work from "./Work";
+import Pending from "./Pending";
 
 function SideBar() {
   return (
@@ -25,6 +26,7 @@ function SideBar() {
       <Today />
       <Important />
       <Completed />
+      <Pending />
       <Planned />
       <Assigned />
       <Task />
@@ -33,6 +35,7 @@ function SideBar() {
       <House />
       <Friend />
       <Social />
+
       <Trash />
     </aside>
   );

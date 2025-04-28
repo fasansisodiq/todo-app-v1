@@ -1,3 +1,10 @@
+import React from "react";
+
+const DateFormater = () => {
+  return <div></div>;
+};
+
+export default DateFormater;
 export function formatDate(dateStr) {
   return new Intl.DateTimeFormat("en", {
     day: "numeric",

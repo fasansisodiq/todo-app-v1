@@ -1,20 +1,22 @@
 import { BiEdit } from "react-icons/bi";
-import AlertingModal from "../../../utils/AlertingModal";
-import CustomButton from "../../../utils/CustomButton";
-import { useOperation } from "../../../customHooks/operation/useOperation";
-import { Link } from "react-router-dom";
 
-function EditTaskModal({ tittle, id, task }) {
+import { Link } from "react-router-dom";
+import AlertingModal from "../../utils/AlertingModal";
+import CustomButton from "../../utils/CustomButton";
+import { useOperation } from "../../customHooks/operation/useOperation";
+
+function EditTaskModal({ title, id, task }) {
   const { openEdit, onCloseEdit, setOpenModal } = useOperation();
-  // const { handleEditTask } = useEditing();
 
   function handleEdit() {
+    // updateTask("tasks", id, task);
     onCloseEdit();
     setOpenModal(null);
   }
+
   return (
     <AlertingModal
-      tittle={tittle}
+      title={title}
       isOpen={openEdit}
       onClick={onCloseEdit}
       iconColor={"text-blue-400 "}
@@ -30,7 +32,7 @@ function EditTaskModal({ tittle, id, task }) {
       />
 
       <Link
-        to={`${id}?title=${task.tittle}&assignee=${task.assignee}&dueDate=${task.dueDate}&description=${task.description}&priority=${task.priority}&taskClass=${task.taskClass}`}
+        to={`${id}?id=${id}&title=${task.title}&assignee=${task.assignee}&dueDate=${task.dueDate}&description=${task.description}&priority=${task.priority}&taskClass=${task.taskClass}`}
       >
         <CustomButton
           onClick={handleEdit}

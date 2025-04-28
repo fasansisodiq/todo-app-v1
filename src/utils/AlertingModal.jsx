@@ -4,7 +4,7 @@ function AlertingModal({
   icon,
   children,
   iconColor,
-  tittle,
+  title,
   animation,
   modalMessage,
   onClick,
@@ -25,7 +25,7 @@ function AlertingModal({
         <p className="text-slate-900 font-bold text-wrap text-center sm:text-xl">
           {modalMessage}
         </p>
-        <span className="text-slate-400 text-sm sm:text-lg">{tittle} task</span>
+        <span className="text-slate-400 text-sm sm:text-lg">{title} task</span>
         <div className="flex justify-center items-center gap-4">{children}</div>
         <CloseBtn
           isOpen={isOpen}
