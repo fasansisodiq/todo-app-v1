@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 import WelcomePage from "./pages/WelcomePage";
 import SignupPage from "./pages/SignupPage";
-import AppLayout from "./ui/appLayout";
+import AppLayout from "./ui/AppLayout";
 import LoginPage from "./pages/LoginPage";
 import AddNewTask from "./features/add-task/AddNewTask";
 import NotificationPage from "./pages/sideBarPages/NotificationPage";
