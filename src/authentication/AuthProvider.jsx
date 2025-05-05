@@ -78,23 +78,7 @@ export function AuthProvider({ children }) {
       throw error;
     }
   };
-// function to update user profile 
-async updateUserProfile (){
-try{
-await updateProfile(auth.currentUser, {
-  displayName: username, 
-photoURL: profilePic 
-})
-// Profile updated!
-  setUsername("")
-setProfilePic("")
-alert("Profile updated!")
-}catch (error) {
-// An error occurred.
-alert("Error updating profile:", error.message);
-      console.error("Error updating profile:", error.message);
-      throw error;
-    }
+
 
   return (
     <AuthContext.Provider
