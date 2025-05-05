@@ -11,11 +11,15 @@ import { useState } from "react";
 
 export function AuthProvider({ children }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+const [fullName, setFullName]= useState("")
+const [profilePic, setProfilePic]= useState("")
   const [hidePassword, setHidePassword] = useState(true);
   const [error, setError] = useState(null);
   function toggleHidePassword() {
     setHidePassword(!hidePassword);
   }
+
+
   // Function to create a new user
   const signUp = async function (email, password) {
     try {
