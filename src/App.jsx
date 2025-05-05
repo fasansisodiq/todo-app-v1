@@ -29,7 +29,17 @@ import Spinner from "./utils/Spinner";
 import PendingTaskPage from "./pages/sideBarPages/PendingTaskPage";
 
 function App() {
+const Navigate = useNavigate()
   const [user, loading, error] = useAuthState(auth);
+
+useEffect(() => {
+        const unsubscribe = authentication.onAuthStateChanged(user => {
+            if (user) {
+                navigate("signup")
+            }
+        })  
+        return unsubscribe
+    }, [])
 
   if (loading) {
     return (
