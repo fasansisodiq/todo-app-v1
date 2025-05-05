@@ -7,28 +7,29 @@ import Logo from "../utils/Logo";
 function WelcomePage() {
   const navigate = useNavigate();
   return (
-    <div className="  flex  flex-col justify-start items-center w-screen md:max-w-[45rem] md:max-h-screen lg:max-w-[50rem]    bg-[#f0f4f3] shadow rounded-2xl   text-slate-800 font-sans">
+    <div className="  flex  flex-col justify-start items-center w-screen    bg-[#f0f4f3] shadow rounded-2xl   text-slate-800 font-sans">
       <header className="flex">
         <Logo />
       </header>
       <div className="flex flex-col  items-center p-4">
         <span>
-          <span className="pr-2 capitalize text-[#183a1f] text-sm sm:text-xl lg:text-3xl xl:text-4xl font-semibold">
+          <span className="pr-2 capitalize text-[#183a1f] text-sm sm:text-xl lg:text-3xl xl:text-4xl font-semibold pb-2">
             get things todo ?
           </span>
           <span>
-            <span className="capitalize text-sm lg:text-3xl xl:text-4xl text-green-700 font-semibold pr-1">
-              todo pro
+            <span className=" text-sm lg:text-3xl xl:text-4xl text-green-700 font-semibold pr-1">
+              todopro
             </span>
             is all you ever wanted.
           </span>
         </span>
-        <br />
-        <p className="text-sm lg:text-3xl xl:text-4xl mb-4">
+        <span>
+          Your #1 choice for 2 in 1 ( task manager and todo list ) app
+        </span>
+        {/* <br /> */}
+        <p className="text-sm lg:text-3xl xl:text-4xl mb-4 pt-4">
           With
-          <span className="capitalize px-1 text-green-700 font-semibold">
-            todo pro
-          </span>
+          <span className=" px-1 text-green-700 font-semibold">todopro</span>
           you can:
           <span className=" size-6 text-[#183a1f] animate-bounce"> &darr;</span>
         </p>

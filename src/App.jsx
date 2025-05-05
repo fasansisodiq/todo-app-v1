@@ -11,7 +11,7 @@ import NotificationPage from "./pages/sideBarPages/NotificationPage";
 import SettingsPage from "./pages/navBarPages/SettingsPage";
 import ProgressPage from "./pages/navBarPages/ProgressPage";
 import MenuPage from "./pages/navBarPages/MenuPage";
-import HelpPage from "./pages/navBarPages/HelpPage";
+import HelpPage from "./pages/navBarPages/help-center/HelpPage";
 import TodayPage from "./pages/sideBarPages/TodayPage";
 import PlannedPage from "./pages/sideBarPages/PlannedPage";
 import ImportantPage from "./pages/sideBarPages/ImportantPage";
@@ -44,7 +44,9 @@ function App() {
   }
 
   return (
-    <div className="font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto ">
+    <div
+      className={`font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto `}
+    >
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="signup" element={<SignupPage />} />

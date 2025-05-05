@@ -18,13 +18,11 @@ function Profile() {
 
   return (
     <div
-      className="relative w-30 md:w-60 lg:w-90  flex flex-col px-1.5 pr-2
+      className="relative w-30 sm:w-60 md:w-60 lg:w-90  flex flex-col px-1.5 pr-2
     items-center gap-4 lg:pr-14 pt-2  text-slate-800  "
     >
-      <div className=" w-full flex justify-between items-center pb-2  lg:pb-4">
-        <h1 className="text-sm md:text-xl lg:text-2xl opacity-75 font-semibold capitalize  ">
-          todo
-        </h1>
+      <div className=" w-full flex justify-between items-center text-sm md:text-xl lg:text-2xl  pb-2  lg:pb-4">
+        <h1 className="opacity-75 font-semibold  ">todopro</h1>
         <span>{date}</span>
       </div>
       <div className=" relative flex self-start justify-between items-center  sm:w-47 md:w-59 lg:w-89  md:justify-between lg:gap-4  ">

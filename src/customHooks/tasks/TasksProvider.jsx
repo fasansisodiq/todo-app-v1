@@ -191,20 +191,20 @@ export function TasksProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    const indexManager = getPersistentCacheIndexManager(db);
-    if (indexManager) {
-      indexManager.enableIndexAutoCreation();
-    }
-  }, []);
-  useEffect(() => {
-    const indexManager = getPersistentCacheIndexManager(db);
-    if (indexManager) {
-      indexManager.enableIndexAutoCreation();
-    } else {
-      console.warn("Persistent cache index manager is not available.");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const indexManager = getPersistentCacheIndexManager(db);
+  //   if (indexManager) {
+  //     indexManager.enableIndexAutoCreation();
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   const indexManager = getPersistentCacheIndexManager(db);
+  //   if (indexManager) {
+  //     indexManager.enableIndexAutoCreation();
+  //   } else {
+  //     console.warn("Persistent cache index manager is not available.");
+  //   }
+  // }, []);
 
   const searchData = async (searchTerm) => {
     const collectionRef = collection(db, "tasks");

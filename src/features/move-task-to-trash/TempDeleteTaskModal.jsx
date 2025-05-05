@@ -3,8 +3,10 @@ import AlertingModal from "../../utils/AlertingModal";
 import CustomButton from "../../utils/CustomButton";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import { useOperation } from "../../customHooks/operation/useOperation";
+import { useNavigate } from "react-router";
 
 function TempDeleteTaskModal({ title, id, task }) {
+  const navigate = useNavigate();
   const { openTrash, onCloseTrash, setOpenModal } = useOperation();
   const { trashTask } = useTasks();
 
@@ -13,6 +15,7 @@ function TempDeleteTaskModal({ title, id, task }) {
 
     onCloseTrash();
     setOpenModal(null);
+    navigate(`/layout/${task.taskClass}`);
   }
   return (
     <AlertingModal

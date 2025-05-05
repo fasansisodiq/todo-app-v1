@@ -4,8 +4,10 @@ import { useOperation } from "../../customHooks/operation/useOperation";
 import AlertingModal from "../../utils/AlertingModal";
 import CustomButton from "../../utils/CustomButton";
 import { useTasks } from "../../customHooks/tasks/useTasks";
+import { useNavigate } from "react-router";
 
 function RestoreTaskModal({ task }) {
+  const navigate = useNavigate();
   const { openRestore, onCloseRestore, setOpenModal } = useOperation();
   const { restoreTrashTask } = useTasks();
 
@@ -14,6 +16,7 @@ function RestoreTaskModal({ task }) {
 
     onCloseRestore();
     setOpenModal(null);
+    navigate(`/layout/${task.taskClass}`);
   }
   return (
     <AlertingModal

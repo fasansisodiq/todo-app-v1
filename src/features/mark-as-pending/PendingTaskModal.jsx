@@ -14,7 +14,7 @@ function PendingTaskModal({ tittle, task }) {
     await updateTask(task.id, { pending: true });
     onCloseMarkPend();
     () => setOpenModal(false);
-    navigate(-1);
+    navigate(`/layout/${task.taskClass}`);
   }
   return (
     <AlertingModal
