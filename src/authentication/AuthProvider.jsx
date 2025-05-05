@@ -11,8 +11,7 @@ import { useState } from "react";
 
 export function AuthProvider({ children }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-const [username, setUsername]= useState("")
-const [profilePic, setProfilePic]= useState("")
+
   const [hidePassword, setHidePassword] = useState(true);
   const [error, setError] = useState(null);
   function toggleHidePassword() {
