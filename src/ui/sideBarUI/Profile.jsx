@@ -8,6 +8,9 @@ function Profile() {
   const { date } = useTasks();
   const [notification, setNotification] = useState(true);
 
+const [username, setUsername]= useState("")
+const [profilePic, setProfilePic]= useState("")
+
   const fullName = ["Sodiq Ajagun"];
   const monogram = fullName
     .toString()
