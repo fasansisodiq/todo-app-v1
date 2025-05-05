@@ -11,7 +11,7 @@ import { useState } from "react";
 
 export function AuthProvider({ children }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-const [fullName, setFullName]= useState("")
+const [username, setUsername]= useState("")
 const [profilePic, setProfilePic]= useState("")
   const [hidePassword, setHidePassword] = useState(true);
   const [error, setError] = useState(null);
@@ -79,6 +79,23 @@ const [profilePic, setProfilePic]= useState("")
       throw error;
     }
   };
+// function to update user profile 
+async updateUserProfile (){
+try{
+await updateProfile(auth.currentUser, {
+  displayName: username, 
+photoURL: profilePic 
+})
+// Profile updated!
+  setUsername("")
+setProfilePic("")
+alert("Profile updated!")
+}catch (error) {
+// An error occurred.
+alert("Error updating profile:", error.message);
+      console.error("Error updating profile:", error.message);
+      throw error;
+    }
 
   return (
     <AuthContext.Provider
