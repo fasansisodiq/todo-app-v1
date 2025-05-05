@@ -25,28 +25,5 @@ export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
-export const addNewTask = async (taskData) => {
-  try {
-    const taskRef = await addDoc(collection(db, "tasks"), taskData);
-    console.log("Task written with ID: ", taskRef.id);
-    alert("Task added successfully!");
-  } catch (error) {
-    console.error("Error adding task: ", error);
-    alert("Failed to add task.");
-  }
-};
-
-export const getTasks = async function () {
-  try {
-    const querySnapshot = await getDocs(collection(db, "tasks"));
-    console.log(querySnapshot);
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-    });
-  } catch (error) {
-    console.error("Error loading tasks: ", error);
-    alert("there was an error loading tasks....");
-  }
-};
 
 export default app;
