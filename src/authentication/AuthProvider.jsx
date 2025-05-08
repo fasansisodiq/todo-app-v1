@@ -221,30 +221,6 @@ export function AuthProvider({ children }) {
     getUserData();
   }, [user]);
 
-  // useEffect(() => {
-  //   const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
-  //     const data = snapshot.docs.map((doc) => ({
-  //       id: doc.id,
-  //       ...doc.data(),
-  //     }));
-  //     // const data = userDoc.data();
-  //     setUsername(data?.username);
-  //     setProfilePic(data?.profilePic);
-  //     setFullName(data?.fullName);
-  //     setPhoneNumber(data?.phoneNumber);
-  //     setDateOfBirth(data?.dateOfBirth);
-  //     setStreetAddress(data?.streetAddress);
-  //     setCity(data?.city);
-  //     setState(data?.state);
-  //     setCountry(data?.country);
-  //     setZipCode(data?.zipCode);
-  //     setEmail(user?.email);
-  //     console.log(data);
-  //   });
-
-  //   // Clean up the listener when the component unmounts
-  //   return () => unsubscribe();
-  // }, [user.email]);
   return (
     <AuthContext.Provider
       value={{
