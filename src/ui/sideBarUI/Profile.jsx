@@ -24,7 +24,7 @@ function Profile() {
       className="relative w-30 sm:w-60 md:w-60 lg:w-90  flex flex-col px-1.5 pr-2
     items-center gap-4 lg:pr-14 pt-2  text-slate-800  "
     >
-      <div className=" w-full flex justify-between items-center text-sm md:text-xl lg:text-2xl  pb-2  lg:pb-4">
+      <div className=" w-full flex justify-between items-center text-sm md:text-lg lg:text-xl  pb-2  lg:pb-4">
         <h1 className="opacity-75 font-semibold  ">todopro</h1>
         <span>{date}</span>
       </div>
