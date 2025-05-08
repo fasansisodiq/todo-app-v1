@@ -33,17 +33,7 @@ import EditProfile from "./pages/profile/EditProfile";
 import PendingTaskPage from "./pages/sideBarPages/PendingTaskPage";
 
 function App() {
-  // const navigate = useNavigate();
   const [user, loading, error] = useAuthState(auth);
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       navigate("signup");
-  //     }
-  //   });
-  //   return unsubscribe;
-  // }, []);
 
   if (loading) {
     return (
