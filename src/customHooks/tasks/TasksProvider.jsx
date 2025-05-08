@@ -9,7 +9,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  getPersistentCacheIndexManager,
+  // getPersistentCacheIndexManager,
   onSnapshot,
   query,
   setDoc,
@@ -132,18 +132,6 @@ export function TasksProvider({ children }) {
       console.error("Error updating task:", error);
     }
   };
-
-  // const addDataToTrash = async (data) => {
-  //   try {
-  //     const collectionRef = collection(db, "trash");
-  //     const docRef = await addDoc(collectionRef, data);
-  //     console.log("Document written with ID: ", docRef.id);
-  //     // return docRef;
-  //   } catch (e) {
-  //     console.error("Error adding task to trash: ", e);
-  //     throw e;
-  //   }
-  // };
 
   const deleteTask = async (taskId) => {
     try {

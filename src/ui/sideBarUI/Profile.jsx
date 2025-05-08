@@ -3,35 +3,16 @@ import { CiBellOn } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import DisplayHoverMessage from "../../utils/DisplayHoverMessage";
 import { useTasks } from "../../customHooks/tasks/useTasks";
+import { updateProfile } from "firebase/auth";
+import { useAuth } from "../../authentication/useAuth";
 
 function Profile() {
   const { date } = useTasks();
+  const { username, fullName, profilePic } = useAuth();
   const [notification, setNotification] = useState(true);
 
-const [username, setUsername]= useState("")
-const [profilePic, setProfilePic]= useState("")
-
-
-// function to update user profile 
-async updateUserProfile (){
-try{
-await updateProfile(auth.currentUser, {
-  displayName: username, 
-photoURL: profilePic 
-})
-// Profile updated!
-  setUsername("")
-setProfilePic("")
-alert("Profile updated!")
-}catch (error) {
-// An error occurred.
-alert("Error updating profile:", error.message);
-      console.error("Error updating profile:", error.message);
-      throw error;
-    }
-
-  const fullName = ["Sodiq Ajagun"];
-  const monogram = fullName
+  const fullNames = ["Sodiq Ajagun"];
+  const monogram = fullNames
     .toString()
     .split(" ")
     .map((name) => name[0])
@@ -50,10 +31,10 @@ alert("Error updating profile:", error.message);
       <div className=" relative flex self-start justify-between items-center  sm:w-47 md:w-59 lg:w-89  md:justify-between lg:gap-4  ">
         <div className="flex  items-center gap-2  md:gap-4 ">
           <span className=" w-4 h-4 sm:w-8 sm:h-8 md:w-10 md:h-10  flex justify-center items-center text-[0.5rem] sm:text-sm md:text-lg xl:text-3xl lg:w-15 lg:h-15 lg:text-2xl xl:w-16 xl:h-16 font-bold rounded-full  p-2  border-2 border-emerald-500 outline-2 outline-offset-2 outline-emerald-700 ">
-            <span className="opacity-75 "> {monogram} </span>
+            <span className="opacity-75 text-sm"> {username || monogram} </span>
           </span>
           <span className=" text-[0.7rem] sm:text-sm md:text-lg lg:text-xl xl:text-2xl opacity-75 font-semibold">
-            {fullName}
+            {username || fullName}
           </span>
         </div>
         {notification && (
@@ -85,4 +66,3 @@ alert("Error updating profile:", error.message);
 }
 
 export default Profile;
-// ${openModal ? "opacity-0" : "opacity-100"}

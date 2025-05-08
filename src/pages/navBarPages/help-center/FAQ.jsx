@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Draggable from "react-draggable";
+// import Draggable from "react-draggable";
 
 const faqs = [
   { header: "general usage & Management:" },
@@ -143,7 +143,7 @@ function FAQ() {
                 className={`px-2 ${
                   showAnswer === faq.id
                     ? "bg-emerald-600 text-white "
-                    : "hover:bg-emerald-200 "
+                    : "hover:bg-emerald-100 "
                 } cursor-pointer text-blue-900  sm:text-[0.7rem] md:text-[0.8rem] lg:text-lg       
       `}
                 onClick={() => toggleAnswer(faq.id)}

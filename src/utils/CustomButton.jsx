@@ -25,15 +25,15 @@ function CustomButton({
        ${size === "2xl" && "w-65 h-14 text-3xl pb-2 font-extrabold"}
         ${
           type === "primary" &&
-          "rounded bg-emerald-700 hover:bg-emerald-800 text-white hover:text-white  focus:outline-none  focus:ring  focus:ring-offset-2  focus:ring-emerald-700 focus:bg-emerald-700"
+          "rounded bg-emerald-700 hover:bg-emerald-800 text-white hover:text-white  focus:outline-none  focus:ring  focus:ring-offset-3  focus:ring-emerald-700 focus:bg-emerald-700"
         }
         ${
           type === "others" &&
-          ` ${bg}   ${txtColor} ${hoverClass} focus:outline-none focus:ring focus:ring-offset-2 focus:${bg}  rounded`
+          ` ${bg}   ${txtColor} ${hoverClass} focus:outline-none focus:ring focus:ring-offset-3 focus:${bg}  rounded`
         }
         ${
           type === "secondary" &&
-          `rounded border-2 border-slate-400  bg-slate-50  text-slate-600 focus:outline-none focus:ring focus:ring-offset-2 focus:ring-slate-400`
+          `rounded border-2 border-gray-400  bg-white  text-gray-400 focus:outline-none focus:ring focus:ring-offset-3 focus:ring-gray-300`
         }
    
    

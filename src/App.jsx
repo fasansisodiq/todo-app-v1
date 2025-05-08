@@ -1,5 +1,5 @@
-import { Navigate,useNavigate, Route, Routes } from "react-router-dom";
-import {useEffect} from react;
+import { Navigate, Route, Routes } from "react-router-dom";
+
 import { auth } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -11,7 +11,7 @@ import AddNewTask from "./features/add-task/AddNewTask";
 import NotificationPage from "./pages/sideBarPages/NotificationPage";
 import SettingsPage from "./pages/navBarPages/SettingsPage";
 import ProgressPage from "./pages/navBarPages/ProgressPage";
-import MenuPage from "./pages/navBarPages/MenuPage";
+import MenuPage from "./pages/navBarPages/menu/MenuPage";
 import HelpPage from "./pages/navBarPages/help-center/HelpPage";
 import TodayPage from "./pages/sideBarPages/TodayPage";
 import PlannedPage from "./pages/sideBarPages/PlannedPage";
@@ -27,20 +27,23 @@ import TrashPage from "./pages/sideBarPages/TrashPage";
 import FriendPage from "./pages/sideBarPages/FriendPage";
 import EditTask from "./features/edit-task/EditTask";
 import Spinner from "./utils/Spinner";
+
+import UserProfile from "./pages/profile/UserProfile";
+import EditProfile from "./pages/profile/EditProfile";
 import PendingTaskPage from "./pages/sideBarPages/PendingTaskPage";
 
 function App() {
-const Navigate = useNavigate()
+  // const navigate = useNavigate();
   const [user, loading, error] = useAuthState(auth);
 
-useEffect(() => {
-        const unsubscribe = authentication.onAuthStateChanged(user => {
-            if (user) {
-                navigate("signup")
-            }
-        })  
-        return unsubscribe
-    }, [])
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       navigate("signup");
+  //     }
+  //   });
+  //   return unsubscribe;
+  // }, []);
 
   if (loading) {
     return (
@@ -62,6 +65,8 @@ useEffect(() => {
         <Route path="/" element={<WelcomePage />} />
         <Route path="signup" element={<SignupPage />} />
         <Route path="login" element={<LoginPage />} />
+        <Route path="profile" element={<UserProfile />} />
+        <Route path="edit-profile" element={<EditProfile />} />
 
         <Route
           path="layout"
