@@ -1,4 +1,4 @@
-import CustomButton from "../CustomButton";
+import CustomButton from "./CustomButton";
 
 function TaskFormButtons({ onCancel, onSave, submitLabel }) {
   return (

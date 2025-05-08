@@ -4,7 +4,7 @@ import TaskForm from "../../utils/taskFormItems/TaskForm";
 import TaskTitle from "../../utils/taskFormItems/TaskTitle";
 import TaskAssignee from "../../utils/taskFormItems/TaskAssignee";
 import TaskDueDate from "../../utils/taskFormItems/TaskDueDate";
-import TaskFormButtons from "../../utils/taskFormItems/taskFormButtons";
+import TaskFormButtons from "../../utils/TaskFormButtons";
 import TextArea from "../../utils/taskFormItems/TextArea";
 import TaskPriority from "../../utils/taskFormItems/TaskPriority";
 import TaskClass from "../../utils/taskFormItems/TaskClass";

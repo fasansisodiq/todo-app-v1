@@ -9,7 +9,7 @@ import TaskDueDate from "../../utils/taskFormItems/TaskDueDate";
 import TaskClass from "../../utils/taskFormItems/TaskClass";
 import TaskPriority from "../../utils/taskFormItems/TaskPriority";
 import TextArea from "../../utils/taskFormItems/TextArea";
-import TaskFormButtons from "../../utils/taskFormItems/taskFormButtons";
+import TaskFormButtons from "../../utils/TaskFormButtons";
 
 function AddNewTask() {
   const navigate = useNavigate();
