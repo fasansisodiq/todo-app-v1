@@ -122,7 +122,7 @@ export function AuthProvider({ children }) {
   }
 
   const updatePhotoURL = async (file) => {
-    if (!file) return false; // No file selected
+    // if (!file) return false; // No file selected
     const user = auth.currentUser;
     const storage = getStorage();
     const storageRef = ref(storage, `images/${file.name}`);
