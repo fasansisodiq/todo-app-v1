@@ -46,23 +46,21 @@ function AddNewTask() {
   };
 
   return (
-    <>
-      <TaskForm header={"add new task"} onSubmit={handleSubmit}>
-        <TaskTitle onChange={handleChange} value={task.title} />
-        <TaskAssignee onChange={handleChange} value={task.assignee} />
-        <TaskDueDate onChange={handleChange} value={task.dueDate} />
-        <div className=" self-start  px-auto lg:pl-3 ">
-          <TaskClass onChange={handleChange} value={task.taskClass} />
-        </div>
-        <TaskPriority onChange={handleChange} checked={task.priority} />
-        <TextArea onChange={handleChange} value={task.description} />
-        <TaskFormButtons
-          submitLabel={"add task"}
-          onSave={handleSubmit}
-          onCancel={() => navigate(`/layout/${task.taskClass}`)}
-        />
-      </TaskForm>
-    </>
+    <TaskForm header={"add new task"} onSubmit={handleSubmit}>
+      <TaskTitle onChange={handleChange} value={task.title} />
+      <TaskAssignee onChange={handleChange} value={task.assignee} />
+      <TaskDueDate onChange={handleChange} value={task.dueDate} />
+      <div className=" self-start  px-auto lg:pl-3 ">
+        <TaskClass onChange={handleChange} value={task.taskClass} />
+      </div>
+      <TaskPriority onChange={handleChange} checked={task.priority} />
+      <TextArea onChange={handleChange} value={task.description} />
+      <TaskFormButtons
+        submitLabel={"add task"}
+        onSave={handleSubmit}
+        onCancel={() => navigate(`/layout/${task.taskClass}`)}
+      />
+    </TaskForm>
   );
 }
 
