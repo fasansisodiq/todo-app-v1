@@ -1,10 +1,9 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+
 import Input from "../utils/Input";
 import Button from "../utils/Button";
-import { useNavigate } from "react-router";
-import { CreateUser } from "../services/apiUserData";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase.js";
-import { useState } from "react";
+
 import { useAuth } from "../authentication/useAuth.js";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
@@ -68,139 +67,103 @@ function SignupPage() {
   };
 
   return (
-    <div className="w-100 md:w-150 lg:w-170  h-150 shadow-2xl bg-[#f0f4f3]  flex flex-col   items-center gap-4 ">
+    <div className="w-100 md:w-150 lg:w-170  min-h-150 md:min-h-fit md:pb-12 rounded-lg md:mt-4 shadow-2xl   bg-white  flex flex-col   items-center gap-4 ">
       <h1 className="capitalize text-3xl  text-emerald-700 font-bold mt-10">
         welcome onboard!!
       </h1>
       <span className="mb-4 text-lg md:text-2xl text-[#08130a] opacity-70 font-semibold">
         let&apos;s help you to meet up your task
       </span>
-      <span className="capitalize text-3xl text-[#286135] pb-1 lg:pl-20 flex self-start">
-        sign up
-      </span>
-      <form onSubmit={handleSignup}>
-        <div className="flex flex-col justify-center items-center gap-8">
-          {/* <Input
-            type={"text"}
-            placeholder={"Enter your fullName"}
-            name={"fullName"}
-            id={"fullName"}
-            // value={}
-          /> */}
+
+      <form
+        onSubmit={handleSignup}
+        className="flex flex-col gap-4 bg-[#f0f4f3] p-4  md:p-8 lg:p-12 border-2 border-slate-100 rounded-lg shadow-sm"
+      >
+        <span className="capitalize text-lg md:text-xl text-stone-800 pb-1   self-start">
+          sign up
+        </span>
+
+        <Input
+          type={"email"}
+          placeholder={"Enter your email"}
+          name={"email"}
+          id={"email"}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <div className="flex flex-col gap-4">
           <Input
-            type={"email"}
-            placeholder={"Enter your email"}
-            name={"email"}
-            id={"email"}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type={`${hidePassword ? "password" : "text"}`}
+            placeholder={"Enter new password"}
+            name={" password"}
+            id={" password"}
+            value={password}
+            onChange={handlePasswordChange}
           />
-          <div className="flex flex-col gap-4">
-            <Input
-              type={`${hidePassword ? "password" : "text"}`}
-              placeholder={"Enter new password"}
-              name={" password"}
-              id={" password"}
-              value={password}
-              onChange={handlePasswordChange}
-            />
-            {strength && (
-              <div className="flex justify-between items-center bg-slate-200 p-4 shadow-lg overflow-x-hidden">
-                {strength && (
+          {strength && (
+            <div className="flex justify-center items-center max-h-fit gap-2 bg-slate-200 p-1 shadow-lg overflow-x-hidden">
+              {strength && (
+                <div
+                  className={` ${getStrengthWidth()}   bg-gray-300 rounded-full h-1.5 md:h-2 lg:h-2.5 dark:bg-gray-700 transition-all duration-500  `}
+                >
                   <div
-                    className={` ${getStrengthWidth()}   bg-gray-300 rounded-full h-2.5 dark:bg-gray-700 transition-all duration-500  `}
-                  >
-                    <div
-                      className={`${getStrengthColor()} w-${
-                        strength === "weak"
-                          ? 15
-                          : strength === "medium"
-                          ? 35
-                          : strength === "strong"
-                          ? 62
-                          : 0
-                      } h-full transition-all duration-500 rounded-full `}
-                    ></div>
-                  </div>
-                )}
-                {strength && (
-                  <div className="mt-1 text-sm text-gray-600 flex gap-2 self-center">
-                    {strength === "weak" && "Weak"}
-                    {strength === "medium" && "Medium"}
-                    {strength === "strong" && "Strong"}
-                    <p> password</p>
-                  </div>
-                )}
+                    className={`${getStrengthColor()} w-${
+                      strength === "weak"
+                        ? 15
+                        : strength === "medium"
+                        ? 35
+                        : strength === "strong"
+                        ? 62
+                        : 0
+                    } h-full transition-all duration-500 rounded-full `}
+                  ></div>
+                </div>
+              )}
+              {strength && (
+                <div className="text-[0.6rem] sm:text-sm text-gray-600 flex gap-1 self-center">
+                  {strength === "weak" && "Weak"}
+                  {strength === "medium" && "Medium"}
+                  {strength === "strong" && "Strong"}
+                  <p> password</p>
+                </div>
+              )}
 
-                {strength && (
-                  <span
-                    className="self-end text-2xl"
-                    onClick={toggleHidePassword}
-                  >
-                    {hidePassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
+              {strength && (
+                <span
+                  className="self-end text-lg lg:text-2xl"
+                  onClick={toggleHidePassword}
+                >
+                  {hidePassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
 
-          {/* <Input
+        {/* <Input
             type={"password"}
             placeholder={"Confirm  password"}
             name={"confirmPassword"}
             id={"confirmPassword"}
           /> */}
-        </div>
-        <span className="flex self-center lg:pt-8">
+
+        <span className="flex self-center pt-4 lg:pt-8">
           {isSubmitting ? (
             <Button label="submitting...." />
           ) : (
             <Button disabled={isSubmitting} label="sign up" />
           )}
-          {/* <Button label="sign up" /> */}
         </span>
       </form>
-      <div className="flex justify-center items-center gap-2 lg:pt-6 capitalize text-xl md:text-2xl text-[#38884a]">
+      <div className=" w-full flex justify-center items-center border-t-1 mt-4 pt-4 border-t-slate-300 gap-2 lg:pt-6 capitalize text-xl md:text-2xl text-[#38884a]">
         <span>existing user ?</span>
-        <button onClick={() => navigate("/login")}>
+        <Link to="/login">
           <span className="flex justify-center items-center gap-2 text-blue-600 hover:underline">
             <span>sign in</span>
           </span>
-        </button>
+        </Link>
       </div>
     </div>
   );
 }
 export default SignupPage;
-// const handleSignup = async function (e) {
-//   e.preventDefault();
-
-//   try {
-//     const userCredential = await createUserWithEmailAndPassword(
-//       auth,
-//       email,
-//       password
-//     );
-//     // User signed up successfully
-//     const user = userCredential.user;
-//     console.log("User signed up:", user);
-//     setIsSubmitting(true);
-//     navigate("/login");
-//     return user;
-//   } catch (error) {
-//     console.error("Error signing up:", error.message);
-//     throw error;
-//   } finally {
-//     setIsSubmitting(false);
-//   }
-// };
-//  style={{
-//                       width:
-//                         strength === "weak"
-//                           ? 35
-//                           : strength === "medium"
-//                           ? 65
-//                           : strength === "strong"
-//                           ? 100
-//                           : 0,
-//                     }}

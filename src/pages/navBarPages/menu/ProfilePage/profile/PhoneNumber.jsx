@@ -1,5 +1,5 @@
 import ProfileItem from "./ProfileItem";
-import { useAuth } from "../../authentication/useAuth";
+import { useAuth } from "../../../../../authentication/useAuth";
 
 function PhoneNumber() {
   const { phoneNumber, setPhoneNumber } = useAuth();

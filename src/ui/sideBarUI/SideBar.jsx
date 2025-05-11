@@ -17,8 +17,8 @@ import Pending from "./Pending";
 function SideBar() {
   return (
     <aside
-      className={`w-35 sm:w-65 md:w-70 md:px-2 lg:w-90 xl:w-100 h-screen bg-[#f0f4f3]
-      flex flex-col gap-4 px-0.5 lg-px-2  text-center border-r-1 border-r-slate-300 
+      className={`w-35 sm:w-65 md:w-70 md:px-2 lg:w-90 xl:w-100 min-h-full   
+      flex flex-col gap-2 px-0.5 lg-px-2  text-center border-r-1 border-r-slate-300 
       z-1 `}
     >
       <Profile />

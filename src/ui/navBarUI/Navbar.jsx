@@ -7,7 +7,7 @@ import AddNewTaskBtn from "../../features/add-task/AddNewTaskBtn";
 
 function Navbar() {
   return (
-    <nav className="bg-slate-50 border-b border-b-slate-500 w-full h-10 sm:h-12 md:h-14 lg:h-20 xl:h-20 shadow-2xl text-[0.6rem] sm:text-lg md:text-xl lg:text-2xl xl:text-2xl flex justify-end items-center gap-1 sm:gap-2 md:gap3 lg:gap-4 xl:gap-5 capitalize px-4 sm:px-6 md:px-8 lg:px-10  lg:pr-18 text-center ">
+    <nav className=" bg-slate-50 border-b border-b-slate-500 w-full h-10 sm:h-12 md:h-14 lg:h-20 shadow-sm text-[0.6rem] sm:text-lg  flex justify-end items-center gap-1 sm:gap-2 md:gap3 lg:gap-4 xl:gap-5 capitalize px-4 sm:px-6 md:px-8 lg:px-10 lg:pb-5 lg:pt-3  lg:pr-18 text-center ">
       <AddNewTaskBtn />
       <TodoNavigator
         to="progress"

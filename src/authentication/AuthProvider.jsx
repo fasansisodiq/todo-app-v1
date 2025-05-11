@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [username, setUsername] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
@@ -38,6 +38,9 @@ export function AuthProvider({ children }) {
 
   const [hidePassword, setHidePassword] = useState(true);
   const [error, setError] = useState(null);
+
+  // const storage = getStorage();
+
   function toggleHidePassword() {
     setHidePassword(!hidePassword);
   }
@@ -120,31 +123,49 @@ export function AuthProvider({ children }) {
       throw error;
     }
   }
+  // const handleUpload = async () => {
+  //   if (!profilePic) return;
+
+  //   const imageRef = ref(storage, `images/${profilePic.name}`);
+  //   await uploadBytes(imageRef, profilePic);
+  //   const downloadURL = await getDownloadURL(imageRef);
+  //   setProfilePic(downloadURL);
+  //   console.log(downloadURL);
+  //   await updateProfile(auth.currentUser, {
+  //     displayName: username,
+  //     photoURL: downloadURL,
+  //   });
+  //   // Use downloadURL to update user profile or display the profilePic
+  // };
 
   const updatePhotoURL = async (file) => {
-    if (!file) return false; // No file selected
-    const user = auth.currentUser;
+    if (!file) {
+      alert("Please select an image to upload.");
+      return;
+    } // No file selected
     const storage = getStorage();
     const storageRef = ref(storage, `images/${file.name}`);
 
     try {
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
-
+      setProfilePic(url);
+      console.log(url);
       await updateProfile(user, {
         photoURL: url,
       });
-      return true;
+      return url;
     } catch (error) {
       console.error("Error updating photo URL:", error);
       return false;
     }
   };
+
   // Store additional user data in Firestore
   useEffect(() => {
     const storeUserData = async () => {
       if (user) {
-        const userRef = doc(db, "users", user.uid);
+        const userRef = collection(db, "users");
         const userData = {
           username: username,
           profilePic: profilePic,
@@ -156,10 +177,9 @@ export function AuthProvider({ children }) {
           state: state,
           country: country,
           zipCode: zipCode,
-          email: user.email,
-          id: user.uid,
         };
-        await setDoc(userRef, userData, { merge: true });
+        await setDoc(doc(userRef, user.uid), userData, { merge: true });
+        console.log("User data stored in Firestore:", userData);
       }
     };
     storeUserData();
@@ -175,7 +195,6 @@ export function AuthProvider({ children }) {
     state,
     country,
     zipCode,
-    email,
   ]);
 
   // Function to update user data in Firestore
@@ -186,9 +205,30 @@ export function AuthProvider({ children }) {
     } catch (error) {
       // Handle errors
       console.error("Error updating user data:", error);
-      alert("Error updating user data:", error.message);
+      // alert("Error updating user data:", error.message);
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "user"), (snapshot) => {
+      const user = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setUsername(user?.username);
+      setProfilePic(user?.profilePic);
+      setFullName(user?.fullName);
+      setPhoneNumber(user?.phoneNumber);
+      setDateOfBirth(user?.dateOfBirth);
+      setStreetAddress(user?.streetAddress);
+      setCity(user?.city);
+      setState(user?.state);
+      setCountry(user?.country);
+      setZipCode(user?.zipCode);
+    });
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
   // Function to get user data from Firestore
   // This function can be used to retrieve user data from Firestore
@@ -256,7 +296,8 @@ export function AuthProvider({ children }) {
         email,
         setEmail,
         updateUserData,
-        updatePhotoURL,
+
+        // handleUpload,
       }}
     >
       {children}

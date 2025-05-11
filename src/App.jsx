@@ -28,9 +28,10 @@ import FriendPage from "./pages/sideBarPages/FriendPage";
 import EditTask from "./features/edit-task/EditTask";
 import Spinner from "./utils/Spinner";
 
-import UserProfile from "./pages/profile/UserProfile";
-import EditProfile from "./pages/profile/EditProfile";
+import UserProfile from "./pages/navBarPages/menu/ProfilePage/profile/UserProfile";
+import EditProfile from "./pages/navBarPages/menu/ProfilePage/profile/EditProfile";
 import PendingTaskPage from "./pages/sideBarPages/PendingTaskPage";
+import FilterPage from "./pages/navBarPages/menu/filterPage/FilterPage";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -49,7 +50,7 @@ function App() {
 
   return (
     <div
-      className={`font-sans flex justify-center items-center  w-screen h-screen shadow overflow-auto `}
+      className={`font-sans flex justify-center items-center  w-screen min-h-screen shadow overflow-auto bg-[#f0f4f3] `}
     >
       <Routes>
         <Route path="/" element={<WelcomePage />} />
@@ -81,9 +82,9 @@ function App() {
           <Route path="progress" element={<ProgressPage />} />
           <Route path="help" element={<HelpPage />} />
           <Route path="menu" element={<MenuPage />} />
+          <Route path="filter" element={<FilterPage />} />
           <Route path="task/new" element={<AddNewTask />} />
           <Route path=":taskId" element={<EditTask />} />
-          {/* <Route path=":taskId" element={<Task />} /> */}
           <Route path="today/:taskId" element={<EditTask />} />
           <Route path="important/:taskId" element={<EditTask />} />
           <Route path="assigned/:taskId" element={<EditTask />} />

@@ -1,6 +1,6 @@
 import React from "react";
 import UserProfileItem from "./ProfileItemLabel";
-import { useAuth } from "../../authentication/useAuth";
+import { useAuth } from "../../../../../authentication/useAuth";
 import { FaMapLocation } from "react-icons/fa6";
 import { PiCityLight } from "react-icons/pi";
 import { MdLocationCity } from "react-icons/md";

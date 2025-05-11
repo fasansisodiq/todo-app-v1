@@ -9,12 +9,9 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  // getPersistentCacheIndexManager,
   onSnapshot,
-  query,
   setDoc,
   updateDoc,
-  where,
 } from "firebase/firestore";
 
 // const API__URL = "http://localhost:7000";
@@ -33,20 +30,25 @@ export function TasksProvider({ children }) {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [trash, setTrash] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [date, setDate] = useState(today.toLocaleDateString("en-US", options));
   const [task, setTask] = useState({
     title: "",
     assignee: "",
     dueDate: "",
     taskClass: "",
-    priority: "",
+    priority: false,
     description: "",
     completed: false,
     pending: false,
   });
 
   const handleChange = (e) => {
-    setTask({ ...task, [e.target.name]: e.target.value });
+    setTask({
+      ...task,
+      priority: e.target.checked,
+      [e.target.name]: e.target.value,
+    });
   };
 
   useEffect(() => {
@@ -179,37 +181,6 @@ export function TasksProvider({ children }) {
     }
   };
 
-  // useEffect(() => {
-  //   const indexManager = getPersistentCacheIndexManager(db);
-  //   if (indexManager) {
-  //     indexManager.enableIndexAutoCreation();
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   const indexManager = getPersistentCacheIndexManager(db);
-  //   if (indexManager) {
-  //     indexManager.enableIndexAutoCreation();
-  //   } else {
-  //     console.warn("Persistent cache index manager is not available.");
-  //   }
-  // }, []);
-
-  const searchData = async (searchTerm) => {
-    const collectionRef = collection(db, "tasks");
-    const q = query(
-      collectionRef,
-      where("taskClass", "==", searchTerm),
-      where("dueDate", "==", searchTerm),
-      where("title", "==", searchTerm),
-      where("assignee", "==", searchTerm)
-    );
-    const querySnapshot = await getDocs(q);
-    const results = [];
-    querySnapshot.forEach((doc) => {
-      results.push({ id: doc.id, ...doc.data() });
-    });
-    return results;
-  };
   return (
     <TasksContext.Provider
       value={{
@@ -232,7 +203,8 @@ export function TasksProvider({ children }) {
         trashTask,
         trashData,
         restoreTrashTask,
-        searchData,
+        searchQuery,
+        setSearchQuery,
       }}
     >
       {children}

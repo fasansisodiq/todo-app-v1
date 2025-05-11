@@ -6,7 +6,7 @@ function TaskOverviewHeader() {
   return (
     <div className="w-full text-emerald-600 relative ">
       <div className="flex justify-center items-center ">
-        <h1 className="capitalize  text-[1rem] lg:text-3xl my-2 flex justify-center items-center font-bold">
+        <h1 className="capitalize  text-[1rem] lg:text-2xl my-2 flex justify-center items-center font-bold">
           {task?.title} tasks
         </h1>
       </div>

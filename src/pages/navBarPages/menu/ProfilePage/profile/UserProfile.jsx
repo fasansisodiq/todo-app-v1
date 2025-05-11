@@ -1,17 +1,18 @@
 import { Link, useNavigate } from "react-router";
 
-import { useAuth } from "../../authentication/useAuth";
+import { useAuth } from "../../../../../authentication/useAuth";
 import AboutUser from "./AboutUser";
 import UserAdress from "./UserAddress";
 import { BsChevronLeft } from "react-icons/bs";
 import ProfileDesign from "./ProfileDesign";
+import ProfilePicture from "./ProfilePicture";
 
 function UserProfile() {
   const navigate = useNavigate();
   const { profilePic, fullName, username } = useAuth();
 
   return (
-    <ProfileDesign>
+    <ProfileDesign bg={"bg-white"}>
       <span className="flex justify-between items-center w-full  ">
         <span
           role="button"
@@ -30,9 +31,9 @@ function UserProfile() {
       <h1 className="self-center capitalize text-gray-600 font-bold">
         my profile
       </h1>
-      <div className="w-full  flex justify-start items-center font-semibold pt-5">
+      <div className="w-full  flex justify-start items-center font-semibold pt-5 relative">
         <span className="w-20 h-20 sm:w-30 sm:h-30 md:w-35 md:h-35  flex justify-center items-center  lg:w-50 lg:h-50 xl:w-50 xl:h-50 font-bold rounded-full  p-2  border-2 border-emerald-700">
-          {profilePic}
+          <ProfilePicture />
         </span>
         <div className="flex flex-col items-start justify-center gap-2  pl-4">
           <span className=" capitalize">{fullName} </span>

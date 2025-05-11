@@ -1,6 +1,6 @@
 import { BsChevronLeft } from "react-icons/bs";
 import ProfileUi from "./ProfileUI";
-import TaskFilter from "./TaskFilter";
+import TaskFilter from "./filterPage/TaskFilter";
 import { useNavigate } from "react-router";
 
 function MenuPage() {

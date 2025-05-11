@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../../authentication/useAuth";
+import { useAuth } from "../../../../../authentication/useAuth";
 import ProfileItem from "./ProfileItem";
 
 function ZipCode() {

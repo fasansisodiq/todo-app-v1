@@ -6,7 +6,7 @@ import OverviewScreen from "./taskOverviewUI/OverviewScreen";
 function AppLayout() {
   return (
     <div
-      className={`w-screen h-screen  flex justify-between border-t-8 border-t-green-700  relative 
+      className={`w-screen min-h-screen bg-[#f0f4f3]  flex justify-between border-t-8 border-t-green-700  relative 
        `}
     >
       <SideBar />

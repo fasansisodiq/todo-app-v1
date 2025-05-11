@@ -7,7 +7,7 @@ import TempDeleteTaskOperation from "../../features/move-task-to-trash/TempDelet
 function TaskOperations({ task, description, title }) {
   return (
     <div className={`w-full h-full text-center  flex flex-col gap-2`}>
-      <h1 className="self-center pt-4 text-emerald-700 font-semibold capitalize lg:text-3xl xl:text-4xl ">
+      <h1 className="self-center pt-4 text-emerald-700 font-semibold capitalize text-[1.4rem] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl ">
         task operations
       </h1>
       <div className="flex flex-col lg:gap-2 justify-center items-center w-full h-full">

@@ -76,22 +76,24 @@ function LoginPage() {
   };
 
   return (
-    <div className=" w-100 md:w-150 lg:w-170  h-150  bg-[#f0f4f3] flex flex-col justify-center items-center  text-center shadow-2xl ">
-      <h1 className="text-emerald-700 text-3xl  font-bold pb-8 sm:pb-10">
+    <div className=" w-100 md:w-150 lg:w-170  min-h-150 md:min-h-fit md:pb-12 rounded-lg mt-4 shadow-2xl   bg-white  flex flex-col   items-center gap-4 ">
+      <h1 className="text-emerald-700 text-3xl  font-bold pb-8 ">
         welcome back!!!
       </h1>
       <form
-        className="flex flex-col justify-center items-center w-150 h-fit border-2 border-slate-200 border-t-0 border-x-0 pb-5 lg:pb-8"
+        className={`flex flex-col justify-center items-center bg-slate-50  min-h-fit border-2 border-slate-100 rounded-lg shadow-sm  pb-5 lg:pb-8 ${
+          errorCode ? "md:px-2" : ""
+        }`}
         onSubmit={handleLogin}
       >
         <div>
-          <h2 className="text-xl text-[#286135] pb-6 pl-5 flex self-start ">
-            Log in to TodoPro
+          <h2 className="text-xl md:text-2xl text-slate-800 pt-4 md:pb-4 pl-5 flex self-start font-semibold">
+            Log in
           </h2>
           <div className="flex flex-col  gap-4 items-center ">
-            <div className="w-full  p-4 flex h-14 items-center justify-between border-1 border-stone-100">
-              <span className="text-red-700  pr-1">
-                {incorrectEmail ? <CiWarning /> : ""}
+            <div className="w-full pl-0 p-4 flex h-14 items-center justify-center gap-2 border-1 border-stone-100">
+              <span className="text-red-700 md:text-xl lg:text-2xl pr-1">
+                {incorrectEmail || (userNotFound && <CiWarning />)}
               </span>
               <Input
                 width={
@@ -108,7 +110,7 @@ function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="w-full  p-4 flex h-14 items-center justify-between border-1 border-stone-100">
+            <div className="w-full  p-4 flex h-14 items-center justify-start gap-4 border-1 border-stone-100">
               <span className="text-red-700  pr-1">
                 {incorrectPassword ? <CiWarning /> : ""}
               </span>
@@ -179,9 +181,7 @@ function LoginPage() {
       <div className="capitalize   text-center text-[#183a1f] text-xl ">
         <span>new user ? </span>
         <span className="text-blue-600">
-          <button type="link" onClick={() => navigate("/signup")}>
-            sign up
-          </button>
+          <Link to="/signup">sign up</Link>
         </span>
         <div className=" flex justify-center items-center w-full gap-2.5 pt-5">
           <p className="text-sm text-slate-400">or login with google</p>

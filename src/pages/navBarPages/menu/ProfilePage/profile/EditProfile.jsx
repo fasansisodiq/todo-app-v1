@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router";
 
-import CustomButton from "../../utils/CustomButton";
 import FullName from "./FullName";
 import ProfileDesign from "./ProfileDesign";
-import ProfilePicture from "./ProfilePicture";
 import Username from "./Username";
 import City from "./City";
 import Country from "./Country";
@@ -12,7 +10,8 @@ import ZipCode from "./ZipCode";
 import StreetAddress from "./StreetAddress";
 import Dob from "./Dob";
 import PhoneNumber from "./PhoneNumber";
-import { useAuth } from "../../authentication/useAuth";
+import { useAuth } from "../../../../../authentication/useAuth";
+import CustomButton from "../../../../../utils/CustomButton";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -29,12 +28,12 @@ function EditProfile() {
   }
 
   return (
-    <ProfileDesign bgColor={"bg-[#c0efe3]"} type={"edit"}>
-      <div className="  h-fit bg-[#c0efe3] w-1/2 flex justify-center items-center"></div>
+    <ProfileDesign bg={"bg-slate-50"}>
+      {/* <div className="  h-fit bg-[#c0efe3] w-1/2 flex justify-center items-center"></div> */}
       <h1 className="self-center capitalize text-lg md:text-2xl lg:text-3xl text-gray-600 font-bold">
         edit profile
       </h1>
-      <ProfilePicture />
+
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center justify-center gap-4 w-full h-full p-4"

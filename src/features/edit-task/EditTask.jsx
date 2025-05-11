@@ -57,7 +57,11 @@ function EditTask() {
   // console.log(updatedTask);
 
   const handleEditChange = (e) => {
-    setUpdatedTask({ ...updatedTask, [e.target.name]: e.target.value });
+    setUpdatedTask({
+      ...updatedTask,
+      [e.target.name]: e.target.checked,
+      [e.target.name]: e.target.value,
+    });
   };
   return (
     <>
@@ -67,19 +71,22 @@ function EditTask() {
           onChange={handleEditChange}
           value={updatedTask.assignee}
         />
-        <TaskDueDate onChange={handleEditChange} value={updatedTask.dueDate} />
+        <TaskDueDate
+          onChange={handleEditChange}
+          defaultValue={updatedTask.dueDate}
+        />
         <div className=" self-start  px-auto lg:pl-3 ">
           <TaskClass
             value={updatedTask.taskClass}
             onChange={handleEditChange}
           />
         </div>
-        <TaskPriority checked={priority} onChange={handleEditChange} />
+        <TaskPriority defaultChecked={priority} onChange={handleEditChange} />
         <TextArea onChange={handleEditChange} value={updatedTask.description} />
         <TaskFormButtons
           submitLabel={"save"}
           onSave={handleSubmit}
-          onCancel={() => navigate(`/layout/${taskClass}`)}
+          onCancel={() => navigate(-1)}
         />
       </TaskForm>
     </>

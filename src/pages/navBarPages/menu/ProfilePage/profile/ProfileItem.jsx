@@ -1,5 +1,5 @@
-import Label from "../../utils/Label";
-import Input from "../../utils/Input";
+import Label from "../../../../../utils/Label";
+import Input from "../../../../../utils/Input";
 
 function ProfileItem({
   label,

@@ -37,7 +37,7 @@ function AddNewTask() {
       assignee: "",
       dueDate: "",
       taskClass: "",
-      priority: "",
+      priority: false,
       description: "",
       completed: false,
       pending: false,

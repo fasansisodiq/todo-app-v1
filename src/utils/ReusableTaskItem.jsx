@@ -8,7 +8,7 @@ function ReusableTaskItem({ task, idx, children }) {
   const [openModal, setOpenModal] = useState(null);
 
   return (
-    <div className={``}>
+    <>
       <Table bg={"bg-green-80"} col={8}>
         <span className="md:mr-4">{idx + 1}</span>
         <span className="pr-8 ">{task?.title}</span>
@@ -44,7 +44,7 @@ function ReusableTaskItem({ task, idx, children }) {
           {children}
         </Modal>
       )}
-    </div>
+    </>
   );
 }
 

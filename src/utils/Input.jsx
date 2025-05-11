@@ -24,7 +24,7 @@ function Input({
         onMouseEnter={() => type === "text" && setIsFocused(true)}
         onMouseLeave={() => type === "text" && setIsFocused(false)}
         className={`${
-          !width ? "w-50  sm:w-65 md:w-80 lg:w-120 xl:w-130 " : width
+          !width ? "w-60  sm:w-65 md:w-80 lg:w-120 xl:w-130 " : width
         }md:h-8 h-6 lg:h-12 p-4 border-2 rounded-3xl
          border-[#fff] outline-0 shadow-0.5 bg-[#fff] 
           hover:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-offset-2

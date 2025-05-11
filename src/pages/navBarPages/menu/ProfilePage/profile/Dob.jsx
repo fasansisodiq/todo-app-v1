@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileItem from "./ProfileItem";
-import { useAuth } from "../../authentication/useAuth";
+import { useAuth } from "../../../../../authentication/useAuth";
 
 function Dob() {
   const { dateOfBirth, setDateOfBirth } = useAuth();

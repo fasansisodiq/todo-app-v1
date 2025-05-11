@@ -1,8 +1,8 @@
-import { useAuth } from "../../authentication/useAuth";
 import { MdOutlineEmail, MdPersonOutline } from "react-icons/md";
 import { BiPhone } from "react-icons/bi";
 import { CiCalendarDate } from "react-icons/ci";
 import UserProfileItem from "./ProfileItemLabel";
+import { useAuth } from "../../../../../authentication/useAuth";
 
 function AboutUser() {
   const { fullName, email, phoneNumber, dateOfBirth } = useAuth();

@@ -1,5 +1,5 @@
-import { useAuth } from "../../authentication/useAuth";
 import ProfileItem from "./ProfileItem";
+import { useAuth } from "../../../../../authentication/useAuth";
 
 function Username() {
   const { username, setUsername } = useAuth();

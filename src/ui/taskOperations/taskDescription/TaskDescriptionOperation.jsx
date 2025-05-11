@@ -3,7 +3,7 @@ import TaskOperation from "../../../utils/TaskOperation";
 import TaskDescriptionModal from "./TaskDescriptionModal";
 import { useOperation } from "../../../customHooks/operation/useOperation";
 
-function TaskDescriptionOperation({ description, tittle }) {
+function TaskDescriptionOperation({ description, title }) {
   const { openDesc, onOpenDesc } = useOperation();
   return (
     <>
@@ -13,7 +13,7 @@ function TaskDescriptionOperation({ description, tittle }) {
         open={openDesc}
         onClick={onOpenDesc}
       >
-        <TaskDescriptionModal description={description} tittle={tittle} />
+        <TaskDescriptionModal description={description} title={title} />
       </TaskOperation>
     </>
   );
