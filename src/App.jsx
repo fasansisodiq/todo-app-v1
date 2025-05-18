@@ -96,6 +96,7 @@ function App() {
           <Route path="social/:taskId" element={<EditTask />} />
           <Route path="completed/:taskId" element={<EditTask />} />
           <Route path="planned/:taskId" element={<EditTask />} />
+          <Route path="filter/:taskId" element={<EditTask />} />
           {/* </Route> */}
         </Route>
       </Routes>

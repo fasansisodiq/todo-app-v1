@@ -45,7 +45,7 @@ function WelcomePage() {
           </li>
           <li>
             Filter tasks: You can filter tasks by status, such as all tasks,
-            active tasks, or completed tasks.
+            overdue tasks,due date, or by assignee.
           </li>
           <li>
             Statistics: You can see the percentage of active tasks and completed

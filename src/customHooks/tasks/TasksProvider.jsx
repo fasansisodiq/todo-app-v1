@@ -43,6 +43,29 @@ export function TasksProvider({ children }) {
     pending: false,
   });
 
+  // filtering assignee name
+  const assignees = [];
+  taskData?.map((task) => {
+    if (task.assignee) {
+      assignees.push(task.assignee.toLowerCase());
+    }
+  });
+  const uniqueAssignees = [...new Set(assignees)];
+
+  // function to sort tasks
+  const sortTasks = (taskData, sortBy) => {
+    return [...taskData].sort((a, b) => {
+      if (a[sortBy] < b[sortBy]) return -1;
+      if (a[sortBy] > b[sortBy]) return 1;
+      return 0;
+    });
+  };
+
+  const handleSort = (sortBy) => {
+    const sortedTasks = sortTasks(taskData, sortBy);
+    setTaskData(sortedTasks);
+  };
+
   const handleChange = (e) => {
     setTask({
       ...task,
@@ -205,6 +228,8 @@ export function TasksProvider({ children }) {
         restoreTrashTask,
         searchQuery,
         setSearchQuery,
+        uniqueAssignees,
+        handleSort,
       }}
     >
       {children}

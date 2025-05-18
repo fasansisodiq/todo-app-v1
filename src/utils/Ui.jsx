@@ -1,6 +1,10 @@
+import { useTasks } from "../customHooks/tasks/useTasks";
+
 function Ui({ icon, label, taskNum }) {
+  const { handleSort } = useTasks();
   return (
     <div
+      onClick={() => handleSort()}
       className={` flex justify-between items-center px-1 lg:pr-3 text-sm md:text-lg lg:text-xl 
      `}
     >

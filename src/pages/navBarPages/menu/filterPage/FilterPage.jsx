@@ -7,7 +7,7 @@ import FilterByAssignee from "./FilterByAssignee";
 import FilterByDuedate from "./FilterByDuedate";
 
 function FilterPage() {
-  const { taskData } = useTasks();
+  const { taskData, uniqueAssignees } = useTasks();
   const [filter, setFilter] = useState("all");
 
   function daysLeft(dueDate) {
@@ -59,13 +59,6 @@ function FilterPage() {
             <TaskItem task={task} key={task.id} idx={idx} />
           ))}
 
-        {/* {filter === "week" &&
-          taskData?.length > 0 &&
-          taskData
-            .filter((task) => isDueThisWeek(task.dueDate))
-            .map((task, idx) => (
-              <TaskItem task={task} key={task.id} idx={idx} />
-            ))} */}
         <>
           <FilterByDuedate
             filter={filter}
@@ -73,13 +66,7 @@ function FilterPage() {
             cbFunc={isDueThisWeek}
           />
         </>
-        {/* {filter === "month" &&
-          taskData?.length > 0 &&
-          taskData
-            .filter((task) => daysLeft(task.dueDate) <= 30)
-            .map((task, idx) => (
-              <TaskItem task={task} key={task.id} idx={idx} />
-            ))} */}
+
         <>
           <FilterByDuedate
             filter={filter}
@@ -105,22 +92,9 @@ function FilterPage() {
         </>
 
         <>
-          <FilterByAssignee filter={filter} name={"mumc"} />
-        </>
-        <>
-          <FilterByAssignee filter={filter} name={"me"} />
-        </>
-        <>
-          <FilterByAssignee filter={filter} name={"sodiq"} />
-        </>
-        <>
-          <FilterByAssignee filter={filter} name={"my pa"} />
-        </>
-        <>
-          <FilterByAssignee filter={filter} name={"my team"} />
-        </>
-        <>
-          <FilterByAssignee filter={filter} name={"myself"} />
+          {uniqueAssignees.map((assignee, idx) => (
+            <FilterByAssignee filter={filter} name={assignee} key={idx} />
+          ))}
         </>
       </main>
     </div>

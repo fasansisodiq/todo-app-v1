@@ -4,26 +4,14 @@ import Label from "../../../../utils/Label";
 
 function FilterNav({ setFilter }) {
   // const [assignee, setAssignee] = useState();
-  const { taskData } = useTasks();
-  const assignees = [];
-  taskData?.map((task) => {
-    if (task.assignee) {
-      assignees.push(task.assignee.toLowerCase());
-    }
-  });
-  const uniqueAssignees = [...new Set(assignees)];
-  const assignee = { uniqueAssignees };
-  console.log(assignee);
-  // for (const key of uniqueAssigneesObj) {
-  //   // <option key={key} value={key} className="flex flex-col">
-  //   //   {key}
-  //   // </option>;
-
-  //   console.log([key]);
-  // }
-
-  console.log(uniqueAssignees);
-  console.log(assignees);
+  const { taskData, uniqueAssignees } = useTasks();
+  // const assignees = [];
+  // taskData?.map((task) => {
+  //   if (task.assignee) {
+  //     assignees.push(task.assignee.toLowerCase());
+  //   }
+  // });
+  // const uniqueAssignees = [...new Set(assignees)];
 
   return (
     <nav
@@ -56,17 +44,12 @@ function FilterNav({ setFilter }) {
           overdue
         </option>
         <optgroup label="assignee" className="hover:bg-[#c0efe3]">
-          {/* {uniqueAssignees.map((assignee, idx) => {
+          {uniqueAssignees.map((assignee, idx) => (
             <option key={idx} value={assignee}>
               {assignee}
-            </option>;
-          })} */}
-          <option value={"myself"}>myself</option>
-          <option value={"me"}>me</option>
-          <option value={"my pa"}>my pa</option>
-          <option value={"mumc"}>mumc</option>
-          <option value={"sodiq"}>sodiq</option>
-          <option value={"my team"}>my team</option>
+            </option>
+          ))}
+        
         </optgroup>
       </select>
     </nav>

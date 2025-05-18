@@ -76,7 +76,7 @@ function LoginPage() {
   };
 
   return (
-    <div className=" w-100 md:w-150 lg:w-170  min-h-150 md:min-h-fit md:pb-12 rounded-lg mt-4 shadow-2xl   bg-white  flex flex-col   items-center gap-4 ">
+    <div className=" w-100 md:w-150 lg:w-170  min-h-150 md:min-h-fit md:pb-12 rounded-lg mt-4 shadow-2xl   bg-white  flex flex-col pt-5  items-center gap-4 ">
       <h1 className="text-emerald-700 text-3xl  font-bold pb-8 ">
         welcome back!!!
       </h1>
@@ -172,19 +172,21 @@ function LoginPage() {
       </form>
       <div className="flex justify-center items-center gap-2 text-center text-2xl text-blue-600">
         <Link to="/#">
-          <span className="capitalize flex justify-center items-center gap-2 p-4  text-lg ">
-            <span>forget password ? </span>
+          <span className="capitalize flex justify-center items-center gap-2 p-4  text-lg hover:underline">
+            forget password ?
           </span>
         </Link>
       </div>
 
-      <div className="capitalize   text-center text-[#183a1f] text-xl ">
+      <div className="capitalize   text-center text-[#183a1f] text-sm lg:text-lg ">
         <span>new user ? </span>
-        <span className="text-blue-600">
+        <span className="text-blue-600 hover:underline">
           <Link to="/signup">sign up</Link>
         </span>
         <div className=" flex justify-center items-center w-full gap-2.5 pt-5">
-          <p className="text-sm text-slate-400">or login with google</p>
+          <p className="text-sm text-slate-400 normal-case">
+            or login with google
+          </p>
           <button onClick={handleSigninWithGoogle} className=" text-red-700 ">
             <BsGoogle />
           </button>
