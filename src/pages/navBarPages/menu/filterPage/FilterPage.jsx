@@ -7,6 +7,7 @@ import FilterByAssignee from "./FilterByAssignee";
 import FilterByDuedate from "./FilterByDuedate";
 
 function FilterPage() {
+const weeks =["week","2-3 weeks"]
   const { taskData, uniqueAssignees } = useTasks();
   const [filter, setFilter] = useState("all");
 
@@ -60,11 +61,13 @@ function FilterPage() {
           ))}
 
         <>
-          <FilterByDuedate
+{weeks.map((week,idx)=>(<FilterByDuedate
             filter={filter}
-            name={"less than a week"}
+            name={" week"}
             cbFunc={isDueThisWeek}
-          />
+key={idx}
+          />))}
+          
         </>
 
         <>
