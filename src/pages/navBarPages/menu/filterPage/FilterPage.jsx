@@ -62,7 +62,7 @@ function FilterPage() {
         <>
           <FilterByDuedate
             filter={filter}
-            name={"week"}
+            name={"less than a week"}
             cbFunc={isDueThisWeek}
           />
         </>
