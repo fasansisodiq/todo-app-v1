@@ -3,6 +3,7 @@ import { useTasks } from "../../../../customHooks/tasks/useTasks";
 import Label from "../../../../utils/Label";
 
 function FilterNav({ setFilter }) {
+const weeks =["week","2-3 weeks"]
   // const [assignee, setAssignee] = useState();
   const { taskData, uniqueAssignees } = useTasks();
   // const assignees = [];
@@ -35,7 +36,7 @@ function FilterNav({ setFilter }) {
           className="hover:bg-[#c0efe3]"
           value={"dueDate"}
         >
-          <option value={"week"}>week</option>
+          <optgroup label="week" value={"week"}>{weeks.map((week,idx)=><option key={idx} value={week}>{week}</option>)}</optgroup>
           <option value={"month"}>month</option>
           <option value={"year"}>year</option>
         </optgroup>
