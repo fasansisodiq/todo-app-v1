@@ -1,7 +1,7 @@
 import { useFocus } from "../customHooks/tasks/useFocus";
 
 function Input({
-  type,
+  type = "text",
   placeholder,
   name,
   id,
@@ -14,25 +14,36 @@ function Input({
   maxLength,
   pattern,
   inputMode,
+  autoComplete = "off",
 }) {
   const { isFocused, setIsFocused, useFocusOnMouseOver } = useFocus();
   const inputRef = useFocusOnMouseOver(isFocused);
+
   return (
-    <div>
+    <div className={`relative w-full`}>
       <input
         ref={inputRef}
-        onMouseEnter={() => type === "text" && setIsFocused(true)}
-        onMouseLeave={() => type === "text" && setIsFocused(false)}
-        className={`${
-          !width ? "w-60  sm:w-65 md:w-80 lg:w-120 xl:w-130 " : width
-        }md:h-8 h-6 lg:h-12 p-4 border-2 rounded-3xl
-         border-[#fff] outline-0 shadow-0.5 bg-[#fff] 
-          hover:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-offset-2
-          text-slate-800 shadow placeholder:text-[0.8rem] 
-           lg:placeholder:text-xl md:placeholder:text-xsm
-            ${
-              error ? "focus:ring-red-700" : "focus:ring-emerald-700"
-            } ${className} `}
+        onMouseEnter={() =>
+          type !== "email" && type !== "date" && setIsFocused(true)
+        }
+        onMouseLeave={() =>
+          type !== "email" && type !== "date" && setIsFocused(false)
+        }
+        className={`
+          ${width ? width : "w-full"}
+          h-12 px-4 py-2
+          rounded-full border-2
+          ${
+            error
+              ? "border-red-400 focus:ring-red-500"
+              : "border-emerald-200 focus:ring-emerald-400"
+          }
+          bg-white/90 text-slate-800
+          placeholder:text-emerald-300 placeholder:font-medium
+          focus:outline-none focus:ring-2 focus:ring-offset-0
+          shadow transition-all duration-200
+          ${className}
+        `}
         type={type}
         placeholder={placeholder}
         name={name}
@@ -43,7 +54,22 @@ function Input({
         maxLength={maxLength}
         pattern={pattern}
         inputMode={inputMode}
+        autoComplete={autoComplete}
         required
+      />
+      {/* Fancy focus ring */}
+      <span
+        className={`
+          pointer-events-none absolute left-0 top-0 w-full h-full rounded-full
+          transition-all duration-200
+          ${
+            isFocused
+              ? error
+                ? "ring-2 ring-red-400"
+                : "ring-2 ring-emerald-300"
+              : ""
+          }
+        `}
       />
     </div>
   );

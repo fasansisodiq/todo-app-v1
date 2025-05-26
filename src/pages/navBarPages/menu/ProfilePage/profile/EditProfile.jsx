@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-
 import FullName from "./FullName";
 import ProfileDesign from "./ProfileDesign";
 import Username from "./Username";
@@ -12,6 +11,7 @@ import Dob from "./Dob";
 import PhoneNumber from "./PhoneNumber";
 import { useAuth } from "../../../../../authentication/useAuth";
 import CustomButton from "../../../../../utils/CustomButton";
+import Role from "./Role";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -21,42 +21,42 @@ function EditProfile() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    console.log(data);
     await updateUserData(data);
-
     navigate("/profile");
   }
 
   return (
-    <ProfileDesign bg={"bg-slate-50"}>
-      {/* <div className="  h-fit bg-[#c0efe3] w-1/2 flex justify-center items-center"></div> */}
-      <h1 className="self-center capitalize text-lg md:text-2xl lg:text-3xl text-gray-600 font-bold">
-        edit profile
-      </h1>
+    <ProfileDesign bg="bg-gradient-to-br from-slate-50 via-white to-emerald-50">
+      <div className="flex flex-col items-center max-w-xl mx-auto w-full rounded-xl shadow-lg p-6 mt-6 font-sans">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-emerald-700 mb-6 tracking-wide drop-shadow self-center">
+          Edit Profile
+        </h1>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center justify-center gap-4 w-full"
+        >
+          <FullName />
+          <Username />
+          <Role />
+          <StreetAddress />
+          <PhoneNumber />
+          <Dob />
+          <City />
+          <State />
+          <Country />
+          <ZipCode />
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col items-center justify-center gap-4 w-full h-full p-4"
-      >
-        <FullName />
-        <Username />
-        <StreetAddress />
-        <PhoneNumber />
-        <Dob />
-        <City />
-        <State />
-        <Country />
-        <ZipCode />
-        <div className="flex  justify-center gap-2 lg:gap-4 w-full pt-4 lg:pt-6">
-          <CustomButton
-            label={"cancel"}
-            size={"md"}
-            type={"secondary"}
-            onClick={() => navigate(-1)}
-          />
-          <CustomButton label={"Update"} size={"md"} type={"primary"} />
-        </div>
-      </form>
+          <div className="flex justify-center gap-4 w-full pt-4">
+            <CustomButton
+              label="Cancel"
+              size="md"
+              type="secondary"
+              onClick={() => navigate(-1)}
+            />
+            <CustomButton label="Update" size="md" type="primary" />
+          </div>
+        </form>
+      </div>
     </ProfileDesign>
   );
 }

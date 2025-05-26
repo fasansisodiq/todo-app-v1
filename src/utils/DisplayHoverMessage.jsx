@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-function DisplayHoverMessage({ mClassName, element, message }) {
+function DisplayHoverMessage({ mClassName = "", element, message }) {
   const [showMessage, setShowMessage] = useState(false);
+
   return (
     <div
-      className="w-fit h-fit p-1 relative cursor-pointer sm:text-[0.7rem] md:text-[0.8rem] lg:text-[1rem] xl:text-[1.2rem]  "
+      className="w-fit h-fit p-1 relative cursor-pointer"
       onMouseEnter={() => setShowMessage(true)}
       onMouseLeave={() => setShowMessage(false)}
     >
@@ -12,7 +13,12 @@ function DisplayHoverMessage({ mClassName, element, message }) {
       {showMessage && (
         <span
           className={`
-             absolute flex justify-center items-center  p-2 pb-3  text-slate-700 border-l-3 sm:border-l-4 md:border-l-5  lg:border-l-6 xl:border-l-7  border-t-green-600 border-l-green-600   shadow-4xl bg-white border-t-2  z-40  ${mClassName}`}
+            absolute left-1/2 -translate-x-1/2 top-full mt-2
+            flex justify-center items-center px-4 py-2
+            rounded-xl bg-white text-slate-700 text-xs md:text-sm shadow-lg border border-emerald-200
+            z-50 whitespace-nowrap
+            ${mClassName}
+          `}
         >
           <p className="capitalize">{message}</p>
         </span>

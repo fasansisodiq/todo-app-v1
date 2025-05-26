@@ -1,5 +1,6 @@
 import { formattedTodayDate } from "../../customHooks/tasks/DateFormerter";
 import { useTasks } from "../../customHooks/tasks/useTasks";
+import TableHeader from "../../ui/taskOverviewUI/TableHeader";
 import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
 import TaskItem from "../tasks/TaskItem";
 
@@ -8,7 +9,7 @@ function TodayPage() {
 
   return (
     <div className="w-full">
-      <TaskOverviewHeader />
+      <TableHeader />
       <ul>
         {taskData &&
           taskData.length > 0 &&

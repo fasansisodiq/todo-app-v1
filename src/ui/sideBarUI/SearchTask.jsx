@@ -5,71 +5,154 @@ import {
   formattedDate,
   formattedTodayDate,
 } from "../../customHooks/tasks/DateFormerter";
+import { useState, useCallback } from "react";
 
 function SearchTask() {
   const navigate = useNavigate();
+  const { searchQuery = "", setSearchQuery, taskData = [] } = useTasks();
+  const [liveResults, setLiveResults] = useState([]);
 
-  const { searchQuery, setSearchQuery, taskData } = useTasks();
+  // Live search: filter tasks as user types
+  const handleInputChange = useCallback(
+    (e) => {
+      const value = e.target.value;
+      setSearchQuery(value);
 
-  function handleSearch(e) {
-    e.preventDefault();
-    if (!searchQuery) return;
+      if (!value) {
+        setLiveResults([]);
+        return;
+      }
 
-    const results =
-      searchQuery &&
-      taskData
-        ?.filter((task) => {
-          if (task.title) {
-            return task.title.toLowerCase().includes(searchQuery.toLowerCase());
-          } else if (task.assignee) {
-            return task.assignee
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase());
-          } else if (task.dueDate) {
-            return task.dueDate.includes(formattedDate(searchQuery));
-          } else if (task.taskClass) {
-            return task.taskClass
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase());
-          } else if (task.priority) {
-            return task.priority
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase());
-          } else if (task.description) {
-            return task.description
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase());
-          } else {
-            alert("No task found. Please check your trash.");
-          }
-        })
-        .map((task) => {
-          if (task.completed === false && task.priority === "on") {
-            navigate(`/layout/important`);
-            console.log(task.dueDate === formattedTodayDate);
-          } else if (task.completed === true) {
-            console.log(task.dueDate === formattedTodayDate);
-            navigate(`/layout/completed`);
-          } else if (task.dueDate === formattedTodayDate) {
-            navigate(`/layout/today`);
-          } else if (task.dueDate === formattedDate(searchQuery)) {
-            navigate(`/layout/${task.taskClass}`);
-          } else {
-            navigate(`/layout/${task.taskClass}`);
-            console.log(task.dueDate === formattedTodayDate);
-          }
-          console.log(task);
-          return task;
-        });
+      const lowerQuery = value.toLowerCase();
+      const results = taskData.filter((task) => {
+        return (
+          (task.title && task.title.toLowerCase().includes(lowerQuery)) ||
+          (task.assignee && task.assignee.toLowerCase().includes(lowerQuery)) ||
+          (task.dueDate && task.dueDate.includes(formattedDate(value))) ||
+          (task.taskClass &&
+            task.taskClass.toLowerCase().includes(lowerQuery)) ||
+          (typeof task.priority === "string" &&
+            task.priority.toLowerCase().includes(lowerQuery)) ||
+          (task.description &&
+            task.description.toLowerCase().includes(lowerQuery))
+        );
+      });
 
-    console.log(results);
-    console.log(searchQuery);
-    setSearchQuery("");
-  }
+      setLiveResults(results);
+    },
+    [setSearchQuery, taskData]
+  );
+
+  // Handle enter key to navigate to first result
+  const handleSearch = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!searchQuery) return;
+
+      if (!liveResults || liveResults.length === 0) {
+        alert("No task found. Please check your trash.");
+        setSearchQuery("");
+        return;
+      }
+
+      // Navigate to the first matching task's section
+      const firstTask = liveResults[0];
+      if (firstTask.completed === false && firstTask.priority === "on") {
+        navigate(`/layout/important`);
+      } else if (firstTask.completed === true) {
+        navigate(`/layout/completed`);
+      } else if (firstTask.dueDate === formattedTodayDate) {
+        navigate(`/layout/today`);
+      } else if (firstTask.dueDate === formattedDate(searchQuery)) {
+        navigate(`/layout/${firstTask.taskClass}`);
+      } else {
+        navigate(`/layout/${firstTask.taskClass}`);
+      }
+
+      setSearchQuery("");
+      setLiveResults([]);
+    },
+    [searchQuery, liveResults, navigate, setSearchQuery]
+  );
 
   return (
-    <div className="lg:pb-4">
-      <Search placeholder={"Search task #"} handleSearch={handleSearch} />
+    <div className="lg:pb-4 relative w-full">
+      <form onSubmit={handleSearch}>
+        <Search
+          placeholder={"Search task #"}
+          value={searchQuery}
+          handleSearch={handleSearch}
+          onChange={handleInputChange}
+        />
+      </form>
+      {/* Fancy Live results dropdown */}
+      {searchQuery && liveResults.length > 0 && (
+        <ul className="absolute left-0 right-0 mt-2 bg-white border border-emerald-100 rounded-xl shadow-2xl max-h-72 overflow-y-auto z-50 w-full animate-fade-in">
+          {liveResults.map((task) => (
+            <li
+              key={task.id}
+              className="flex items-center gap-3 px-4 py-3 transition-colors duration-150 hover:bg-emerald-50 cursor-pointer group"
+              onClick={() => {
+                // Navigate to the selected task's section
+                if (task.completed === false && task.priority === "on") {
+                  navigate(`/layout/important`);
+                } else if (task.completed === true) {
+                  navigate(`/layout/completed`);
+                } else if (task.dueDate === formattedTodayDate) {
+                  navigate(`/layout/today`);
+                } else if (task.dueDate === formattedDate(searchQuery)) {
+                  navigate(`/layout/${task.taskClass}`);
+                } else {
+                  navigate(`/layout/${task.taskClass}`);
+                }
+                setSearchQuery("");
+                setLiveResults([]);
+              }}
+            >
+              {/* Colored dot for status */}
+              <span
+                className={`w-3 h-3 rounded-full ${
+                  task.completed
+                    ? "bg-emerald-500"
+                    : task.priority === "on"
+                    ? "bg-yellow-400"
+                    : "bg-slate-300"
+                }`}
+                title={
+                  task.completed
+                    ? "Completed"
+                    : task.priority === "on"
+                    ? "Important"
+                    : "Active"
+                }
+              ></span>
+              {/* Task Title and Class */}
+              <span className="flex-1">
+                <span className="font-semibold text-slate-700 group-hover:text-emerald-700 transition">
+                  {task.title}
+                </span>
+                {task.taskClass && (
+                  <span className="ml-2 text-xs text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full">
+                    {task.taskClass}
+                  </span>
+                )}
+              </span>
+              {/* Due Date */}
+              {task.dueDate && (
+                <span className="text-xs text-slate-400 font-mono">
+                  {task.dueDate}
+                </span>
+              )}
+              {/* Assignee */}
+              {task.assignee && (
+                <span className="ml-2 text-xs text-slate-500 italic">
+                  {task.assignee}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

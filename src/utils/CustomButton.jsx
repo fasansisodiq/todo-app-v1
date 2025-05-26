@@ -1,45 +1,39 @@
 function CustomButton({
-  type,
-  size,
-  bg,
+  type = "primary",
+  size = "md",
+  bg = "",
   label,
-  txtColor,
-  hoverClass,
+  txtColor = "",
+  hoverClass = "",
   onClick,
+  icon,
+  disabled = false,
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
+      disabled={disabled}
       className={`
-    
-    ${
-      size === "sm" &&
-      "w-16 h-6 text-[0.8rem] sm:w-18 sm:h-8  sm:text-[0.9rem] md:w-20 md:h-8 md:text-sm lg:w-25 lg:h-10 lg:text-lg xl:w-25 xl:h-10 xl:text-lg"
-    }
-     ${
-       size === "md" &&
-       "xl:w-35 xl:h-12 xl:text-xl lg:w-35 lg:h-12 lg:text-xl md:w-30 md:h-10 md:text-lg"
-     }
-      ${size === "lg" && "w-45 h-13 text-2xl "}
-       ${size === "xl" && "w-55 h-14 text-3xl pb-2 font-extrabold"}
-       ${size === "2xl" && "w-65 h-14 text-3xl pb-2 font-extrabold"}
+        flex items-center justify-center gap-2 font-bold capitalize shadow transition-all duration-200
+        rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2
+        ${size === "sm" && "px-4 py-1 text-sm"}
+        ${size === "md" && "px-6 py-2 text-base"}
+        ${size === "lg" && "px-8 py-3 text-lg"}
+        ${size === "xl" && "px-10 py-4 text-xl"}
         ${
-          type === "primary" &&
-          "rounded bg-emerald-700 hover:bg-emerald-800 text-white hover:text-white  focus:outline-none  focus:ring  focus:ring-offset-3  focus:ring-emerald-700 focus:bg-emerald-700"
+          type === "primary"
+            ? "bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-400"
+            : type === "secondary"
+            ? "bg-white border-2 border-emerald-400 text-emerald-700 hover:bg-emerald-50 focus:ring-emerald-200"
+            : type === "others"
+            ? `${bg} ${txtColor} ${hoverClass}`
+            : ""
         }
-        ${
-          type === "others" &&
-          ` ${bg}   ${txtColor} ${hoverClass} focus:outline-none focus:ring focus:ring-offset-3 focus:${bg}  rounded`
-        }
-        ${
-          type === "secondary" &&
-          `rounded border-2 border-gray-400  bg-white  text-gray-400 focus:outline-none focus:ring focus:ring-offset-3 focus:ring-gray-300`
-        }
-   
-   
-p-1 flex justify-center items-center font-bold  capitalize shadow
-    `}
+        ${disabled ? "opacity-60 cursor-not-allowed" : ""}
+      `}
     >
+      {icon && <span className="text-lg">{icon}</span>}
       {label}
     </button>
   );

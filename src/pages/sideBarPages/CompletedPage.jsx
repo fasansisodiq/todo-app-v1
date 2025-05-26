@@ -1,5 +1,5 @@
 import { useTasks } from "../../customHooks/tasks/useTasks";
-import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
+import TableHeader from "../../ui/taskOverviewUI/TableHeader";
 import TaskItem from "../tasks/TaskItem";
 
 function CompletedPage() {
@@ -7,7 +7,7 @@ function CompletedPage() {
 
   return (
     <div className="w-full">
-      <TaskOverviewHeader />
+      <TableHeader />
       <ul>
         {taskData?.length > 0 &&
           taskData

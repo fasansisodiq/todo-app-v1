@@ -1,102 +1,81 @@
-import Resizer from "@meghoshpritam/react-image-file-resizer";
-
-import { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { IoCameraSharp } from "react-icons/io5";
-import { HiPhoto } from "react-icons/hi2";
-import { Link } from "react-router";
-
 import { useAuth } from "../../../../../authentication/useAuth";
-import Label from "../../../../../utils/Label";
-import CustomButton from "../../../../../utils/CustomButton";
 
 function ProfilePicture({ profileClassName }) {
-  const imgRef = useRef(null);
+  const { profilePic, setProfilePic, updatePhotoURL, fullName, username } =
+    useAuth();
+  const [preview, setPreview] = useState(profilePic || "/default-profile.png");
+  const fileInputRef = useRef(null);
 
-  const { profilePic, setProfilePic, updatePhotoURL } = useAuth();
+  // Keep preview in sync with profilePic from context
+  useEffect(() => {
+    if (profilePic && typeof profilePic === "string") {
+      setPreview(profilePic);
+    }
+    if (!profilePic) {
+      setPreview("/default-profile.png");
+    }
+  }, [profilePic]);
 
-  const resizeFile = (file) =>
-    new Promise((resolve) => {
-      Resizer.imageFileResizer({
-        file,
-        maxWidth: 300,
-        maxHeight: 300,
-        compressFormat: "JPEG",
-        quality: 100,
-        rotation: 0,
-        keepAspectRatio: true,
-        responseUriFunc: (uri) => {
-          resolve(uri);
-        },
-        outputType: "base64",
-      });
-    });
-  const onChange = (e) => {
-    e.preventDefault();
-    if (e.target.files[0]) {
-      const file = e.target.files[0];
-      // const image = resizeFile(file);
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const localUrl = URL.createObjectURL(file);
+      setPreview(localUrl);
       setProfilePic(file);
+      if (updatePhotoURL) {
+        await updatePhotoURL(file);
+      }
     }
   };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
 
-  //   if (file === null) {
-  //     const success = await updatePhotoURL(file);
-  //     if (success) {
-  //       console.log("Profile picture updated successfully!");
-  //     } else {
-  //       console.error("Failed to update profile picture.");
-  //     }
-  //   }
-  // };
   return (
-    <form className="flex flex-col gap-1 ">
-      <Label name={"profilePic"}>
-        <span
-          className={`text-emerald-500 absolute lg:text-lg p-1 bg-emerald-100  cursor-pointer 
-          w-2.5 h-2.5 lg:w-8 lg:h-8 flex justify-center items-center rounded-full  border-2 border-emerald-500 hover:bg-emerald-500 hover:text-white transition-all duration-300 ease-in-out ${
-            profileClassName
-              ? profileClassName
-              : "right-14 top-2 lg:left-38 lg:top-45"
+    <div className="w-full flex justify-start items-center font-semibold pt-7 pb-3 relative">
+      <div className="flex flex-col items-center">
+        <div
+          className={`relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex justify-center items-center font-bold rounded-full p-2 border-4 border-emerald-400 shadow-lg bg-white ${
+            profileClassName || ""
           }`}
         >
-          {profilePic ? (
-            <CustomButton
-              type={"primary"}
-              label={"upload"}
-              size={"sm"}
-              onClick={updatePhotoURL}
-            />
-          ) : (
-            <IoCameraSharp />
-          )}
+          <img
+            src={preview}
+            alt="Profile"
+            className="object-cover w-full h-full rounded-full"
+          />
+          <button
+            type="button"
+            className="absolute bottom-2 right-2 bg-emerald-500 text-white p-2 rounded-full shadow hover:bg-emerald-700 transition"
+            onClick={handleImageClick}
+            title="Change Profile Picture"
+            tabIndex={0}
+          >
+            <IoCameraSharp size={20} />
+          </button>
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={handleFileChange}
+            aria-label="Upload profile picture"
+          />
+        </div>
+        <span className="mt-2 text-sm text-slate-500">Profile Picture</span>
+      </div>
+      <div className="flex flex-col items-start justify-center gap-1 pl-6">
+        <span className="capitalize text-xl font-bold text-emerald-800">
+          {fullName}
         </span>
-      </Label>
-      <input
-        type="file"
-        ref={imgRef}
-        id="profilePic"
-        name="profilePic"
-        style={{ display: "none" }}
-        accept="image/*"
-        defaultValue={profilePic}
-        onChange={onChange}
-      />
-
-      {!profilePic && (
-        <Link
-          to={"/edit-profile"}
-          className=" text-sm flex flex-col justify-center items-center gap-1"
-          id="file_input_help"
-        >
-          <p className="lg:text-5xl ">
-            <HiPhoto />
-          </p>
-          <p className="text-center">SVG, PNG, or JPG (MAX. 800x400px).</p>
-        </Link>
-      )}
-    </form>
+        <span className="text-base text-slate-500 italic">
+          @{username?.replace(/^@/, "")}
+        </span>
+      </div>
+    </div>
   );
 }
 

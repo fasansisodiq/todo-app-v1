@@ -1,47 +1,73 @@
 import { Link, useNavigate } from "react-router";
 
-import { useAuth } from "../../../../../authentication/useAuth";
 import AboutUser from "./AboutUser";
 import UserAdress from "./UserAddress";
 import { BsChevronLeft } from "react-icons/bs";
 import ProfileDesign from "./ProfileDesign";
 import ProfilePicture from "./ProfilePicture";
+import DeleteAccount from "./deleteAccount";
+import AccountActivities from "../../filterPage/AccountActivities";
+import TaskRelatedStats from "../TaskRelatedStats";
+import ProfileHider from "../ProfileHider";
+import { useTaskStats } from "../../../progress/Utils";
 
 function UserProfile() {
   const navigate = useNavigate();
-  const { profilePic, fullName, username } = useAuth();
+  const { totalTasks, completedTasks, activeTasks, taskListNum } =
+    useTaskStats();
 
   return (
-    <ProfileDesign bg={"bg-white"}>
-      <span className="flex justify-between items-center w-full  ">
-        <span
-          role="button"
-          onClick={() => navigate("/layout")}
-          className="text-slate-500 cursor-pointer  text-[1.5rem] lg:text-2xl"
-        >
-          <BsChevronLeft />
+    <ProfileDesign bg="bg-gradient-to-br from-emerald-50 via-white to-emerald-100">
+      <div className="flex flex-col min-h-screen px-4 py-6 rounded-xl shadow-2xl max-w-2xl mx-auto border border-emerald-100 font-sans text-base">
+        {/* Header */}
+        <span className="flex justify-between items-center w-full mb-2">
+          <span
+            role="button"
+            onClick={() => navigate("/layout")}
+            className="text-slate-500 cursor-pointer text-[1.7rem] lg:text-2xl hover:text-emerald-700 transition"
+            title="Back"
+          >
+            <BsChevronLeft />
+          </span>
+          <Link
+            to={"/edit-profile"}
+            className="w-fit self-end capitalize border border-emerald-400 hover:bg-emerald-600 hover:border-emerald-600 hover:text-white py-1 px-4 rounded-lg text-emerald-700 cursor-pointer text-base font-semibold shadow transition"
+          >
+            Edit Profile
+          </Link>
         </span>
-        <Link
-          to={"/edit-profile"}
-          className="w-fit self-end capitalize border border-gray-400  hover:bg-emerald-600 hover:border-emerald-600 hover:text-white py-1 px-2 rounded-lg text-slate-500 cursor-pointer text-[1.5rem] lg:text-2xl "
-        >
-          edit profile
-        </Link>
-      </span>
-      <h1 className="self-center capitalize text-gray-600 font-bold">
-        my profile
-      </h1>
-      <div className="w-full  flex justify-start items-center font-semibold pt-5 relative">
-        <span className="w-20 h-20 sm:w-30 sm:h-30 md:w-35 md:h-35  flex justify-center items-center  lg:w-50 lg:h-50 xl:w-50 xl:h-50 font-bold rounded-full  p-2  border-2 border-emerald-700">
-          <ProfilePicture />
-        </span>
-        <div className="flex flex-col items-start justify-center gap-2  pl-4">
-          <span className=" capitalize">{fullName} </span>
-          <span className="text-lg text-slate-400">{username}</span>
+        {/* Title */}
+        <h1 className="self-center capitalize text-emerald-700 font-extrabold text-2xl mt-2 tracking-wide drop-shadow">
+          My Profile
+        </h1>
+        {/* Profile Avatar, Name & Username */}
+        <ProfilePicture />
+        {/* About User */}
+        <ProfileHider header="about">
+          <AboutUser />
+        </ProfileHider>
+        {/* Task Related Stats */}
+        <ProfileHider header="Task Stats">
+          <TaskRelatedStats
+            totalTasks={totalTasks}
+            completedTasks={completedTasks}
+            activeTasks={activeTasks}
+            totalLists={taskListNum}
+          />
+        </ProfileHider>
+        {/* Account Activities */}
+        <ProfileHider header=" Account & Activity">
+          <AccountActivities />
+        </ProfileHider>
+        {/* Address */}
+        <ProfileHider header="">
+          <UserAdress />
+        </ProfileHider>
+        {/* Delete Account */}
+        <div className="mt-auto mb-8 flex justify-center">
+          <DeleteAccount />
         </div>
       </div>
-      <AboutUser />
-      <UserAdress />
     </ProfileDesign>
   );
 }

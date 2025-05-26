@@ -1,14 +1,14 @@
 import React from "react";
 import { useTasks } from "../../customHooks/tasks/useTasks";
-import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
 import TaskItem from "../tasks/TaskItem";
+import TableHeader from "../../ui/taskOverviewUI/TableHeader";
 
 function PendingTaskPage() {
   const { taskData } = useTasks();
 
   return (
     <div className="w-full">
-      <TaskOverviewHeader />
+      <TableHeader />
       <ul>
         {taskData?.length > 0 &&
           taskData

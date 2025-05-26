@@ -1,43 +1,39 @@
-import { useOperation } from "../customHooks/operation/useOperation";
+// import { useOperation } from "../customHooks/operation/useOperation";
 import CloseBtn from "./CloseBtn";
 
-function Modal({ isOpen, onClose, children }) {
-  const { openDesc, openEdit, openDelete, openMarkComp, openMarkPend } =
-    useOperation();
+function Modal({ isOpen, onClose, children, alertingModalOpen = false }) {
+  // const { openDesc, openEdit, openDelete, openMarkComp, openMarkPend } =
+  //   useOperation();
+
+  // Hide Modal if AlertingModal is open
+  if (!isOpen || alertingModalOpen) return null;
+
   return (
     <div
       onClick={onClose}
-      className={`  fixed inset-0  z-20 flex justify-center items-center transition-colors  ${
-        isOpen && "backdrop-blur-sm"
-      }     
-      `}
+      className={`fixed inset-0 z-40 flex justify-center items-center bg-black/30 backdrop-blur-sm transition-all`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`relative border-y-15 justify-center items-center  bg-white 
-       border-y-green-700   z-50   border-2  text-slate-700 flex flex-col  md:gap-4 lg:gap-6
-        border-slate-200 rounded-7xl    shadow-3xl rounded-xl transition-all text-[1.2rem] sm:text-xl md:text-2xl 
-        w-70 sm:w-90 sm:h-100 md:w-100  lg:w-100  xl:w-100 py-2
-         ${isOpen ? " scale-100 opacity-100" : "scale-125 opacity-0 "}`}
+        className={`
+          relative bg-white border border-emerald-100 rounded-2xl shadow-2xl
+          flex flex-col items-center justify-center
+          p-6 md:p-8 gap-6
+          w-[90vw] max-w-md
+          transition-all duration-300
+          ${isOpen ? "scale-100 opacity-100" : "scale-110 opacity-0"}
+        `}
       >
-        {openDesc ||
-          openEdit ||
-          openDelete ||
-          openMarkComp ||
-          openMarkPend ||
-          (isOpen && (
-            <CloseBtn
-              isOpen={isOpen}
-              onClick={onClose}
-              mClassName={
-                "-top-1 -right-28 sm:-top-1 sm:-right-35 sm:w-16 sm:text-lg md:-right-39 lg:top-0 lg:-right-35 lg:text-xl xl:top-0 xl:text-xl h-7"
-              }
-              btnPosition={
-                "-top-4 -right-35 z-50 sm:-top-3 sm:-right-44 md:-top-3 md:-right-49 lg:-right-49 lg:-top-3 xl:-top-2 xl:-right-49"
-              }
-            />
-          ))}
-
+        {/* Close Button at top right */}
+        <div className="absolute top-3 right-3 z-10">
+          <CloseBtn
+            isOpen={isOpen}
+            onClick={onClose}
+            mClassName="text-lg h-8 w-8"
+            btnPosition=""
+          />
+        </div>
+        {/* Modal Content */}
         {children}
       </div>
     </div>

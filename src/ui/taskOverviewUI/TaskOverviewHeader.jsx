@@ -3,15 +3,16 @@ import TableHeader from "./TableHeader";
 
 function TaskOverviewHeader() {
   const { task } = useTasks();
+
   return (
-    <div className="w-full text-emerald-600 relative ">
-      <div className="flex justify-center items-center ">
-        <h1 className="capitalize  text-[1rem] lg:text-2xl my-2 flex justify-center items-center font-bold">
+    <section className="w-full text-emerald-600 relative">
+      <header className="flex justify-center items-center">
+        <h1 className="capitalize text-base lg:text-2xl my-2 font-bold">
           {task?.title} tasks
         </h1>
-      </div>
+      </header>
       <TableHeader />
-    </div>
+    </section>
   );
 }
 

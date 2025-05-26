@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { CiBellOn } from "react-icons/ci";
 import { Link } from "react-router-dom";
-
 import DisplayHoverMessage from "../../utils/DisplayHoverMessage";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import { useAuth } from "../../authentication/useAuth";
@@ -9,62 +8,85 @@ import ProfilePicture from "../../pages/navBarPages/menu/ProfilePage/profile/Pro
 
 function Profile() {
   const { date } = useTasks();
-  const { username, fullName } = useAuth();
+  const { username, fullName, profilePic, email } = useAuth();
   const [notification, setNotification] = useState(true);
 
+  // Greeting logic
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
+  };
+
   return (
-    <div
-      className="relative w-30 sm:w-60 md:w-60 lg:w-90  flex flex-col px-1.5 pr-2 lg:pb-6
-    items-center gap-4 lg:pr-14 pt-2  text-slate-800  "
-    >
-      <div className=" w-full flex justify-between items-center text-[0.7rem] md:text-lg lg:text-xl  pb-2  lg:pb-4">
-        <h1 className="opacity-75 font-semibold  ">todopro</h1>
-        <span className="text-[0.5rem] sm:text-sm md:text-lg">{date}</span>
+    <div className="relative w-full max-w-xs flex flex-col px-5 px- py-6 items-center gap-6 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 rounded-2xl shadow-2xl font-sans border border-emerald-100">
+      {/* Greeting */}
+      <span className="font-semibold text-lg md:text-base lg:text-xl text-emerald-800 max-w-full text-center tracking-wide">
+        {getGreeting()},{" "}
+        <span className="text-base font-bold text-emerald-600">
+          {username ? `${username.replace(/^@/, "")}` : fullName || email}
+        </span>
+      </span>
+      {/* Header */}
+      <div className="w-full flex justify-between items-center text-xs md:text-lg pb-2">
+        <h1 className="opacity-90 font-extrabold tracking-widest text-emerald-700 text-xl uppercase drop-shadow">
+          todopro
+        </h1>
+        <span className="text-xs md:text-base text-slate-400 font-mono">
+          {date}
+        </span>
       </div>
-      <div className=" relative flex justify-start items-start  sm:w-47 md:w-59 lg:w-89  md:justify-between lg:gap-4  ">
-        <div className="flex-col md:flex justify-center  items-center gap-2   md:gap-4 ">
-          <span className="w-20 h-20 sm:w-30 sm:h-30 md:w-35 md:h-35  flex justify-center items-center  lg:w-35 lg:h-35  font-bold rounded-full  p-2  border-2 border-emerald-700 relative">
-            <ProfilePicture
-              profileClassName={"right-14 top-2 lg:left-26 lg:top-24"}
-            />
+      {/* Profile Avatar & Name */}
+      <div className="relative flex flex-col items-center gap-2 w-full">
+        <div className="flex flex-col items-center">
+          <span className="w-20 h-20 md:w-24 md:h-24 flex justify-center items-center font-bold rounded-full border-4 border-emerald-400 shadow-lg bg-gradient-to-br from-white to-emerald-50 overflow-hidden ring-2 ring-emerald-200">
+            {profilePic}
           </span>
-          <span className=" text-[0.7rem] sm:text-sm md:text-lg lg:text-xl lg:pl-18 xl:text-2xl opacity-75 font-semibold">
-            {username || fullName || " Sodiq Ajagun"}
+          <span className="mt-2 text-lg font-bold text-emerald-700 capitalize tracking-wide">
+            {fullName || username || email}
           </span>
+          <span className="text-xs text-slate-400">{email}</span>
         </div>
+        {/* Notification Bell */}
         {notification && (
-          <Link to={"/layout/notification"}>
+          <Link to={"/layout/notification"} className="absolute top-0 right-0">
             <DisplayHoverMessage
               element={
-                <span className=" font-bold   lg:pr-15">
-                  <p className="text-[1rem] sm:text-xl md:text-2xl  lg:text-3xl">
+                <span className="font-bold relative">
+                  <p className="text-2xl md:text-3xl lg:text-4xl text-emerald-500 drop-shadow">
                     <CiBellOn />
                   </p>
+                  <span className="absolute -top-1 right-1 w-4 h-4 md:w-5 md:h-5 bg-red-600 border-2 border-white rounded-full flex items-center justify-center text-[0.7rem] text-white font-bold shadow">
+                    25
+                  </span>
                 </span>
               }
-              message={"see all notification"}
-              mClassName={
-                "w-28 h-4 sm:h-5 sm:w-29 sm:bottom-3 sm:-right-30 md:h-6 md:w-33 md:bottom-8 md:-right-12 -right-8 -bottom-6  lg:w-45 xl:w-20 lg:h-8 xl:h-10 xl:-right-41 xl:top-1  lg:-right-10 lg:-bottom-10"
-              }
+              message={"See all notifications"}
+              mClassName="w-36 h-8 text-xs"
             />
-            <span
-              className={`absolute w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3 lg:h-3 text-[0.5rem] flex justify-center items-center  rounded-full  border-1 border-red-600 bg-red-600   text-slate-300 font-bold shadow z-50 -top-0.5 left-26 
-          sm:left-42.5 sm:top-1.5 md:top-2 md:left-54 lg:top-1 lg:left-76 xl:top-2 xl:left-76 `}
-            >
-              25
-            </span>
           </Link>
         )}
+      </div>
+      {/* Divider */}
+      <div className="w-full border-t border-emerald-100 my-2"></div>
+      {/* Quick Actions (optional, for modern UI) */}
+      <div className="flex w-full justify-around gap-2 mt-2">
+        <Link
+          to="/profile"
+          className="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-semibold px-4 py-2 rounded-lg shadow transition-all duration-150 text-xs"
+        >
+          View Profile
+        </Link>
+        <Link
+          to="/edit-profile"
+          className="bg-white border border-emerald-300 hover:bg-emerald-600 hover:text-white text-emerald-700 font-semibold px-4 py-2 rounded-lg shadow transition-all duration-150 text-xs"
+        >
+          Edit Profile
+        </Link>
       </div>
     </div>
   );
 }
 
 export default Profile;
-// const fullNames = ["Sodiq Ajagun"];
-// const monogram = fullNames
-//   .toString()
-//   .split(" ")
-//   .map((name) => name[0])
-//   .reduce((acc, curr) => acc + curr)
-//   .toUpperCase();

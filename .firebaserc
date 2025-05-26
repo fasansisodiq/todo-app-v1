@@ -1,7 +1,8 @@
 {
   "projects": {
     "default": "todopro-716d1",
-    "development": "todopro-716d1"
+    "development": "todopro-716d1",
+    "todopro max": "todopro-716d1"
   },
   "targets": {},
   "etags": {}

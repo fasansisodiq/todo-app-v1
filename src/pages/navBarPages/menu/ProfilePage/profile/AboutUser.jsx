@@ -1,40 +1,52 @@
 import { MdOutlineEmail, MdPersonOutline } from "react-icons/md";
 import { BiPhone } from "react-icons/bi";
 import { CiCalendarDate } from "react-icons/ci";
+import { FaUserShield } from "react-icons/fa";
+import { FaRegCalendarCheck } from "react-icons/fa6";
 import UserProfileItem from "./ProfileItemLabel";
 import { useAuth } from "../../../../../authentication/useAuth";
 
 function AboutUser() {
-  const { fullName, email, phoneNumber, dateOfBirth } = useAuth();
-
+  const { fullName, email, phoneNumber, dateOfBirth, role, joinDate } =
+    useAuth();
+  const userProfile = [
+    {
+      label: "fullname",
+      icon: <MdPersonOutline />,
+      data: fullName,
+    },
+    {
+      label: "email",
+      icon: <MdOutlineEmail />,
+      data: email,
+    },
+    {
+      label: "phone number",
+      icon: <BiPhone />,
+      data: phoneNumber,
+    },
+    {
+      label: "date of birth",
+      icon: <CiCalendarDate />,
+      data: dateOfBirth,
+    },
+    {
+      label: "role",
+      icon: <FaUserShield />,
+      data: role,
+    },
+    {
+      label: "join date",
+      icon: <FaRegCalendarCheck />,
+      data: joinDate,
+    },
+  ];
   return (
-    <div className="flex flex-col justify-start items-start  pt-5">
-      <span className="capitalize font-semibold">about</span>
-      <div className="flex flex-col items-start justify-center text-sm text-slate-400 gap-2 ">
-        <UserProfileItem
-          label={"fullname"}
-          icon={<MdPersonOutline />}
-          data={fullName}
-          onClick={() => {}}
-        />
-        <UserProfileItem
-          label={"email"}
-          icon={<MdOutlineEmail />}
-          data={email}
-          onClick={() => {}}
-        />
-        <UserProfileItem
-          label={"phone number"}
-          icon={<BiPhone />}
-          data={phoneNumber}
-          onClick={() => {}}
-        />
-        <UserProfileItem
-          label={"date of birth"}
-          icon={<CiCalendarDate />}
-          data={dateOfBirth}
-          onClick={() => {}}
-        />
+    <div className="flex flex-col justify-start items-start pt-5">
+      <div className="flex flex-col items-start justify-center text-base text-slate-400 gap-2">
+        {userProfile.map(({ label, icon, data }) => (
+          <UserProfileItem key={label} label={label} icon={icon} data={data} />
+        ))}
       </div>
     </div>
   );

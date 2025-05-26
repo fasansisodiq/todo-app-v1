@@ -5,42 +5,40 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import Modal from "./Modal";
 
 function ReusableTaskItem({ task, idx, children }) {
-  const [openModal, setOpenModal] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
   return (
     <>
-      <Table bg={"bg-green-80"} col={8}>
-        <span className="md:mr-4">{idx + 1}</span>
-        <span className="pr-8 ">{task?.title}</span>
-        <span className="pl-1">{task?.assignee}</span>
-        <span className="pl-2 ">{task?.dueDate}</span>
-        <span className="pl-6">{task?.taskClass}</span>
-        <span className="pl-7">{task?.priority === "on" ? "yes" : "no"}</span>
-        <span className={``}>{task?.completed === true ? "yes" : "no"}</span>
+      <Table bg="bg-green-80" col={8} className="py-2 lg:w-[90%]">
+        <span>{idx + 1}</span>
+        <span>{task?.title}</span>
+        <span>{task?.assignee}</span>
+        <span>{task?.dueDate}</span>
+        <span>{task?.taskClass}</span>
+        <span>{task?.priority === "on" ? "yes" : "no"}</span>
+        <span>{task?.completed === true ? "yes" : "no"}</span>
         <DisplayHoverMessage
           element={
-            <span
-              className="   
-         
-          p-2  w-10 h-10 
-                lg:hover:w-10 lg:hover:h-10 hover:rounded-ful hover:bg-slate-300"
-            >
+            <span className="p-2 w-10 h-10 hover:bg-slate-300 hover:rounded-full flex items-center justify-center">
               <button
-                className="sm:text-lg  lg:text-2xl"
-                onClick={(id) => setOpenModal(id)}
+                type="button"
+                className="sm:text-lg lg:text-2xl"
+                onClick={handleOpenModal}
+                aria-label="Open task options"
               >
                 <BsThreeDotsVertical />
               </button>
             </span>
           }
-          message={"open more"}
-          mClassName={
-            "w-18 md:w-24 sm:w-20 sm:-right-5 sm:bottom-8 lg:w-28 xl:w-35 xl:h-10 h-4 sm:h-6 md:h-7 right-5 bottom-5  lg:w-30 lg:h-8 lg:right-6 lg:bottom-10 xl:-right-10"
-          }
+          message="open more"
+          mClassName="w-18 md:w-24 sm:w-20 sm:-right-5 sm:bottom-8 lg:w-28 xl:w-35 xl:h-10 h-4 sm:h-6 md:h-7 right-5 bottom-5 lg:w-30 lg:h-8 lg:right-6 lg:bottom-10 xl:-right-10"
         />
       </Table>
       {openModal && (
-        <Modal isOpen={openModal} onClose={() => setOpenModal(null)}>
+        <Modal isOpen={openModal} onClose={handleCloseModal}>
           {children}
         </Modal>
       )}

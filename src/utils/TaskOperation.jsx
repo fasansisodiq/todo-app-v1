@@ -1,25 +1,38 @@
-function TaskOperation({ children, mClassName, label, icon, open, onClick }) {
+function TaskOperation({
+  children,
+  mClassName = "",
+  label,
+  icon,
+  open,
+  onClick,
+}) {
   return (
     <div
-      // onClick={onClick}
-      type="button"
-      className={`w-full hover:w-full  h-fit flex justify-between items-center   py-3    sm:h-6 md:h-8 lg:h-9 xl:h-10  pl-8   xl:pr-4      relative cursor-pointer ${
-        open ? "" : "hover:bg-slate-200"
-      } ${mClassName}`}
+      className={`
+        w-full h-fit flex justify-between items-center
+        py-3 px-4
+        rounded-xl
+        transition-all duration-200
+        cursor-pointer
+        ${open ? "bg-emerald-50 shadow" : "hover:bg-emerald-100"}
+        ${mClassName}
+      `}
     >
       <div
         onClick={onClick}
-        className={`flex  
-           items-center `}
+        className="flex items-center gap-3 select-none"
+        tabIndex={0}
+        role="button"
+        aria-label={label}
       >
-        <span className="flex gap-2 lg:gap-4">
-          <span className="text-slate-700 sm:text-xl md:text-2xl lg:text-3xl ">
-            {icon}
-          </span>
-          <span className="capitalize">{label}</span>
+        <span className="text-emerald-600 text-xl md:text-2xl lg:text-3xl flex items-center">
+          {icon}
+        </span>
+        <span className="capitalize font-semibold text-slate-800 text-base md:text-lg">
+          {label}
         </span>
       </div>
-      {open && children}
+      {open && <div className="ml-4 flex-1">{children}</div>}
     </div>
   );
 }

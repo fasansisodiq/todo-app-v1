@@ -11,13 +11,13 @@ import { AuthProvider } from "./authentication/AuthProvider.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <AuthProvider>
+      <BrowserRouter>
         <TasksProvider>
-          <BrowserRouter>
+          <AuthProvider>
             <App />
-          </BrowserRouter>
+          </AuthProvider>
         </TasksProvider>
-      </AuthProvider>
+      </BrowserRouter>
     </Provider>
   </StrictMode>
 );

@@ -1,59 +1,87 @@
+import { IoChevronDownOutline } from "react-icons/io5";
 import { useState } from "react";
-import { useTasks } from "../../../../customHooks/tasks/useTasks";
 import Label from "../../../../utils/Label";
+import DueDateFilterNavItem from "./DueDateFilterNavItem";
+import FilterNavItem from "./FilterNavItem";
+import AssigneeFilterNavItem from "./AssigneeFilterNavItem";
 
-function FilterNav({ setFilter }) {
-const weeks =["week","2-3 weeks"]
-  // const [assignee, setAssignee] = useState();
-  const { taskData, uniqueAssignees } = useTasks();
-  // const assignees = [];
-  // taskData?.map((task) => {
-  //   if (task.assignee) {
-  //     assignees.push(task.assignee.toLowerCase());
-  //   }
-  // });
-  // const uniqueAssignees = [...new Set(assignees)];
+function FilterNav({ setOpt, creationDate, setCreationDate }) {
+  const [isActive, setIsActive] = useState("all");
+  const [show, setShow] = useState(false);
 
+  const handleIsActive = (label) => {
+    setIsActive(label);
+    setOpt(label);
+    setShow(false);
+  };
+  function handClear() {
+    setCreationDate("");
+    setIsActive("all");
+  }
   return (
-    <nav
-      className="w-fit self-start flex flex-col  items-center
- bg-white p-2  h-fit shadow-sm capitalize cursor-pointer font-semibold"
-    >
-      <Label htmlFor="filter" className="text-lg lg:text-2xl">
-        filter
-      </Label>
-      <select
-        name="filter"
-        id="filter"
-        onChange={(e) => setFilter(e.target.value)}
-        className="border-0 capitalize  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-700 p-0.5 lg:p-1 text-emerald-700 text-[0.8rem] sm:text-[1rem] md:text-sm lg:text-lg xl:text-lg rounded-2xl bg-[#fff] shadow "
-      >
-        <option className="hover:bg-[#c0efe3]" value={"all"}>
-          all
-        </option>
-        <optgroup
-          label="due date"
-          className="hover:bg-[#c0efe3]"
-          value={"dueDate"}
+    <>
+      {isActive === "creation date" && (
+        <div className="flex items-center mb-2">
+          <input
+            type="date"
+            value={creationDate}
+            onChange={(e) => setCreationDate(e.target.value)}
+            className="border rounded p-1"
+          />
+          {creationDate && (
+            <button
+              className="ml-2 px-2 py-1 bg-gray-200 rounded"
+              onClick={handClear}
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      )}
+      <nav className="w-fit self-start flex flex-col items-center bg-teal-100 p-2 h-fit shadow-lg capitalize cursor-pointer font-semibold">
+        <Label htmlFor="filter" className="text-lg lg:text-2xl">
+          filter
+        </Label>
+        <div
+          className={`w-35 h-4 ${
+            show ? "p-0.5" : "p-1"
+          } flex-1 justify-between items-center relative`}
         >
-          <optgroup label="week" value={"week"}>{weeks.map((week,idx)=><option key={idx} value={week}>{week}</option>)}</optgroup>
-          <option value={"month"}>month</option>
-          <option value={"year"}>year</option>
-        </optgroup>
-
-        <option className="hover:bg-[#c0efe3]" value={"overdue"}>
-          overdue
-        </option>
-        <optgroup label="assignee" className="hover:bg-[#c0efe3]">
-          {uniqueAssignees.map((assignee, idx) => (
-            <option key={idx} value={assignee}>
-              {assignee}
-            </option>
-          ))}
-        
-        </optgroup>
-      </select>
-    </nav>
+          <div
+            className={`w-full flex justify-between items-center ${
+              show
+                ? "ring-emerald-700 ring-2 border-4 border-white bg-white rounded-full shadow-lg"
+                : ""
+            }`}
+          >
+            <span className="px-0.5 lg:px-1 text-emerald-800">{isActive}</span>
+            <button
+              type="button"
+              aria-label="Toggle filter dropdown"
+              onClick={() => setShow((prev) => !prev)}
+              className="focus:outline-none"
+            >
+              <IoChevronDownOutline size={25} />
+            </button>
+          </div>
+          {show && (
+            <div className="bg-white w-34 h-fit px-1 flex flex-col border-2 border-white shadow-2xl absolute rounded-lg py-2 z-10">
+              <FilterNavItem label="all" onClick={handleIsActive} />
+              <FilterNavItem label="creation date" onClick={handleIsActive} />
+              <FilterNavItem
+                label="recently updated"
+                onClick={handleIsActive}
+              />
+              <h2 className="mt-2 mb-1 font-semibold text-sm text-gray-700">
+                due date
+              </h2>
+              <DueDateFilterNavItem onClick={handleIsActive} />
+              <AssigneeFilterNavItem onClick={handleIsActive} />
+            </div>
+          )}
+        </div>
+      </nav>
+    </>
   );
 }
 

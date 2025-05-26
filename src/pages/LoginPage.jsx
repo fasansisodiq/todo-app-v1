@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsFillEyeFill, BsFillEyeSlashFill, BsGoogle } from "react-icons/bs";
-
+import { CiWarning } from "react-icons/ci";
 import Input from "../utils/Input";
 import Button from "../utils/Button";
 import { useAuth } from "../authentication/useAuth.js";
@@ -15,7 +15,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase.js";
 import Message from "../utils/Message.jsx";
-import { CiWarning } from "react-icons/ci";
+import Logo from "../utils/Logo";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -29,18 +29,14 @@ function LoginPage() {
   const incorrectPassword = errorCode === "auth/wrong-password";
   const userNotFound = errorCode === "auth/user-not-found";
   const incorrectEmail = errorCode === "auth/wrong-email";
+
   // Sign in an existing user
   const handleLogin = (e) => {
     e.preventDefault();
     signIn(email, password);
-    navigate("/layout");
+
     setPersistence(auth, browserSessionPersistence)
       .then(() => {
-        // Existing and future Auth states are now persisted in the current
-        // session only. Closing the window would clear any existing state even
-        // if a user forgets to sign out.
-        // ...
-        // New sign-in will be persisted with session persistence.
         return signInWithEmailAndPassword(auth, email, password);
       })
       .catch((error) => {
@@ -56,140 +52,129 @@ function LoginPage() {
   const handleSigninWithGoogle = (e) => {
     e.preventDefault();
     googleSignin();
-    navigate("/layout");
 
-    setPersistence(auth, inMemoryPersistence)
-      .then(() => {
-        const provider = new GoogleAuthProvider();
-        // In memory persistence will be applied to the signed in Google user
-        // even though the persistence was set to 'none' and a page redirect
-        // occurred.
-        return signInWithRedirect(auth, provider);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
+    // setPersistence(auth, inMemoryPersistence)
+    //   .then(() => {
+    //     const provider = new GoogleAuthProvider();
+    //     return signInWithRedirect(auth, provider);
+    //   })
+    //   .catch((error) => {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //     console.log(errorCode);
+    //     console.log(errorMessage);
+    //   });
   };
 
   return (
-    <div className=" w-100 md:w-150 lg:w-170  min-h-150 md:min-h-fit md:pb-12 rounded-lg mt-4 shadow-2xl   bg-white  flex flex-col pt-5  items-center gap-4 ">
-      <h1 className="text-emerald-700 text-3xl  font-bold pb-8 ">
-        welcome back!!!
-      </h1>
-      <form
-        className={`flex flex-col justify-center items-center bg-slate-50  min-h-fit border-2 border-slate-100 rounded-lg shadow-sm  pb-5 lg:pb-8 ${
-          errorCode ? "md:px-2" : ""
-        }`}
-        onSubmit={handleLogin}
-      >
-        <div>
-          <h2 className="text-xl md:text-2xl text-slate-800 pt-4 md:pb-4 pl-5 flex self-start font-semibold">
-            Log in
-          </h2>
-          <div className="flex flex-col  gap-4 items-center ">
-            <div className="w-full pl-0 p-4 flex h-14 items-center justify-center gap-2 border-1 border-stone-100">
-              <span className="text-red-700 md:text-xl lg:text-2xl pr-1">
-                {incorrectEmail || (userNotFound && <CiWarning />)}
-              </span>
-              <Input
-                width={
-                  email.length > 0
-                    ? "w-50  sm:w-65 md:w-80 lg:w-110 xl:w-120"
-                    : ""
-                }
-                type={"email"}
-                error={incorrectEmail}
-                placeholder={"Enter your email"}
-                name={"email"}
-                id={"email"}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="w-full  p-4 flex h-14 items-center justify-start gap-4 border-1 border-stone-100">
-              <span className="text-red-700  pr-1">
-                {incorrectPassword ? <CiWarning /> : ""}
-              </span>
-              <Input
-                width={
-                  password.length > 0
-                    ? "w-50  sm:w-65 md:w-80 lg:w-110 xl:w-120"
-                    : ""
-                }
-                error={incorrectPassword}
-                type={`${hidePassword ? "password" : "text"}`}
-                placeholder={"Enter your password"}
-                name={"password"}
-                id={"password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {password.length > 0 && (
-                <span
-                  className="self-end text-2xl"
-                  onClick={toggleHidePassword}
-                >
-                  {hidePassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
-                </span>
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
+      <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center gap-6">
+        <Logo size={48} />
+        <h1 className="text-emerald-700 text-3xl font-extrabold text-center tracking-wide">
+          Welcome Back!
+        </h1>
+        <form className={`flex flex-col gap-6 w-full`} onSubmit={handleLogin}>
+          <div>
+            <h2 className="text-xl md:text-2xl text-slate-800 mb-4 font-semibold text-center">
+              Log in to your account
+            </h2>
+            <div className="flex flex-col gap-4">
+              {/* Email Input */}
+              <div className="relative">
+                <Input
+                  width="w-full"
+                  type="email"
+                  error={incorrectEmail}
+                  placeholder="Enter your email"
+                  name="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pr-10"
+                />
+                {(incorrectEmail || userNotFound) && (
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-red-600 text-xl">
+                    <CiWarning />
+                  </span>
+                )}
+              </div>
+              {/* Password Input */}
+              <div className="relative">
+                <Input
+                  width="w-full"
+                  error={incorrectPassword}
+                  type={hidePassword ? "password" : "text"}
+                  placeholder="Enter your password"
+                  name="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="pr-10"
+                />
+                {password.length > 0 && (
+                  <span
+                    className="absolute right-10 top-1/2 -translate-y-1/2 text-emerald-600 text-xl cursor-pointer"
+                    onClick={toggleHidePassword}
+                  >
+                    {hidePassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+                  </span>
+                )}
+                {incorrectPassword && (
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-red-600 text-xl">
+                    <CiWarning />
+                  </span>
+                )}
+              </div>
+              {/* Error Messages */}
+              {userNotFound && (
+                <Message
+                  color="red"
+                  msg="The username or password you entered is incorrect or Invalid login credentials"
+                />
+              )}
+              {incorrectPassword && (
+                <Message
+                  color="red"
+                  msg="The username or password you entered is incorrect or Invalid login credentials"
+                />
+              )}
+              {incorrectEmail && (
+                <Message
+                  color="red"
+                  msg="We couldn't find a user with that email. Please double-check your input"
+                />
               )}
             </div>
-
-            {userNotFound && (
-              <Message
-                color={"red"}
-                msg={
-                  "The username or password you entered is incorrect or Invalid login credentials"
-                }
-              />
-            )}
-
-            {incorrectPassword && (
-              <Message
-                color={"red"}
-                msg={
-                  "The username or password you entered is incorrect or Invalid login credentials"
-                }
-              />
-            )}
-            {incorrectEmail && (
-              <Message
-                color={"red"}
-                msg={
-                  "We couldn't find a user with that email. Please double-check your input"
-                }
-              />
-            )}
-
-            <span className="lg:pt-4 self-start pl-5 ">
-              <Button label="log in" />
-            </span>
           </div>
-        </div>
-      </form>
-      <div className="flex justify-center items-center gap-2 text-center text-2xl text-blue-600">
-        <Link to="/#">
-          <span className="capitalize flex justify-center items-center gap-2 p-4  text-lg hover:underline">
-            forget password ?
-          </span>
-        </Link>
-      </div>
-
-      <div className="capitalize   text-center text-[#183a1f] text-sm lg:text-lg ">
-        <span>new user ? </span>
-        <span className="text-blue-600 hover:underline">
-          <Link to="/signup">sign up</Link>
-        </span>
-        <div className=" flex justify-center items-center w-full gap-2.5 pt-5">
-          <p className="text-sm text-slate-400 normal-case">
-            or login with google
-          </p>
-          <button onClick={handleSigninWithGoogle} className=" text-red-700 ">
-            <BsGoogle />
+          <Button
+            label="Log In"
+            className="w-full py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg transition-all duration-200 text-lg"
+          />
+        </form>
+        <div className="flex justify-between items-center w-full mt-2">
+          <Link
+            to="/#"
+            className="text-blue-600 hover:underline text-sm font-medium"
+          >
+            Forgot password?
+          </Link>
+          <span className="text-slate-400 text-sm">or</span>
+          <button
+            onClick={handleSigninWithGoogle}
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-200 bg-white hover:bg-emerald-50 text-emerald-700 font-semibold shadow transition-all duration-200 text-sm"
+          >
+            <BsGoogle className="text-lg" />
+            Login with Google
           </button>
+        </div>
+        <div className="w-full text-center mt-4 text-[#183a1f] text-sm lg:text-base">
+          <span>New user? </span>
+          <Link
+            to="/signup"
+            className="text-blue-600 hover:underline font-semibold"
+          >
+            Sign up
+          </Link>
         </div>
       </div>
     </div>

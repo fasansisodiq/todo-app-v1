@@ -5,6 +5,7 @@ import {
   signOut,
   signInWithRedirect,
   updateProfile,
+  getRedirectResult,
 } from "firebase/auth";
 
 import { auth, db, googleProvider } from "../firebase";
@@ -19,8 +20,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useNavigate } from "react-router";
 
 export function AuthProvider({ children }) {
+  const navigate = useNavigate();
   const user = auth.currentUser;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -35,7 +38,11 @@ export function AuthProvider({ children }) {
   const [country, setCountry] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [email, setEmail] = useState("");
-
+  const [role, setRole] = useState("");
+  const [joinDate, setJoinDate] = useState("");
+  const [lastLogin, setLastLogin] = useState("");
+  const [accountStatus, setAccountStatus] = useState("Active"); // Default to Active
+  const [emailVerified, setEmailVerified] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   const [error, setError] = useState(null);
 
@@ -57,7 +64,8 @@ export function AuthProvider({ children }) {
       const user = userCredential.user;
       console.log("User signed up:", user);
       setIsSubmitting(true);
-
+      // Set joinDate for new user
+      setJoinDate(new Date().toISOString());
       return user;
     } catch (error) {
       console.error("Error signing up:", error.message);
@@ -75,11 +83,17 @@ export function AuthProvider({ children }) {
         email,
         password
       );
-      // User signed in successfully
       const user = userCredential.user;
       console.log("User signed in:", user);
       setError(null);
-      // return user;
+
+      // Update lastLogin in Firestore
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, {
+        lastLogin: new Date().toISOString(),
+      });
+      setLastLogin(new Date().toISOString());
+      navigate("/layout");
     } catch (error) {
       console.error("Error signing in:", error.message);
       setError(error.code);
@@ -95,6 +109,26 @@ export function AuthProvider({ children }) {
       throw error;
     }
   };
+  // Handle Google redirect result
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (result && result.user) {
+          // Optionally update Firestore with lastLogin
+          const userRef = doc(db, "users", result.user.uid);
+          await updateDoc(userRef, {
+            lastLogin: new Date().toISOString(),
+          });
+          setLastLogin(new Date().toISOString());
+          setError(null);
+          navigate("/layout");
+        }
+      })
+      .catch((error) => {
+        console.error("Google sign-in redirect error:", error.message);
+        setError(error.code);
+      });
+  }, []);
   // Function to sign out the current user
   const logOut = async function () {
     try {
@@ -123,37 +157,25 @@ export function AuthProvider({ children }) {
       throw error;
     }
   }
-  // const handleUpload = async () => {
-  //   if (!profilePic) return;
 
-  //   const imageRef = ref(storage, `images/${profilePic.name}`);
-  //   await uploadBytes(imageRef, profilePic);
-  //   const downloadURL = await getDownloadURL(imageRef);
-  //   setProfilePic(downloadURL);
-  //   console.log(downloadURL);
-  //   await updateProfile(auth.currentUser, {
-  //     displayName: username,
-  //     photoURL: downloadURL,
-  //   });
-  //   // Use downloadURL to update user profile or display the profilePic
-  // };
-
+  // Function to upload a new profile picture and update the user's photoURL
   const updatePhotoURL = async (file) => {
     if (!file) {
       alert("Please select an image to upload.");
       return;
-    } // No file selected
+    }
     const storage = getStorage();
-    const storageRef = ref(storage, `images/${file.name}`);
+    const storageRef = ref(storage, `images/${user.uid}/${file.name}`);
 
     try {
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
       setProfilePic(url);
-      console.log(url);
-      await updateProfile(user, {
+      await updateProfile(auth.currentUser, {
         photoURL: url,
       });
+      // Optionally update Firestore as well
+      await updateDoc(doc(db, "users", user.uid), { profilePic: url });
       return url;
     } catch (error) {
       console.error("Error updating photo URL:", error);
@@ -177,6 +199,11 @@ export function AuthProvider({ children }) {
           state: state,
           country: country,
           zipCode: zipCode,
+          role: role,
+          joinDate: joinDate || new Date().toISOString(),
+          lastLogin: lastLogin || new Date().toISOString(),
+          accountStatus,
+          emailVerified,
         };
         await setDoc(doc(userRef, user.uid), userData, { merge: true });
         console.log("User data stored in Firestore:", userData);
@@ -195,40 +222,54 @@ export function AuthProvider({ children }) {
     state,
     country,
     zipCode,
+    role,
+    joinDate,
+    lastLogin,
+    accountStatus,
+    emailVerified,
   ]);
 
   // Function to update user data in Firestore
   // This function can be used to update user data in Firestore after signing up or signing in
   const updateUserData = async (newData) => {
     try {
-      await updateDoc(doc(db, "users", user.id), newData);
+      await updateDoc(doc(db, "users", user.uid), newData);
+      // If role is updated, update local state immediately for UI reactivity
+      if (newData.role !== undefined) {
+        setRole(newData.role);
+      }
+      //Handle error
     } catch (error) {
-      // Handle errors
       console.error("Error updating user data:", error);
-      // alert("Error updating user data:", error.message);
     }
   };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "user"), (snapshot) => {
-      const user = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setUsername(user?.username);
-      setProfilePic(user?.profilePic);
-      setFullName(user?.fullName);
-      setPhoneNumber(user?.phoneNumber);
-      setDateOfBirth(user?.dateOfBirth);
-      setStreetAddress(user?.streetAddress);
-      setCity(user?.city);
-      setState(user?.state);
-      setCountry(user?.country);
-      setZipCode(user?.zipCode);
+    if (!user) return;
+    const userRef = doc(db, "users", user.uid);
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setUsername(data?.username);
+        setProfilePic(data?.profilePic);
+        setFullName(data?.fullName);
+        setPhoneNumber(data?.phoneNumber);
+        setDateOfBirth(data?.dateOfBirth);
+        setStreetAddress(data?.streetAddress);
+        setCity(data?.city);
+        setState(data?.state);
+        setCountry(data?.country);
+        setZipCode(data?.zipCode);
+        setRole(data?.role);
+        setJoinDate(data?.joinDate);
+        setLastLogin(data?.lastLogin);
+        setAccountStatus(data?.accountStatus || "Active");
+        setEmailVerified(data?.emailVerified ?? user?.emailVerified ?? false);
+        setEmail(user?.email);
+      }
     });
-    // Clean up the listener when the component unmounts
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   // Function to get user data from Firestore
   // This function can be used to retrieve user data from Firestore
@@ -251,6 +292,11 @@ export function AuthProvider({ children }) {
           setCountry(data?.country);
           setZipCode(data?.zipCode);
           setEmail(user?.email);
+          setRole(user?.role);
+          setJoinDate(data?.joinDate);
+          setLastLogin(data?.lastLogin);
+          setAccountStatus(data?.accountStatus || "Active");
+          setEmailVerified(data?.emailVerified ?? user?.emailVerified ?? false);
           console.log(data);
           return data;
         } else {
@@ -296,7 +342,17 @@ export function AuthProvider({ children }) {
         email,
         setEmail,
         updateUserData,
-
+        role,
+        setRole,
+        joinDate,
+        setJoinDate,
+        lastLogin,
+        setLastLogin,
+        accountStatus,
+        setAccountStatus,
+        emailVerified,
+        setEmailVerified,
+        updatePhotoURL,
         // handleUpload,
       }}
     >
