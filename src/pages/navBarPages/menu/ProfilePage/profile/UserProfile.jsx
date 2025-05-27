@@ -5,11 +5,11 @@ import UserAdress from "./UserAddress";
 import { BsChevronLeft } from "react-icons/bs";
 import ProfileDesign from "./ProfileDesign";
 import ProfilePicture from "./ProfilePicture";
-import DeleteAccount from "./deleteAccount";
 import AccountActivities from "../../filterPage/AccountActivities";
 import TaskRelatedStats from "../TaskRelatedStats";
 import ProfileHider from "../ProfileHider";
 import { useTaskStats } from "../../../progress/Utils";
+import DeleteAccount from "./deleteAccount";
 
 function UserProfile() {
   const navigate = useNavigate();
