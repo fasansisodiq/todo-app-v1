@@ -9,7 +9,7 @@ import AccountActivities from "../../filterPage/AccountActivities";
 import TaskRelatedStats from "../TaskRelatedStats";
 import ProfileHider from "../ProfileHider";
 import { useTaskStats } from "../../../progress/Utils";
-import DeleteAccount from "./deleteAccount";
+// import DeleteAccount from "./deleteAccount";
 
 function UserProfile() {
   const navigate = useNavigate();
@@ -64,9 +64,9 @@ function UserProfile() {
           <UserAdress />
         </ProfileHider>
         {/* Delete Account */}
-        <div className="mt-auto mb-8 flex justify-center">
+        {/* <div className="mt-auto mb-8 flex justify-center">
           <DeleteAccount />
-        </div>
+        </div> */}
       </div>
     </ProfileDesign>
   );
