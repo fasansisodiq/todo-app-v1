@@ -38,14 +38,10 @@ function OverviewScreen() {
       <section className="w-full max-w-5xl bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-6 md:p-10 flex flex-col gap-6">
         {showHeaderAndFilter && (
           <header className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-extrabold text-emerald-700 tracking-wide">
-                Task Overview
-              </h1>
-              <p className="text-slate-500 text-base md:text-lg mt-1">
-                See your progress, stats, and manage your tasks at a glance.
-              </p>
-            </div>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-emerald-700 tracking-wide">
+              Task Overview
+            </h1>
+
             {/* Quick Action Button */}
             <button
               className="flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-600 text-white font-bold shadow hover:bg-emerald-700 transition-all text-base"

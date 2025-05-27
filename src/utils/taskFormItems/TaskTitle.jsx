@@ -10,7 +10,6 @@ function TaskTitle({ value, defaultValue, onChange }) {
         <Label htmlFor="task title">title</Label>
       </span>
       <Input
-        type={"text"}
         placeholder={"Name or title for your task"}
         name={"title"}
         id={"title"}

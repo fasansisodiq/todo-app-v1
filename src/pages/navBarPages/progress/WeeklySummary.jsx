@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * WeeklySummary component
  * @param {Object} props

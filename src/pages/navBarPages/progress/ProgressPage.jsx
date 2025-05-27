@@ -92,9 +92,14 @@ function ProgressPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-100 flex flex-col items-center px-4 py-8 font-sans">
-      <h1 className="text-2xl md:text-3xl font-extrabold text-emerald-700 mb-6 tracking-wide drop-shadow self-center">
-        Progress Overview
-      </h1>
+      <div>
+        <h1 className="text-2xl md:text-3xl font-extrabold text-emerald-700 mb-6 tracking-wide drop-shadow self-center">
+          Progress Overview
+        </h1>
+        <p className="text-slate-500 text-base md:text-lg mt-1 pb-5 ">
+          See your progress, stats, and manage your tasks at a glance.
+        </p>
+      </div>
 
       {/* Filter/Date Range Picker */}
       <div className="w-full max-w-4xl flex justify-end mb-4">

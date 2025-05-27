@@ -1,5 +1,5 @@
-import React from "react";
 import { FaShareAlt, FaDownload } from "react-icons/fa";
+import ShareProgressBtn from "./ShareProgressBtn";
 
 function ShareProgress({ onExport, onShare }) {
   return (
@@ -14,12 +14,12 @@ function ShareProgress({ onExport, onShare }) {
         >
           <FaDownload /> Export as PDF
         </button>
-        <button
+        <ShareProgressBtn
           onClick={onShare}
           className="flex items-center gap-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-semibold px-4 py-2 rounded-lg shadow transition"
         >
           <FaShareAlt /> Share Link
-        </button>
+        </ShareProgressBtn>
       </div>
     </div>
   );

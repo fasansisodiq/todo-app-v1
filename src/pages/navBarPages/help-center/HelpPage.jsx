@@ -21,12 +21,9 @@ function HelpPage() {
       <div className="self-center w-full max-w-md mb-6">
         <Search
           placeholder="Search help articles, how-tos, or keywords..."
-          // handleSearch={handleSearch}
-          // value={searchQuery}
-          // setSearchQuery={setSearchQuery}
           value={searchQuery}
           handleSearch={handleSearch}
-          // onChange={handleInputChange}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
       <section className="mb-8">
