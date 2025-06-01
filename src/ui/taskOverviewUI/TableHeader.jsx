@@ -1,32 +1,23 @@
 import Table from "../../utils/Table";
 
-const columns = [
-  { label: "s/n" },
-  { label: "title", className: "pr-2" },
-  { label: "assignee" },
-  { label: "due-date", className: "pl-4" },
-  { label: "task-class", className: "pl-6" },
-  { label: "priority", className: "pl-7" },
-  { label: "completed", className: "pl-1" },
-];
-
-function TableHeader({ height, width }) {
+function TableHeader({ height }) {
   return (
-    <div className=" w-full bg-white">
+    <div className=" w-full bg-white ">
       <Table
-        type="header"
+        // type="header"
         bg="bg-white"
-        col={columns.length}
-        className={`py-2  font-semibold lg:text-xl ${
-          width ? width : "lg:w-[78%]"
-        } `}
+        className={`py-2  font-semibold lg:text-xl  `}
         height={height}
       >
-        {columns.map((col) => (
-          <span key={col.label} className={col.className || ""}>
-            {col.label}
-          </span>
-        ))}
+        <div className="w-full flex justify-between normal-case text-gray-400">
+          <span>Name</span>
+          <span>Due date</span>
+          <span>Priority</span>
+          {/* <span className="flex gap-2 sm:gap-10 lg:gap-18 lg:pr-26 sm:pr-14 ">
+            <span>Due date</span>
+            <span>Priority</span>
+          </span> */}
+        </div>
       </Table>
     </div>
   );

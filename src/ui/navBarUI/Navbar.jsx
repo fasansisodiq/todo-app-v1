@@ -30,7 +30,7 @@ const navLinks = [
     to: "menu",
     message: "More options",
     element: (
-      <span className="flex items-center justify-center text-2xl text-emerald-600 hover:text-emerald-800 transition-colors duration-200">
+      <span className="flex items-center justify-center pt-1 sm:pt-0 text-sm sm:text-lg lg:text-2xl text-emerald-600 hover:text-emerald-800 transition-colors duration-200">
         <BiMenu />
       </span>
     ),
@@ -46,11 +46,11 @@ function Navbar() {
         sticky top-0 z-40 w-full
         bg-gradient-to-r from-emerald-50 via-white to-emerald-100
         border-b border-emerald-100 shadow-xl
-        flex items-center justify-end gap-2 sm:gap-4 md:gap-6 lg:gap-8
-        h-14 sm:h-16 md:h-20 px-4 sm:px-8 md:px-12
+        flex items-center justify-end  sm:gap-2 md:gap-4 lg:gap-8
+        h-14 sm:h-16 md:h-20 px-1 sm:px-4 md:px-8 lg:px-12
         rounded-b-2xl
         backdrop-blur-md
-        transition-all duration-300
+        transition-all duration-300 text-[0.7rem] sm:text-[0.9rem]
       "
     >
       <AddNewTaskBtn />

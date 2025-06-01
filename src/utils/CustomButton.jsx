@@ -2,7 +2,7 @@ function CustomButton({
   type = "primary",
   size = "md",
   bg = "",
-  label,
+  label = "",
   txtColor = "",
   hoverClass = "",
   onClick,
@@ -17,7 +17,10 @@ function CustomButton({
       className={`
         flex items-center justify-center gap-2 font-bold capitalize shadow transition-all duration-200
         rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2
-        ${size === "sm" && "px-4 py-1 text-sm"}
+        ${
+          size === "sm" &&
+          " px-2 lg:px-4 py-1 text-[0.5rem] sm:text-[0.8rem] lg:text-sm"
+        }
         ${size === "md" && "px-6 py-2 text-base"}
         ${size === "lg" && "px-8 py-3 text-lg"}
         ${size === "xl" && "px-10 py-4 text-xl"}

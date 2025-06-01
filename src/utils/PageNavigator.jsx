@@ -6,8 +6,8 @@ function PageNavigator({ to, children, activeClassName, notActiveClassName }) {
       to={to}
       className={({ isActive }) =>
         isActive
-          ? `h-5 md:min-h-fit  text-slate-800 font-semibold
-               bg-white p-1 
+          ? ` w-full min-h-fit  text-slate-800 font-semibold
+               bg-white sm:p-1 
               border-x-3 
               lg:border-x-6 border-x-green-500
               transition-all duration-3 ${activeClassName} shadow `

@@ -12,7 +12,7 @@ function Logout() {
   };
 
   return (
-    <div className="">
+    <div className="pt-2 sm:pt-0">
       <CustomButton
         label={"log out"}
         type={"others"}

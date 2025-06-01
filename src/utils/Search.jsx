@@ -11,13 +11,13 @@ function Search({ handleSearch, placeholder, value, onChange }) {
       >
         <button
           type="submit"
-          className="flex items-center justify-center h-10 w-10 rounded-full text-emerald-700 hover:bg-emerald-100 focus:outline-none transition-colors duration-200"
+          className="flex items-center justify-center w-5 h-5 pl-1 sm:pl-0  sm:h-10 sm:w-10 rounded-full text-emerald-700 hover:bg-emerald-100 focus:outline-none transition-colors duration-200"
           aria-label="Search"
         >
-          <FaSearch size={18} />
+          <FaSearch />
         </button>
         <input
-          className="flex-1 h-10 bg-transparent border-none outline-none px-3 text-slate-900 text-base placeholder:text-emerald-400 rounded-full transition-all duration-200 focus:placeholder:text-emerald-600"
+          className="flex-1 h-7 sm:h-10 placeholder:text-sm sm:placeholder:text-base bg-transparent border-none outline-none px-3 text-slate-900 text-base placeholder:text-emerald-400 rounded-full transition-all duration-200 focus:placeholder:text-emerald-600"
           type="search"
           name="search"
           id="search"

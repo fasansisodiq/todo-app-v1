@@ -156,7 +156,6 @@ export function TasksProvider({ children }) {
   };
 
   // Update task
-  // Update task
   const updateTask = async (taskId, updatedTaskData) => {
     try {
       const taskDocRef = doc(db, "tasks", taskId);

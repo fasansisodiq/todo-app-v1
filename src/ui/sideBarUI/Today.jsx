@@ -10,7 +10,7 @@ function Today() {
     (task) => task.dueDate === formattedTodayDate
   ).length;
   return (
-    <PageNavigator to="/layout/today" activeClassName={" h-6"}>
+    <PageNavigator to="/layout/today" activeClassName={""}>
       <Ui
         label={"today"}
         taskNum={todayNumTasks < 1 ? "" : todayNumTasks}

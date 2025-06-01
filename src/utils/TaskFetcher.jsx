@@ -20,7 +20,7 @@ function TaskFetcher({ taskClass }) {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <TableHeader />
       <ul>
         {filteredTasks.map((task, idx) => (
