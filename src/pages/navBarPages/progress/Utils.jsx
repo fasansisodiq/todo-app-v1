@@ -1,3 +1,4 @@
+import { FaCheckCircle, FaListUl, FaTasks, FaTrophy } from "react-icons/fa";
 import { useTasks } from "../../../customHooks/tasks/useTasks";
 import {
   startOfWeek,
@@ -8,7 +9,10 @@ import {
   subMonths,
   isWithinInterval,
   parseISO,
+  addDays,
+  isSameDay,
 } from "date-fns";
+import { MdOutlinePendingActions } from "react-icons/md";
 
 // Helper to get day label from a date string
 function getDayLabel(dateStr) {
@@ -70,18 +74,20 @@ export function useTaskStats() {
   );
 
   // Completed per day (for the current week)
-  const completedPerDay = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-    (day) => ({
-      label: day,
-      value: taskArrayFilter(
-        taskData,
-        (t) =>
-          t.completed === true &&
-          t.completedAt &&
-          getDayLabel(t.completedAt) === day
-      ),
-    })
-  );
+
+  const weekStart = startOfWeek(now, { weekStartsOn: 1 }); // Monday
+  const completedPerDay = Array.from({ length: 7 }).map((_, i) => {
+    const dayDate = addDays(weekStart, i);
+    const label = dayDate.toLocaleDateString(undefined, { weekday: "short" }); // "Mon", "Tue", etc.
+    const value = taskArrayFilter(
+      taskData,
+      (t) =>
+        t.completed === true &&
+        t.completedAt &&
+        isSameDay(new Date(t.completedAt), dayDate)
+    );
+    return { label, value };
+  });
 
   // Top 3 task classes by number of tasks (grouped by taskClass)
   const classCounts = countByKey(taskData, "taskClass");
@@ -95,7 +101,7 @@ export function useTaskStats() {
             t.completed === false && t.dueDate && new Date(t.dueDate) >= now
         )
         .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-        .slice(0, 3)
+        .slice(0, 5)
     : [];
 
   // Format activities for display
@@ -104,20 +110,20 @@ export function useTaskStats() {
       ? activities.map((act) => {
           let actionText = "";
           switch (act.type) {
-            case "created":
-              actionText = `Created "${act.taskTitle}"`;
+            case "added":
+              actionText = `add "${act.taskTitle}"`;
               break;
             case "completed":
-              actionText = `Completed "${act.taskTitle}"`;
+              actionText = `completed "${act.taskTitle}"`;
               break;
             case "deleted":
-              actionText = `Deleted "${act.taskTitle || act.taskId}"`;
+              actionText = `deleted "${act.taskTitle || act.taskId}"`;
               break;
             case "updated":
-              actionText = `Updated "${act.taskTitle}"`;
+              actionText = `updated "${act.taskTitle}"`;
               break;
             case "restored":
-              actionText = `Restored "${act.taskTitle}"`;
+              actionText = `restored "${act.taskTitle}"`;
               break;
             default:
               actionText = act.taskTitle || act.type;
@@ -130,7 +136,6 @@ export function useTaskStats() {
       : ["No recent activity"];
 
   // Weekly completed (this week and last week)
-  const weekStart = startOfWeek(now, { weekStartsOn: 1 }); // Monday
   const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
   const lastWeekStart = startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 });
   const lastWeekEnd = endOfWeek(subWeeks(now, 1), { weekStartsOn: 1 });
@@ -192,7 +197,46 @@ export function useTaskStats() {
   // Count number of tasks per class (taskClass)
   const taskClassCounts = countByKey(taskData, "taskClass");
   const taskListNum = Object.keys(taskClassCounts).length;
+  const pieData = [
+    { name: "Completed", value: completedTasks, color: "#059669" },
+    { name: "Active", value: activeTasks, color: "#f59e42" },
+    { name: "Overdue", value: overDueTasks, color: "#ef4444" },
+  ];
 
+  const achievements = [
+    {
+      icon: <FaTrophy className="text-yellow-500" />,
+      label: `${completedTasks} Tasks Completed`,
+    },
+    { icon: <FaTrophy className="text-emerald-500" />, label: "7-Day Streak" },
+  ];
+
+  const stats = [
+    {
+      label: "Total Tasks",
+      value: totalTasks,
+      icon: <FaTasks />,
+      color: "text-emerald-500",
+    },
+    {
+      label: "Completed",
+      value: completedTasks,
+      icon: <FaCheckCircle />,
+      color: "text-emerald-600",
+    },
+    {
+      label: "Active",
+      value: activeTasks,
+      icon: <MdOutlinePendingActions />,
+      color: "text-yellow-500",
+    },
+    {
+      label: "Task Lists",
+      value: taskListNum,
+      icon: <FaListUl />,
+      color: "text-blue-500",
+    },
+  ];
   return {
     totalTasks,
     activeTasks,
@@ -208,5 +252,9 @@ export function useTaskStats() {
     monthlyDiff,
     taskClassCounts,
     taskListNum,
+    getDayLabel,
+    pieData,
+    achievements,
+    stats,
   };
 }

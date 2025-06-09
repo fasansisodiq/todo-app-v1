@@ -10,9 +10,7 @@ function ImportantPage() {
       <ul>
         {taskData?.length > 0 &&
           taskData
-            .filter(
-              (task) => task.completed === false && task.priority === "on"
-            )
+            .filter((task) => task.completed === false && task.priority)
             .map((task, idx) => (
               <TaskItem task={task} key={task.id} idx={idx} />
             ))}

@@ -1,16 +1,14 @@
 import ProfileItem from "./ProfileItem";
-import { useAuth } from "../../../../../authentication/useAuth";
 
-function Username() {
-  const { username, setUsername } = useAuth();
+function Username({ value, onChange }) {
   return (
     <ProfileItem
       label={"username"}
       type={"text"}
       id={"username"}
       name={"username"}
-      defaultValue={username}
-      setFunc={setUsername}
+      value={value}
+      onChange={onChange}
       placeholder={"Enter your username"}
     />
   );

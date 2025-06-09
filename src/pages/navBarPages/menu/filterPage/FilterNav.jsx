@@ -18,6 +18,14 @@ function FilterNav({ setOpt, creationDate, setCreationDate }) {
     setCreationDate("");
     setIsActive("all");
   }
+  const filterNavItems = [
+    { label: "all", onClick: () => handleIsActive("all") },
+    { label: "creation date", onClick: () => handleIsActive("creation date") },
+    {
+      label: "recently updated",
+      onClick: () => handleIsActive("recently updated"),
+    },
+  ];
   return (
     <>
       {isActive === "creation date" && (
@@ -30,7 +38,7 @@ function FilterNav({ setOpt, creationDate, setCreationDate }) {
           />
           {creationDate && (
             <button
-              className="ml-2 px-2 py-1 bg-gray-200 rounded"
+              className="ml-2 px-2 py-1 bg-gray-200 dark:bg-emerald-500 rounded"
               onClick={handClear}
             >
               Clear
@@ -38,7 +46,7 @@ function FilterNav({ setOpt, creationDate, setCreationDate }) {
           )}
         </div>
       )}
-      <nav className="w-fit self-start flex flex-col items-center bg-teal-100 p-2 h-fit shadow-lg capitalize cursor-pointer font-semibold">
+      <nav className="w-fit self-start flex flex-col items-center bg-teal-100 dark:bg-[#8c8f8d] p-2 h-fit shadow-lg capitalize cursor-pointer font-semibold">
         <Label htmlFor="filter" className="text-lg lg:text-2xl">
           filter
         </Label>
@@ -50,11 +58,13 @@ function FilterNav({ setOpt, creationDate, setCreationDate }) {
           <div
             className={`w-full flex justify-between items-center ${
               show
-                ? "ring-emerald-700 ring-2 border-4 border-white bg-white rounded-full shadow-lg"
+                ? "ring-emerald-700 dark:ring-yellow-600 dark:bg-yellow-50 dark:border-yellow-600 ring-2 border-4 border-white bg-white rounded-full shadow-lg"
                 : ""
             }`}
           >
-            <span className="px-0.5 lg:px-1 text-emerald-800">{isActive}</span>
+            <span className="px-0.5 lg:px-1 text-emerald-800 dark:text-yellow-50">
+              {isActive}
+            </span>
             <button
               type="button"
               aria-label="Toggle filter dropdown"
@@ -65,14 +75,15 @@ function FilterNav({ setOpt, creationDate, setCreationDate }) {
             </button>
           </div>
           {show && (
-            <div className="bg-white w-34 h-fit px-1 flex flex-col border-2 border-white shadow-2xl absolute rounded-lg py-2 z-10">
-              <FilterNavItem label="all" onClick={handleIsActive} />
-              <FilterNavItem label="creation date" onClick={handleIsActive} />
-              <FilterNavItem
-                label="recently updated"
-                onClick={handleIsActive}
-              />
-              <h2 className="mt-2 mb-1 font-semibold text-sm text-gray-700">
+            <div className="bg-white w-34 h-fit px-1 flex flex-col border-2 border-white dark:border-[#464c49]   dark:bg-[#464c49] shadow-2xl absolute rounded-lg py-2 z-10">
+              {filterNavItems.map((item, index) => (
+                <FilterNavItem
+                  key={index}
+                  label={item.label}
+                  onClick={item.onClick}
+                />
+              ))}
+              <h2 className="mt-2 mb-1 font-semibold text-sm text-gray-700 dark:text-emerald-300">
                 due date
               </h2>
               <DueDateFilterNavItem onClick={handleIsActive} />

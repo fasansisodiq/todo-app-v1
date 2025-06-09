@@ -44,8 +44,8 @@ function Navbar() {
     <nav
       className="
         sticky top-0 z-40 w-full
-        bg-gradient-to-r from-emerald-50 via-white to-emerald-100
-        border-b border-emerald-100 shadow-xl
+        bg-gradient-to-r from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]
+        border-b border-emerald-100 dark:border-emerald-900 shadow-xl
         flex items-center justify-end  sm:gap-2 md:gap-4 lg:gap-8
         h-14 sm:h-16 md:h-20 px-1 sm:px-4 md:px-8 lg:px-12
         rounded-b-2xl
@@ -65,7 +65,7 @@ function Navbar() {
       ))}
       <DisplayHoverMessage
         element={
-          <span className="flex items-center justify-center text-lg sm:text-xl text-emerald-600 hover:text-red-500 transition-colors duration-200">
+          <span className="flex items-center justify-center text-lg sm:text-xl text-emerald-600 dark:text-yellow-300 hover:text-red-500 dark:hover:text-yellow-400 transition-colors duration-200">
             <Logout />
           </span>
         }

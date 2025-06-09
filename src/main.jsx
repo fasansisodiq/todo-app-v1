@@ -7,17 +7,23 @@ import { Provider } from "react-redux";
 import { TasksProvider } from "./customHooks/tasks/TasksProvider.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./authentication/AuthProvider.jsx";
+import { NotificationProvider } from "./customHooks/notification/NotificationProvider.jsx";
+import { DarkModeProvider } from "./customHooks/DarkModeContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <TasksProvider>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </TasksProvider>
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <AuthProvider>
+          <NotificationProvider>
+            <TasksProvider>
+              <DarkModeProvider>
+                <App />
+              </DarkModeProvider>
+            </TasksProvider>
+          </NotificationProvider>
+        </AuthProvider>
+      </Provider>
+    </BrowserRouter>
   </StrictMode>
 );

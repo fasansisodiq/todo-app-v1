@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import TasksContext from "./TasksContext";
 import { todoTasks } from "./Tasks";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import {
   addDoc,
   collection,
@@ -15,6 +15,8 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
+import { useNotifications } from "../notification/useNotifications";
+import { useAuth } from "../../authentication/useAuth";
 
 const options = {
   weekday: "short",
@@ -45,8 +47,28 @@ export function TasksProvider({ children }) {
   const [activities, setActivities] = useState([]);
   const [date, setDate] = useState(today.toLocaleDateString("en-US", options));
   const [task, setTask] = useState(initialTaskState);
+  const [sharedTasks, setSharedTasks] = useState(null);
+  const { addNotifications, notifications } = useNotifications();
+  const { currentUser } = useAuth();
 
-  // Get unique assignees (case-insensitive)
+  // Helper to get user subcollection reference for tasks
+  const userTasksRef = currentUser
+    ? collection(db, "users", currentUser.uid, "tasks")
+    : null;
+
+  //function to alert the user for tasks due in two weeks
+  function alertDueTasks(task) {
+    const dueDate = new Date(task.dueDate);
+    const now = new Date();
+    const twoWeeksFromNow = new Date();
+    twoWeeksFromNow.setDate(now.getDate() + 14);
+
+    if (dueDate <= twoWeeksFromNow && dueDate >= now) {
+      addNotifications({ type: "due_soon", task });
+    }
+  }
+
+  // Unique assignees (case-insensitive)
   const uniqueAssignees = useMemo(() => {
     const assignees = taskData
       ?.map((task) => task.assignee && task.assignee.toLowerCase())
@@ -75,11 +97,12 @@ export function TasksProvider({ children }) {
     }));
   };
 
-  // Fetch tasks from Firestore
+  // Fetch tasks from Firestore (initial load)
   useEffect(() => {
+    if (!currentUser) return;
     const fetchTasks = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "tasks"));
+        const querySnapshot = await getDocs(userTasksRef);
         const newData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -92,11 +115,12 @@ export function TasksProvider({ children }) {
       }
     };
     fetchTasks();
-  }, []);
+  }, [currentUser]);
 
   // Real-time updates for tasks
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "tasks"), (snapshot) => {
+    if (!currentUser) return;
+    const unsubscribe = onSnapshot(userTasksRef, (snapshot) => {
       const newData = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -104,50 +128,30 @@ export function TasksProvider({ children }) {
       setTaskData(newData);
     });
     return () => unsubscribe();
-  }, []);
-
-  // Fetch trashed tasks
-  useEffect(() => {
-    const fetchTrashedTasks = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "trash"));
-        const trash = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setTrashData(trash);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchTrashedTasks();
-  }, []);
-
-  // Real-time updates for trash
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "trash"), (snapshot) => {
-      const trash = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setTrashData(trash);
-    });
-    return () => unsubscribe();
-  }, []);
+  }, [currentUser]);
 
   // Add new task
   const addNewTask = async (taskData) => {
+    if (!currentUser) return;
     try {
-      const docRef = await addDoc(collection(db, "tasks"), taskData);
-      // Log activity
+      const dataToSave = {
+        ...taskData,
+        createdBy: currentUser.uid,
+      };
+      const docRef = await addDoc(userTasksRef, dataToSave);
+
       await logActivity({
-        type: "created",
+        type: "added",
         taskId: docRef.id,
         taskTitle: taskData.title,
-        // user: taskData.assignee || "Unknown",
+        user: currentUser.displayName || "You",
       });
+
+      await addNotifications({
+        type: "add",
+        task: { ...taskData, id: docRef.id },
+      });
+      alertDueTasks(taskData);
       alert("Task added successfully!");
     } catch (error) {
       setError(error);
@@ -155,27 +159,35 @@ export function TasksProvider({ children }) {
     }
   };
 
-  // Update task
+  // Update task (including complete/pending)
   const updateTask = async (taskId, updatedTaskData) => {
+    if (!currentUser) return;
     try {
-      const taskDocRef = doc(db, "tasks", taskId);
+      const taskDocRef = doc(db, "users", currentUser.uid, "tasks", taskId);
 
-      // If marking as completed, add completedAt timestamp
       let dataToUpdate = { ...updatedTaskData };
-      if (
-        updatedTaskData.completed === true &&
-        !updatedTaskData.completedAt // Only set if not already present
-      ) {
+      if (updatedTaskData.completed === true && !updatedTaskData.completedAt) {
         dataToUpdate.completedAt = new Date().toISOString();
       }
       await updateDoc(taskDocRef, dataToUpdate);
-      // Log activity
+
       await logActivity({
-        type: updatedTaskData.completed ? "completed" : "updated",
+        type:
+          dataToUpdate.completed === true
+            ? "completed"
+            : dataToUpdate.pending === true
+            ? "pending"
+            : "updated",
         taskId,
-        taskTitle: updatedTaskData.title,
-        // user: updatedTaskData.assignee || "Unknown",
+        taskTitle: dataToUpdate.title,
+        user: currentUser.displayName || "You",
       });
+
+      await addNotifications({
+        type: "update",
+        task: { ...dataToUpdate, id: taskId },
+      });
+      alertDueTasks(dataToUpdate);
       alert("Task updated successfully!");
     } catch (error) {
       setError(error);
@@ -185,14 +197,35 @@ export function TasksProvider({ children }) {
 
   // Delete task (from trash)
   const deleteTask = async (taskId) => {
+    if (!currentUser) return;
     try {
+      // Fetch the task data from trash before deleting
+      const taskDoc = await getDocs(
+        query(collection(db, "trash"), (doc) => doc.id === taskId)
+      );
+      let deletedTaskData = null;
+      taskDoc.forEach((docSnap) => {
+        if (docSnap.id === taskId) {
+          deletedTaskData = { id: docSnap.id, ...docSnap.data() };
+        }
+      });
+
       await deleteDoc(doc(db, "trash", taskId));
-      // Log activity
+
       await logActivity({
         type: "deleted",
         taskId,
-        // user: "Unknown",
+        user: currentUser.displayName || "You",
       });
+
+      // Only add notification if we have the full task data
+      if (deletedTaskData) {
+        await addNotifications({
+          type: "delete",
+          task: deletedTaskData,
+        });
+      }
+
       alert("Task deleted successfully");
     } catch (error) {
       setError(error);
@@ -202,9 +235,23 @@ export function TasksProvider({ children }) {
 
   // Move task to trash
   const trashTask = async (taskId, deletedTaskData) => {
+    if (!currentUser) return;
     try {
       await setDoc(doc(collection(db, "trash"), taskId), deletedTaskData);
-      await deleteDoc(doc(db, "tasks", taskId));
+      await deleteDoc(doc(db, "users", currentUser.uid, "tasks", taskId));
+
+      await logActivity({
+        type: "trashed",
+        taskId,
+        taskTitle: deletedTaskData.title,
+        user: currentUser.displayName || "You",
+      });
+
+      await addNotifications({
+        type: "delete",
+        task: { ...deletedTaskData, id: taskId },
+      });
+
       alert("Task moved to trash.");
     } catch (error) {
       setError(error);
@@ -214,25 +261,33 @@ export function TasksProvider({ children }) {
 
   // Restore task from trash
   const restoreTrashTask = async (taskId, deletedTaskData) => {
+    if (!currentUser) return;
     try {
       await deleteDoc(doc(db, "trash", taskId));
-      await setDoc(doc(collection(db, "tasks"), taskId), deletedTaskData);
+      await setDoc(
+        doc(db, "users", currentUser.uid, "tasks", taskId),
+        deletedTaskData
+      );
 
-      // Log activity
       await logActivity({
         type: "restored",
         taskId,
         taskTitle: deletedTaskData.title,
-        // user: deletedTaskData.assignee || "Unknown",
+        user: currentUser.displayName || "You",
       });
 
+      await addNotifications({
+        type: "restore",
+        task: { ...deletedTaskData, id: taskId },
+      });
       alert("Task restored successfully");
     } catch (error) {
       setError(error);
       alert("Task restoration unsuccessful.");
     }
   };
-  //format date function
+
+  // Format date function
   function formatDate(dateString) {
     if (!dateString) return "";
     if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return dateString;
@@ -250,12 +305,19 @@ export function TasksProvider({ children }) {
   function getDateObj(date) {
     return new Date(formatDate(date));
   }
-  // Fetch recent activities (last 10)
+
+  // Helper to get user subcollection reference for activities
+  const userActivitiesRef = currentUser
+    ? collection(db, "users", currentUser.uid, "activities")
+    : null;
+
+  // Fetch activities (initial load)
   useEffect(() => {
+    if (!currentUser) return;
     const fetchActivities = async () => {
       try {
         const q = query(
-          collection(db, "activities"),
+          userActivitiesRef,
           orderBy("timestamp", "desc"),
           limit(10)
         );
@@ -270,14 +332,12 @@ export function TasksProvider({ children }) {
       }
     };
     fetchActivities();
-  }, []);
+  }, [currentUser, userActivitiesRef]);
+
   // Real-time updates for activities
   useEffect(() => {
-    const q = query(
-      collection(db, "activities"),
-      orderBy("timestamp", "desc"),
-      limit(10)
-    );
+    if (!currentUser) return;
+    const q = query(userActivitiesRef, orderBy("timestamp", "desc"), limit(10));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const acts = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -286,22 +346,74 @@ export function TasksProvider({ children }) {
       setActivities(acts);
     });
     return () => unsubscribe();
-  }, []);
-  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {
-    displayName: "Unknown",
-  };
-  // Log an activity
+  }, [currentUser, userActivitiesRef]);
+
+  // Log an activity (as user subcollection)
   const logActivity = async (activity) => {
+    if (!currentUser) return;
     try {
-      await addDoc(collection(db, "activities"), {
+      await addDoc(userActivitiesRef, {
         ...activity,
-        user: currentUser.displayName || "Unknown",
+        user: currentUser.displayName || "You",
+        userId: currentUser.uid,
         timestamp: new Date().toISOString(),
       });
     } catch (err) {
       console.log(err);
     }
   };
+
+  // function to Share task with another user ---
+  const shareTaskWithUser = async (taskId, recipientUserId) => {
+    if (!currentUser) return;
+    try {
+      // Get the task data
+      const taskDoc = await getDocs(
+        query(userTasksRef, (docSnap) => docSnap.id === taskId)
+      );
+      let taskToShare = null;
+      taskDoc.forEach((docSnap) => {
+        if (docSnap.id === taskId) {
+          taskToShare = { id: docSnap.id, ...docSnap.data() };
+        }
+      });
+      if (!taskToShare) throw new Error("Task not found");
+
+      // Add to recipient's sharetasks subcollection
+      const shareRef = collection(db, "users", recipientUserId, "sharetasks");
+      await addDoc(shareRef, {
+        ...taskToShare,
+        sharedBy: currentUser.uid,
+        sharedAt: new Date().toISOString(),
+      });
+
+      await addNotifications({
+        type: "shared",
+        task: taskToShare,
+        recipient: recipientUserId,
+      });
+
+      alert("Task shared successfully!");
+    } catch (error) {
+      setError(error);
+      alert("Failed to share task.");
+    }
+  };
+
+  //  Get shared tasks for current user ---
+  useEffect(() => {
+    if (!currentUser) return;
+    const shareRef = collection(db, "users", currentUser.uid, "sharetasks");
+    const unsubscribe = onSnapshot(shareRef, (snapshot) => {
+      const shared = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setSharedTasks(shared);
+    });
+    return () => unsubscribe();
+  }, [currentUser]);
+
   return (
     <TasksContext.Provider
       value={{
@@ -331,6 +443,8 @@ export function TasksProvider({ children }) {
         getDateObj,
         activities,
         logActivity,
+        shareTaskWithUser,
+        sharedTasks,
       }}
     >
       {children}

@@ -6,16 +6,15 @@ function ProfileItem({
   type,
   id,
   name,
-  defaultValue,
+  value,
   setFunc,
   placeholder,
   onChange,
-  maxLength,
-  pattern,
-  inputMode,
   className = "",
   labelClassName = "",
 }) {
+  const handleChange =
+    onChange || (setFunc ? (e) => setFunc(e.target.value) : undefined);
   return (
     <div className={`flex flex-col gap-1 w-full ${className}`}>
       <Label name={name} className={labelClassName}>
@@ -23,16 +22,12 @@ function ProfileItem({
       </Label>
       <Input
         type={type}
-        id={id}
         name={name}
-        width="w-full"
-        defaultValue={defaultValue}
-        onChange={onChange || ((e) => setFunc(e.target.value))}
+        id={id}
+        value={value}
+        onChange={handleChange}
         placeholder={placeholder}
-        maxLength={maxLength}
-        pattern={pattern}
-        inputMode={inputMode}
-        className="rounded-lg border border-emerald-200 focus:border-emerald-500 focus:ring-emerald-100 px-4 py-2 text-base transition-all shadow-sm bg-white"
+        className="rounded-lg border  dark:bg-[#181f1b] dark:focus:border-yellow-400 dark:ring-yellow-400 dark:border-yellow-100 border-emerald-200 focus:border-emerald-500 focus:ring-emerald-100 px-4 py-2 text-base transition-all shadow-sm bg-white"
       />
     </div>
   );

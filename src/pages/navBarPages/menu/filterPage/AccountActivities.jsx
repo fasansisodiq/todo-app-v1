@@ -26,11 +26,11 @@ function AccountActivities() {
   ];
 
   return (
-    <div className="flex flex-col items-start p-6 bg-white rounded shadow">
-      <div className="flex flex-col gap-3 text-slate-600 text-sm w-full">
+    <div className="flex flex-col items-start p-6 bg-white dark:bg-[#464c49] rounded shadow">
+      <div className="flex flex-col gap-3 text-slate-600 dark:text-yellow-50 text-sm w-full">
         {activities.map(({ label, icon, value }) => (
           <div key={label} className="flex items-center gap-3">
-            <span className="text-lg">{icon}</span>
+            <span className="text-lg dark:text-yellow-100">{icon}</span>
             <span className="capitalize">{label}:</span>
             <span>{value}</span>
           </div>

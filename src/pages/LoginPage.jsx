@@ -7,11 +7,8 @@ import Button from "../utils/Button";
 import { useAuth } from "../authentication/useAuth.js";
 import {
   browserSessionPersistence,
-  GoogleAuthProvider,
-  inMemoryPersistence,
   setPersistence,
   signInWithEmailAndPassword,
-  signInWithRedirect,
 } from "firebase/auth";
 import { auth } from "../firebase.js";
 import Message from "../utils/Message.jsx";
@@ -49,23 +46,13 @@ function LoginPage() {
   };
 
   //function to sign in an existing user with google
-  const handleSigninWithGoogle = (e) => {
-    e.preventDefault();
-    googleSignin();
-
-    // setPersistence(auth, inMemoryPersistence)
-    //   .then(() => {
-    //     const provider = new GoogleAuthProvider();
-    //     return signInWithRedirect(auth, provider);
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     console.log(errorCode);
-    //     console.log(errorMessage);
-    //   });
+  const handleSignInWithGoogle = async () => {
+    try {
+      await googleSignin();
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
       <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center gap-6">
@@ -160,7 +147,7 @@ function LoginPage() {
           </Link>
           <span className="text-slate-400 text-sm">or</span>
           <button
-            onClick={handleSigninWithGoogle}
+            onClick={handleSignInWithGoogle}
             className="flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-200 bg-white hover:bg-emerald-50 text-emerald-700 font-semibold shadow transition-all duration-200 text-sm"
           >
             <BsGoogle className="text-lg" />

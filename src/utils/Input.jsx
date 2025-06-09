@@ -36,12 +36,14 @@ function Input({
           ${
             error
               ? "border-red-400 focus:ring-red-500"
-              : "border-emerald-200 focus:ring-emerald-400"
+              : "border-emerald-200 focus:ring-emerald-400 dark:border-emerald-800 dark:focus:ring-yellow-400"
           }
-          bg-white/90 text-slate-800
-          placeholder:text-emerald-300 placeholder:font-medium
+          bg-white/90 text-slate-800 dark:bg-[#232b25]/90 dark:text-yellow-100
+          placeholder:text-emerald-300 dark:placeholder:text-yellow-400 dark:placeholder:opacity-55 placeholder:font-medium
           focus:outline-none focus:ring-2 focus:ring-offset-0
-          shadow transition-all duration-200
+          shadow transition-all duration-200 ${
+            type === "date" ? "dark:[color-scheme:dark]" : ""
+          }
           ${className}
         `}
         type={type}
@@ -66,7 +68,7 @@ function Input({
             isFocused
               ? error
                 ? "ring-2 ring-red-400"
-                : "ring-2 ring-emerald-300"
+                : " ring-emerald-300 dark:ring-yellow-400"
               : ""
           }
         `}

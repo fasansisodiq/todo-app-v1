@@ -22,6 +22,7 @@ function ProgressRing({
           fill="none"
           stroke={bgColor}
           strokeWidth={stroke}
+          className="dark:stroke-[#232b25]"
         />
         <circle
           cx={size / 2}
@@ -34,6 +35,7 @@ function ProgressRing({
           strokeDashoffset={offset}
           strokeLinecap="round"
           style={{ transition: "stroke-dashoffset 0.5s ease" }}
+          className="dark:stroke-emerald-400"
         />
         <text
           x="50%"
@@ -41,7 +43,7 @@ function ProgressRing({
           textAnchor="middle"
           dy=".3em"
           fontSize={size * 0.28}
-          className="font-bold fill-emerald-700"
+          className="font-bold fill-emerald-700 dark:fill-yellow-200"
         >
           {progress}%
         </text>

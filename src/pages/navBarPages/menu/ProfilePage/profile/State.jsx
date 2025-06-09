@@ -1,8 +1,8 @@
 import ProfileItem from "./ProfileItem";
 import { useAuth } from "../../../../../authentication/useAuth";
 
-function State() {
-  const { state, setState } = useAuth();
+function State({ value, onChange }) {
+  // const { setState } = useAuth();
 
   return (
     <ProfileItem
@@ -10,8 +10,9 @@ function State() {
       type={"text"}
       id={"state"}
       name={"state"}
-      defaultValue={state}
-      setFunc={setState}
+      value={value}
+      onChange={onChange}
+      // setFunc={setState}
       placeholder={"Enter your state"}
     />
   );

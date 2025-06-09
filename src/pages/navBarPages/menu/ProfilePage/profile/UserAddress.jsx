@@ -8,39 +8,38 @@ import { FiMap } from "react-icons/fi";
 import { LiaMapMarkerAltSolid } from "react-icons/lia";
 
 function UserAddress() {
-  const { streetAddress, city, state, country, zipCode } = useAuth();
+  const { profile } = useAuth();
 
   const addressFields = [
     {
       label: "address",
       icon: <FaMapLocation />,
-      data: streetAddress,
+      data: profile?.streetAddress,
     },
     {
       label: "city",
       icon: <PiCityLight />,
-      data: city,
+      data: profile?.city,
     },
     {
       label: "state",
       icon: <MdLocationCity />,
-      data: state,
+      data: profile?.state,
     },
     {
       label: "country",
       icon: <FiMap />,
-      data: country,
+      data: profile?.country,
     },
     {
       label: "postal code",
       icon: <LiaMapMarkerAltSolid />,
-      data: zipCode,
+      data: profile?.zipCode,
     },
   ];
 
   return (
     <div className="flex flex-col justify-start items-start gap-2 pt-5">
-      <span className="capitalize font-semibold">address</span>
       <div className="flex flex-col items-start justify-center text-sm text-slate-400 gap-2">
         {addressFields.map(({ label, icon, data }) => (
           <UserProfileItem key={label} label={label} icon={icon} data={data} />

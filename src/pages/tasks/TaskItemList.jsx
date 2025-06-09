@@ -4,10 +4,11 @@ import { useTasks } from "../../customHooks/taskData/useTasks";
 import Spinner from "../../utils/Spinner";
 import Message from "../../utils/Message";
 
-function TaskItems() {
+function TaskItemList() {
   const { taskData, isLoading } = useTasks();
   if (isLoading) return <Spinner text={"loading"} />;
-  if (!taskData.length) return <Message />;
+  if (!Array.isArray(taskData) || taskData.length === 0)
+    return <Message msg="No task avialable" color="red" />;
 
   return (
     <div className="flex flex-col gap-2 ">
@@ -21,4 +22,4 @@ function TaskItems() {
   );
 }
 
-export default TaskItems;
+export default TaskItemList;

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router";
-
+import { useAuth } from "../../../../../authentication/useAuth";
 import AboutUser from "./AboutUser";
 import UserAdress from "./UserAddress";
 import { BsChevronLeft } from "react-icons/bs";
@@ -9,42 +9,51 @@ import AccountActivities from "../../filterPage/AccountActivities";
 import TaskRelatedStats from "../TaskRelatedStats";
 import ProfileHider from "../ProfileHider";
 import { useTaskStats } from "../../../progress/Utils";
+import BackBtn from "../../../../../utils/BackBtn";
+import DarkModeToggle from "../../../../../utils/DarkModeBtn";
+import EditProfileBtn from "./utils/EditProfileBtn";
 // import DeleteAccount from "./deleteAccount";
 
 function UserProfile() {
-  const navigate = useNavigate();
+  const { profile } = useAuth();
   const { totalTasks, completedTasks, activeTasks, taskListNum } =
     useTaskStats();
 
+  if (!profile) {
+    return (
+      <ProfileDesign>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h2 className="text-xl text-slate-500 dark:text-yellow-200">
+            No profile data found.
+          </h2>
+        </div>
+      </ProfileDesign>
+    );
+  }
+
   return (
-    <ProfileDesign bg="bg-gradient-to-br from-emerald-50 via-white to-emerald-100">
-      <div className="flex flex-col min-h-screen px-4 py-6 rounded-xl shadow-2xl max-w-2xl mx-auto border border-emerald-100 font-sans text-base">
+    <ProfileDesign
+      bg="bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:bg-[#232b25]  dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]
+        dark:border-yellow-100 dark:shadow-lg"
+    >
+      <div className="relative flex flex-col min-h-screen px-4 py-6 rounded-xl shadow-2xl max-w-2xl mx-auto border border-emerald-100 font-sans text-base">
+        <span className=" absolute top-0 -right-34 ">
+          <DarkModeToggle />
+        </span>
         {/* Header */}
         <span className="flex justify-between items-center w-full mb-2">
-          <span
-            role="button"
-            onClick={() => navigate("/layout")}
-            className="text-slate-500 cursor-pointer text-[1.7rem] lg:text-2xl hover:text-emerald-700 transition"
-            title="Back"
-          >
-            <BsChevronLeft />
-          </span>
-          <Link
-            to={"/edit-profile"}
-            className="w-fit self-end capitalize border border-emerald-400 hover:bg-emerald-600 hover:border-emerald-600 hover:text-white py-1 px-4 rounded-lg text-emerald-700 cursor-pointer text-base font-semibold shadow transition"
-          >
-            Edit Profile
-          </Link>
+          <BackBtn />
+          <EditProfileBtn />
         </span>
         {/* Title */}
-        <h1 className="self-center capitalize text-emerald-700 font-extrabold text-2xl mt-2 tracking-wide drop-shadow">
+        <h1 className="self-center capitalize text-emerald-700 dark:text-emerald-300 font-extrabold text-2xl mt-2 tracking-wide drop-shadow">
           My Profile
         </h1>
         {/* Profile Avatar, Name & Username */}
-        <ProfilePicture />
+        <ProfilePicture profile={profile} />
         {/* About User */}
         <ProfileHider header="about">
-          <AboutUser />
+          <AboutUser profile={profile} />
         </ProfileHider>
         {/* Task Related Stats */}
         <ProfileHider header="Task Stats">
@@ -60,8 +69,8 @@ function UserProfile() {
           <AccountActivities />
         </ProfileHider>
         {/* Address */}
-        <ProfileHider header="">
-          <UserAdress />
+        <ProfileHider header="address">
+          <UserAdress profile={profile} />
         </ProfileHider>
         {/* Delete Account */}
         {/* <div className="mt-auto mb-8 flex justify-center">

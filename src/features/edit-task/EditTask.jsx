@@ -42,7 +42,7 @@ function EditTask() {
       updatedAt: new Date().toISOString(),
     });
     onCloseEdit();
-    setOpenModal(null);
+    () => setOpenModal(null);
     navigate(-1);
   }
 
@@ -56,7 +56,7 @@ function EditTask() {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-6 md:p-10 mt-8 mb-8">
+    <div className="w-full max-w-lg mx-auto bg-white/90 dark:bg-[#232b25] rounded-2xl shadow-2xl border border-emerald-100 dark:border-yellow-100 p-6 md:p-10 mt-8 mb-8">
       <h2 className="text-xl md:text-2xl font-extrabold text-emerald-700 mb-4 text-center tracking-wide">
         Edit Task
       </h2>

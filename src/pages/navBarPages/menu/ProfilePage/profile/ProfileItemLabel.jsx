@@ -17,9 +17,13 @@ function ProfileItemLabel({ label, data, icon, onClick }) {
       aria-label={onClick ? label : undefined}
     >
       <span className="flex items-center gap-2">
-        <span className="text-gray-500 text-base">{icon}</span>
-        <span className="capitalize text-gray-500 text-base">{label}:</span>
-        <span className="text-slate-700 font-semibold pl-2 pr-10 lg:pr-20 normal-case text-base">
+        <span className="text-gray-500 dark:text-yellow-400 text-base">
+          {icon}
+        </span>
+        <span className="capitalize text-gray-500 dark:text-yellow-300 text-base">
+          {label}:
+        </span>
+        <span className="text-slate-700  dark:text-yellow-50 font-semibold pl-2 pr-10 lg:pr-20 normal-case text-base">
           {data}
         </span>
       </span>

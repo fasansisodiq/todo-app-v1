@@ -7,7 +7,7 @@ function CloseBtn({ btnPosition, mClassName, onClick, isOpen }) {
         isOpen && (
           <button
             onClick={onClick}
-            className={`absolute  px-2 pb-1 flex justify-center items-center w-fit h-fit text-[1.7rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-semibold hover:bg-red-600 hover:text-white ${btnPosition}  `}
+            className={`absolute  px-2 flex justify-center items-center w-fit h-fit text-[1.7rem] sm:text-2xl md:text-3xl lg:text-4xl  font-semibold hover:text-red-600  ${btnPosition}  `}
           >
             &times;
           </button>

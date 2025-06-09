@@ -26,6 +26,8 @@ const operationReducer = (state, action) => {
       return { ...state, openRestore: action.payload };
     case "operation/setOpenTrash":
       return { ...state, openTrash: action.payload };
+    case "operation/setOpenShare":
+      return { ...state, openShare: action.payload };
     default:
       return state;
   }
@@ -33,11 +35,7 @@ const operationReducer = (state, action) => {
 
 export function OperationProvider({ children }) {
   const [openModal, setOpenModal] = useState(null);
-  // const [openDesc, setOpenDesc] = useState(false);
-  // const [openDelete, setOpenDelete] = useState(false);
-  // const [openMarkComp, setOpenMarkComp] = useState(false);
-  // const [openMarkPend, setOpenMarkPend] = useState(false);
-  // const [openEdit, setEdit] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   function handleOpenDesc() {
     dispatch({ type: "operation/setOpenDesc", payload: true });
@@ -87,6 +85,12 @@ export function OperationProvider({ children }) {
   function handleCloseTrash() {
     dispatch({ type: "operation/setOpenTrash", payload: false });
   }
+  function handleOpenShare() {
+    dispatch({ type: "operation/setOpenShare", payload: true });
+  }
+  function handleCloseShare() {
+    dispatch({ type: "operation/setOpenShare", payload: false });
+  }
   const [
     {
       openDesc,
@@ -96,6 +100,7 @@ export function OperationProvider({ children }) {
       openMarkPend,
       openRestore,
       openTrash,
+      openShare,
     },
     dispatch,
   ] = useReducer(operationReducer, initialState);
@@ -105,7 +110,8 @@ export function OperationProvider({ children }) {
       value={{
         openModal,
         setOpenModal,
-
+        darkMode,
+        setDarkMode,
         openDesc,
         // setOpenDesc,
         onCloseDesc: handleCloseDesc,
@@ -134,6 +140,10 @@ export function OperationProvider({ children }) {
         openTrash,
         onOpenTrash: handleOpenTrash,
         onCloseTrash: handleCloseTrash,
+
+        openShare,
+        onOpenShare: handleOpenShare,
+        onCloseShare: handleCloseShare,
       }}
     >
       {children}

@@ -11,14 +11,18 @@ function MenuItem({ label, icon, onClick, to }) {
       onClick={onClick}
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
-      className=" flex justify-between items-center  hover:bg-emerald-100 cursor-pointer p-2"
+      className=" flex justify-between items-center  hover:bg-emerald-100 dark:hover:bg-yellow-100 cursor-pointer p-2"
     >
       <Ui
         label={label}
         taskNum={""}
-        icon={<span className="text-slate-500 lg:text-2xl">{icon}</span>}
+        icon={
+          <span className="text-slate-500 dark:text-yellow-500 lg:text-2xl">
+            {icon}
+          </span>
+        }
       />
-      <span className="text-slate-500 text-sm lg:text-xl ">
+      <span className="text-slate-500 dark:text-yellow-500 text-sm lg:text-xl ">
         {show ? <FaChevronRight /> : ""}
       </span>
     </Link>

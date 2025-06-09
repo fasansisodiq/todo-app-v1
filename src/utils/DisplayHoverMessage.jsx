@@ -1,28 +1,12 @@
-import { useState } from "react";
-
-function DisplayHoverMessage({ mClassName = "", element, message }) {
-  const [showMessage, setShowMessage] = useState(false);
-
+function DisplayHoverMessage({ element, message, mClassName = "" }) {
   return (
-    <div
-      className="w-fit h-fit p-1 relative cursor-pointer"
-      onMouseEnter={() => setShowMessage(true)}
-      onMouseLeave={() => setShowMessage(false)}
-    >
+    <div className="relative group">
       {element}
-      {showMessage && (
-        <span
-          className={`
-            absolute left-1/2 -translate-x-1/2 top-full mt-2
-            flex justify-center items-center px-4 py-2
-            rounded-xl bg-white text-slate-700 text-xs md:text-sm shadow-lg border border-emerald-200
-            z-50 whitespace-nowrap
-            ${mClassName}
-          `}
-        >
-          <p className="capitalize">{message}</p>
-        </span>
-      )}
+      <span
+        className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-1 rounded text-center bg-white dark:bg-[#232b25] whitespace-nowrap text-emerald-700 dark:text-yellow-200 shadow text-xs md:text-sm md:shadow-lg border border-emerald-200 dark:border-yellow-400 opacity-0 group-hover:opacity-100 transition pointer-events-none z-50 ${mClassName}`}
+      >
+        {message}
+      </span>
     </div>
   );
 }

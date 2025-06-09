@@ -6,7 +6,7 @@ import { IoInformation } from "react-icons/io5";
 function Important() {
   const { taskData } = useTasks();
   const importantTaskNum = taskData.filter(
-    (task) => task.completed === false && task.priority === "on"
+    (task) => task.completed === false && task.priority
   ).length;
   return (
     <>

@@ -6,21 +6,53 @@ import {
   signInWithRedirect,
   updateProfile,
   getRedirectResult,
+  onAuthStateChanged,
+  sendEmailVerification,
 } from "firebase/auth";
 
 import { auth, db, googleProvider } from "../firebase";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   collection,
-  // collection,
   doc,
   getDoc,
   onSnapshot,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router";
+
+// Helper to resize image and return base64 string
+const resizeImage = (file, maxSize = 256) =>
+  new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > maxSize) {
+            height = Math.round((height *= maxSize / width));
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width = Math.round((width *= maxSize / height));
+            height = maxSize;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.85));
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate();
@@ -28,7 +60,9 @@ export function AuthProvider({ children }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [username, setUsername] = useState("");
-  const [profilePic, setProfilePic] = useState(null);
+  const [profilePic, setProfilePic] = useState(
+    () => localStorage.getItem("profilePic") || null
+  );
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
@@ -41,18 +75,67 @@ export function AuthProvider({ children }) {
   const [role, setRole] = useState("");
   const [joinDate, setJoinDate] = useState("");
   const [lastLogin, setLastLogin] = useState("");
-  const [accountStatus, setAccountStatus] = useState("Active"); // Default to Active
+  const [accountStatus, setAccountStatus] = useState("Active");
   const [emailVerified, setEmailVerified] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   const [error, setError] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const fileInputRef = useRef(null);
 
-  // const storage = getStorage();
+  // Sync profilePic with localStorage on mount and when changed
+  useEffect(() => {
+    const storedPic = localStorage.getItem("profilePic");
+    if (storedPic) setProfilePic(storedPic);
+  }, []);
+
+  useEffect(() => {
+    if (profilePic) {
+      localStorage.setItem("profilePic", profilePic);
+    }
+  }, [profilePic]);
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  // When profilePic changes, update Firestore and localStorage for the current user
+  useEffect(() => {
+    if (!currentUser || !profilePic) return;
+    // Save to Firestore
+    updateDoc(doc(db, "users", currentUser.uid), { profilePic });
+    // Save to localStorage with user-specific key
+    localStorage.setItem(`profilePic_${currentUser.uid}`, profilePic);
+  }, [profilePic, currentUser]);
+
+  // When user logs in, load profilePic from localStorage cache if available
+  useEffect(() => {
+    if (!currentUser) return;
+    const cachedPic = localStorage.getItem(`profilePic_${currentUser.uid}`);
+    if (cachedPic) setProfilePic(cachedPic);
+  }, [currentUser]);
+
+  // Update profilePic (resize, set state, and Firestore)
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Resize and store in localStorage
+      const resized = await resizeImage(file, 256); // 256px max dimension
+      setProfilePic(resized);
+      // localStorage.setItem("profilePic", resized);
+    }
+  };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return unsubscribe;
+  }, []);
 
   function toggleHidePassword() {
     setHidePassword(!hidePassword);
   }
 
-  // Function to create a new user
+  // Function to create a new user and store profile in Firestore
   const signUp = async function (email, password) {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -60,21 +143,46 @@ export function AuthProvider({ children }) {
         email,
         password
       );
-      // User signed up successfully
       const user = userCredential.user;
-      console.log("User signed up:", user);
       setIsSubmitting(true);
-      // Set joinDate for new user
       setJoinDate(new Date().toISOString());
+
+      // Send email verification
+      await sendEmailVerification(user);
+
+      // Store initial profile in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        joinDate: new Date().toISOString(),
+        role: "User",
+        accountStatus: "Active",
+        emailVerified: user.emailVerified || false,
+      });
+
+      // Show message to user
+      alert(
+        "A verification email has been sent to your email address. Please verify your email before logging in."
+      );
+
+      //  sign out the user immediately after signup to prevent login before verification
+      await signOut(auth);
+      // Redirect to login page
+      navigate("/login");
       return user;
     } catch (error) {
-      console.error("Error signing up:", error.message);
+      setIsSubmitting(false);
+      // Handle email already in use error
+      if (error.code === "auth/email-already-in-use") {
+        alert(
+          "This email address is already in use. Please use a different email or log in."
+        );
+        return;
+      }
       throw error;
     } finally {
       setIsSubmitting(false);
     }
   };
-
   // Function to sign in an existing user
   const signIn = async function (email, password) {
     try {
@@ -84,7 +192,17 @@ export function AuthProvider({ children }) {
         password
       );
       const user = userCredential.user;
-      console.log("User signed in:", user);
+      // Reload user to get latest emailVerified status
+      await user.reload();
+      // Block login if email is not verified
+      if (!user.emailVerified) {
+        await signOut(auth);
+        alert(
+          "Your email is not verified. Please check your inbox and verify your email before logging in."
+        );
+        throw new Error("Email not verified");
+      }
+
       setError(null);
 
       // Update lastLogin in Firestore
@@ -100,6 +218,7 @@ export function AuthProvider({ children }) {
       throw error;
     }
   };
+
   //function to sign in an existing user with google
   const googleSignin = async function () {
     try {
@@ -128,7 +247,7 @@ export function AuthProvider({ children }) {
         console.error("Google sign-in redirect error:", error.message);
         setError(error.code);
       });
-  }, []);
+  }, [navigate]);
   // Function to sign out the current user
   const logOut = async function () {
     try {
@@ -158,154 +277,90 @@ export function AuthProvider({ children }) {
     }
   }
 
-  // Function to upload a new profile picture and update the user's photoURL
+  // Function to update profilePic in localStorage by resizing
   const updatePhotoURL = async (file) => {
     if (!file) {
       alert("Please select an image to upload.");
       return;
     }
-    const storage = getStorage();
-    const storageRef = ref(storage, `images/${user.uid}/${file.name}`);
-
     try {
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
-      setProfilePic(url);
-      await updateProfile(auth.currentUser, {
-        photoURL: url,
-      });
-      // Optionally update Firestore as well
-      await updateDoc(doc(db, "users", user.uid), { profilePic: url });
-      return url;
+      const resized = await resizeImage(file, 256); // 256px max dimension
+      setProfilePic(resized);
+      localStorage.setItem("profilePic", resized);
+      // Optionally update Firestore and Firebase Auth with the base64 string or upload to storage if needed
+      // await updateProfile(auth.currentUser, { photoURL: resized });
+      // await updateDoc(doc(db, "users", auth.currentUser.uid), { profilePic: resized });
+      return resized;
     } catch (error) {
       console.error("Error updating photo URL:", error);
       return false;
     }
   };
 
-  // Store additional user data in Firestore
-  useEffect(() => {
-    const storeUserData = async () => {
-      if (user) {
-        const userRef = collection(db, "users");
-        const userData = {
-          username: username,
-          profilePic: profilePic,
-          fullName: fullName,
-          phoneNumber: phoneNumber,
-          dateOfBirth: dateOfBirth,
-          streetAddress: streetAddress,
-          city: city,
-          state: state,
-          country: country,
-          zipCode: zipCode,
-          role: role,
-          joinDate: joinDate || new Date().toISOString(),
-          lastLogin: lastLogin || new Date().toISOString(),
-          accountStatus,
-          emailVerified,
-        };
-        await setDoc(doc(userRef, user.uid), userData, { merge: true });
-        console.log("User data stored in Firestore:", userData);
-      }
-    };
-    storeUserData();
-  }, [
-    user,
-    username,
-    profilePic,
-    fullName,
-    phoneNumber,
-    dateOfBirth,
-    streetAddress,
-    city,
-    state,
-    country,
-    zipCode,
-    role,
-    joinDate,
-    lastLogin,
-    accountStatus,
-    emailVerified,
-  ]);
-
   // Function to update user data in Firestore
-  // This function can be used to update user data in Firestore after signing up or signing in
   const updateUserData = async (newData) => {
     try {
-      await updateDoc(doc(db, "users", user.uid), newData);
-      // If role is updated, update local state immediately for UI reactivity
+      await updateDoc(doc(db, "users", currentUser.uid), newData);
       if (newData.role !== undefined) {
         setRole(newData.role);
       }
-      //Handle error
     } catch (error) {
       console.error("Error updating user data:", error);
     }
   };
 
+  // Function to get user data from Firestore
   useEffect(() => {
-    if (!user) return;
-    const userRef = doc(db, "users", user.uid);
+    if (!currentUser) return;
+    const userRef = doc(db, "users", currentUser.uid);
     const unsubscribe = onSnapshot(userRef, (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setUsername(data?.username);
-        setProfilePic(data?.profilePic);
-        setFullName(data?.fullName);
-        setPhoneNumber(data?.phoneNumber);
-        setDateOfBirth(data?.dateOfBirth);
-        setStreetAddress(data?.streetAddress);
-        setCity(data?.city);
-        setState(data?.state);
-        setCountry(data?.country);
-        setZipCode(data?.zipCode);
-        setRole(data?.role);
-        setJoinDate(data?.joinDate);
-        setLastLogin(data?.lastLogin);
-        setAccountStatus(data?.accountStatus || "Active");
-        setEmailVerified(data?.emailVerified ?? user?.emailVerified ?? false);
-        setEmail(user?.email);
+        setProfile(data);
+        setProfilePic(
+          localStorage.getItem("profilePic") || data.profilePic || ""
+        );
+        setUsername(data.username || "");
+        setFullName(data.fullName || "");
+        setPhoneNumber(data.phoneNumber || "");
+        setDateOfBirth(data.dateOfBirth || "");
+        setStreetAddress(data.streetAddress || "");
+        setCity(data.city || "");
+        setState(data.state || "");
+        setCountry(data.country || "");
+        setZipCode(data.zipCode || "");
+        setRole(data.role || "User");
+        setEmail(data.email || currentUser.email || "");
+        setJoinDate(data.joinDate || "");
+        setLastLogin(data.lastLogin || "");
+        setAccountStatus(data.accountStatus || "Active");
+        setEmailVerified(
+          data.emailVerified !== undefined
+            ? data.emailVerified
+            : currentUser.emailVerified || false
+        );
+      } else {
+        setProfile(null);
+        setProfilePic("");
+        setUsername("");
+        setFullName("");
+        setPhoneNumber("");
+        setDateOfBirth("");
+        setStreetAddress("");
+        setCity("");
+        setState("");
+        setCountry("");
+        setZipCode("");
+        setRole("User");
+        setEmail(currentUser.email || "");
+        setJoinDate("");
+        setLastLogin("");
+        setAccountStatus("Active");
+        setEmailVerified(currentUser.emailVerified || false);
       }
     });
     return () => unsubscribe();
-  }, [user]);
-
-  // Function to get user data from Firestore
-  // This function can be used to retrieve user data from Firestore
-
-  useEffect(() => {
-    const getUserData = async () => {
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          setUsername(data?.username);
-          setProfilePic(data?.profilePic);
-          setFullName(data?.fullName);
-          setPhoneNumber(data?.phoneNumber);
-          setDateOfBirth(data?.dateOfBirth);
-          setStreetAddress(data?.streetAddress);
-          setCity(data?.city);
-          setState(data?.state);
-          setCountry(data?.country);
-          setZipCode(data?.zipCode);
-          setEmail(user?.email);
-          setRole(user?.role);
-          setJoinDate(data?.joinDate);
-          setLastLogin(data?.lastLogin);
-          setAccountStatus(data?.accountStatus || "Active");
-          setEmailVerified(data?.emailVerified ?? user?.emailVerified ?? false);
-          console.log(data);
-          return data;
-        } else {
-          console.log("No such document!");
-        }
-      }
-    };
-    getUserData();
-  }, [user]);
+  }, [currentUser]);
 
   return (
     <AuthContext.Provider
@@ -353,7 +408,12 @@ export function AuthProvider({ children }) {
         emailVerified,
         setEmailVerified,
         updatePhotoURL,
-        // handleUpload,
+        profile,
+        currentUser,
+        setProfile,
+        fileInputRef,
+        handleFileChange,
+        handleImageClick,
       }}
     >
       {children}

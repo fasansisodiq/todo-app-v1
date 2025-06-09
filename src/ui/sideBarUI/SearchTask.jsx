@@ -77,21 +77,21 @@ function SearchTask() {
 
   return (
     <div className="lg:pb-4 relative w-full">
-      <form onSubmit={handleSearch}>
+      <>
         <Search
           placeholder={"Search task #"}
           value={searchQuery}
           handleSearch={handleSearch}
           onChange={handleInputChange}
         />
-      </form>
+      </>
       {/* Fancy Live results dropdown */}
       {searchQuery && liveResults.length > 0 && (
-        <ul className="absolute left-0 right-0 mt-2 bg-white border border-emerald-100 rounded-xl shadow-2xl max-h-72 overflow-y-auto z-50 w-full animate-fade-in">
+        <ul className="absolute left-0 right-0 mt-2 bg-white dark:bg-[#232b25] border border-emerald-100 dark:border-emerald-800 rounded-xl shadow-2xl max-h-72 overflow-y-auto z-50 w-full animate-fade-in">
           {liveResults.map((task) => (
             <li
               key={task.id}
-              className="flex items-center gap-3 px-4 py-3 transition-colors duration-150 hover:bg-emerald-50 cursor-pointer group"
+              className="flex items-center gap-3 px-4 py-3 transition-colors duration-150 hover:bg-emerald-50 dark:hover:bg-[#181f1b] cursor-pointer group"
               onClick={() => {
                 // Navigate to the selected task's section
                 if (task.completed === false && task.priority === "on") {
@@ -128,24 +128,24 @@ function SearchTask() {
               ></span>
               {/* Task Title and Class */}
               <span className="flex-1">
-                <span className="font-semibold text-slate-700 group-hover:text-emerald-700 transition">
+                <span className="font-semibold text-slate-700 dark:text-yellow-100 group-hover:text-emerald-700 dark:group-hover:text-yellow-300 transition">
                   {task.title}
                 </span>
                 {task.taskClass && (
-                  <span className="ml-2 text-xs text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full">
+                  <span className="ml-2 text-xs text-emerald-500 dark:text-yellow-300 bg-emerald-50 dark:bg-[#232b25] px-2 py-0.5 rounded-full">
                     {task.taskClass}
                   </span>
                 )}
               </span>
               {/* Due Date */}
               {task.dueDate && (
-                <span className="text-xs text-slate-400 font-mono">
+                <span className="text-xs text-slate-400 dark:text-yellow-200 font-mono">
                   {task.dueDate}
                 </span>
               )}
               {/* Assignee */}
               {task.assignee && (
-                <span className="ml-2 text-xs text-slate-500 italic">
+                <span className="ml-2 text-xs text-slate-500 dark:text-yellow-400 italic">
                   {task.assignee}
                 </span>
               )}

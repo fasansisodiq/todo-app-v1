@@ -1,15 +1,16 @@
-import { useState } from "react";
 import { CiBellOn } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import DisplayHoverMessage from "../../utils/DisplayHoverMessage";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import { useAuth } from "../../authentication/useAuth";
 import ProfilePicture from "../../pages/navBarPages/menu/ProfilePage/profile/ProfilePicture";
+import { useNotifications } from "../../customHooks/notification/useNotifications";
+import DarkModeToggle from "../../utils/DarkModeBtn";
 
 function Profile() {
   const { date } = useTasks();
   const { username, fullName, profilePic, email } = useAuth();
-  const [notification, setNotification] = useState(true);
+  const { notifications, enableNotifications } = useNotifications();
 
   // Greeting logic
   const getGreeting = () => {
@@ -19,75 +20,69 @@ function Profile() {
     return "Good evening";
   };
 
+  //calculate total, read, and unread notifications
+  const totalNotifications = notifications?.length;
+  const readNotifications = notifications.filter((notif) => notif.read).length;
+  const unreadNotifications = totalNotifications - readNotifications;
+
   return (
-    <div className="relative w-full max-w-xs flex flex-col px-1 md:px-5  py-6 items-center gap-6 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 rounded-2xl shadow-2xl font-sans border border-emerald-100">
+    <div className="relative w-full max-w-xs flex flex-col px-3 md:px-6 py-8 items-center gap-8 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] rounded-2xl shadow-2xl font-sans border border-emerald-100 dark:border-emerald-900 transition-colors duration-300">
+      {/* Header: Logo, Dark Mode, Notification */}
+      <div className="w-full flex items-center justify-between px-1 mb-2">
+        <h1 className="opacity-90 font-extrabold tracking-widest text-emerald-700 dark:text-yellow-300 text-lg md:text-xl uppercase drop-shadow">
+          todopro
+        </h1>
+        <div className="flex items-center gap-2">
+          <DarkModeToggle />
+          {enableNotifications && notifications && (
+            <Link to={"/layout/notification"} className="relative">
+              <DisplayHoverMessage
+                element={
+                  <span className="font-bold relative">
+                    <p className="text-2xl md:text-3xl lg:text-4xl text-emerald-500 dark:text-yellow-300 drop-shadow">
+                      <CiBellOn />
+                    </p>
+                    {unreadNotifications > 0 && (
+                      <span className="absolute -top-1 right-1 w-4 h-4 md:w-5 md:h-5 bg-red-600 border-2 border-white rounded-full flex items-center justify-center text-[0.7rem] text-white font-bold shadow">
+                        {unreadNotifications}
+                      </span>
+                    )}
+                  </span>
+                }
+                message={"See all notifications"}
+                mClassName="w-36 h-8 text-xs"
+              />
+            </Link>
+          )}
+        </div>
+      </div>
+      {/* Date */}
+      <span className="text-xs md:text-base text-slate-400 dark:text-slate-300 font-mono pt-1 self-end">
+        {date}
+      </span>
       {/* Greeting */}
-      <span className="font-semibold text-[0.6rem] md:text-base lg:text-xl text-emerald-800 max-w-full text-center tracking-wide">
+      <span className="font-semibold text-[0.7rem] md:text-base lg:text-xl text-emerald-800 dark:text-emerald-200 max-w-full text-center tracking-wide">
         {getGreeting()},{" "}
-        <span className=" font-bold text-emerald-600">
+        <span className="font-bold text-emerald-600 dark:text-yellow-300">
           {username ? `${username.replace(/^@/, "")}` : fullName || email}
           !!
         </span>
       </span>
-      {/* Header */}
-      <div className="w-full flex flex-col justify-between items-center text-xs md:text-lg pb-2">
-        <h1 className="opacity-90 font-extrabold tracking-widest text-emerald-700 text-lg md:text-xl uppercase drop-shadow">
-          todopro
-        </h1>
-        <span className="text-xs md:text-base text-slate-400 font-mono pt-1">
-          {date}
-        </span>
-      </div>
       {/* Profile Avatar & Name */}
       <div className="relative flex flex-col items-center gap-2 w-full">
-        <div className="flex flex-col items-center pt-6 sm:pt-0">
-          <span className="w-18 h-18 sm:w-20 sm:h-20 md:w-24 md:h-24  flex  justify-center items-center font-bold rounded-full border-4 border-emerald-400 shadow-lg bg-gradient-to-br from-white to-emerald-50 overflow-hidden ring-2 ring-emerald-200">
-            {profilePic}
-          </span>
-          <span className="mt-2 sm:text-lg font-bold text-[0.7rem] text-emerald-700 capitalize tracking-wide">
-            {fullName || username || email}
-          </span>
-          <span className="text-xs text-slate-400">{email}</span>
-        </div>
-        {/* Notification Bell */}
-        {notification && (
-          <Link
-            to={"/layout/notification"}
-            className="absolute sm:top-0 -top-6 right-0 "
-          >
-            <DisplayHoverMessage
-              element={
-                <span className="font-bold relative">
-                  <p className="text-2xl md:text-3xl lg:text-4xl text-emerald-500 drop-shadow">
-                    <CiBellOn />
-                  </p>
-                  <span className="absolute -top-1 right-1 w-4 h-4 md:w-5 md:h-5 bg-red-600 border-2 border-white rounded-full flex items-center justify-center text-[0.5rem] text-white font-bold shadow">
-                    25
-                  </span>
-                </span>
-              }
-              message={"See all notifications"}
-              mClassName="w-36 h-8 text-xs"
-            />
-          </Link>
-        )}
-      </div>
-      {/* Divider */}
-      <div className="w-full border-t border-emerald-100 my-2"></div>
-      {/* Quick Actions (optional, for modern UI) */}
-      <div className="flex w-full justify-around gap-2 mt-2 text-[0.7rem] sm:text-xs">
-        <Link
-          to="/profile"
-          className="bg-emerald-100 hover:bg-emerald-200 text-center text-emerald-700 font-semibold px-1 py-0.5 sm:px-4 sm:py-2 rounded-lg shadow transition-all duration-150 "
-        >
-          View Profile
-        </Link>
-        <Link
-          to="/edit-profile"
-          className="bg-white border border-emerald-300 text-center hover:bg-emerald-600 hover:text-white text-emerald-700 font-semibold px-1 py-0.5 sm:px-4 sm:py-2 rounded-lg shadow transition-all duration-150 "
-        >
-          Edit Profile
-        </Link>
+        <span className="w-18 h-18 sm:w-20 sm:h-20 md:w-24 md:h-24 flex justify-center items-center font-bold rounded-full border-4 border-emerald-400 shadow-lg bg-gradient-to-br from-white to-emerald-50 dark:from-[#232b25] dark:to-[#181f1b] overflow-hidden ring-2 ring-emerald-200">
+          <img
+            src={profilePic || "/default-profile.png"}
+            alt="Profile"
+            className="object-cover w-full h-full rounded-full"
+          />
+        </span>
+        <span className="mt-2 sm:text-lg font-bold text-[0.8rem] text-emerald-700 dark:text-yellow-200 capitalize tracking-wide">
+          {fullName || username || email}
+        </span>
+        <span className="text-xs text-slate-400 dark:text-slate-300">
+          {email}
+        </span>
       </div>
     </div>
   );

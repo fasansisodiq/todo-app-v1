@@ -12,6 +12,7 @@ import TaskFormButtons from "../../utils/TaskFormButtons";
 
 function AddNewTask() {
   const navigate = useNavigate();
+
   const { task, setTask, addNewTask, handleChange } = useTasks();
 
   const handleSubmit = async (e) => {
@@ -27,10 +28,15 @@ function AddNewTask() {
       completed: false,
       pending: false,
       userId: auth?.currentUser?.uid,
+      createdBy: auth?.currentUser?.uid,
+      sharedWith: [],
       createdAt: new Date().toISOString(),
     };
 
+    // Add the new task to Firestore
     await addNewTask(newTaskData);
+
+    // Reset form
     setTask({
       title: "",
       assignee: "",
@@ -41,6 +47,7 @@ function AddNewTask() {
       completed: false,
       pending: false,
     });
+
     navigate(`/layout/${task.taskClass}`);
   };
 
@@ -55,7 +62,7 @@ function AddNewTask() {
       <TaskDueDate onChange={handleChange} value={task.dueDate || ""} />
       <TaskClass onChange={handleChange} value={task.taskClass || ""} />
       <TextArea onChange={handleChange} value={task.description || ""} />
-      <TaskPriority onChange={handleChange} checked={!!task.priority} />
+      <TaskPriority onChange={handleChange} checked={task.priority || false} />
       <TaskFormButtons
         submitLabel="add task"
         onSave={handleSubmit}

@@ -15,7 +15,7 @@ function HelpPage() {
 
   return (
     <div className="w-full flex flex-col pt-6 px-4 max-w-3xl mx-auto">
-      <h1 className="self-center pb-4 text-2xl font-bold text-emerald-800">
+      <h1 className="self-center pb-4 text-2xl font-bold text-emerald-800 dark:text-emerald-300 tracking-wide">
         Help Center
       </h1>
       <div className="self-center w-full max-w-md mb-6">
@@ -27,20 +27,22 @@ function HelpPage() {
         />
       </div>
       <section className="mb-8">
-        <h2 className="text-lg font-semibold mb-2 text-emerald-700">
+        <h2 className="text-lg font-semibold mb-2 text-emerald-700 dark:text-emerald-200">
           Frequently Asked Questions
         </h2>
         <FAQ searchQuery={searchQuery} />
       </section>
-      <section className="bg-emerald-50 rounded-lg p-4 flex flex-col items-center">
-        <h3 className="font-semibold mb-1 text-emerald-700">Need more help?</h3>
-        <p className="text-sm mb-2 text-gray-700">
+      <section className="bg-emerald-50 dark:bg-[#2f3532]/60 rounded-lg p-4 flex flex-col items-center">
+        <h3 className="font-semibold mb-1 text-emerald-700 dark:text-emerald-400/75">
+          Need more help?
+        </h3>
+        <p className="text-sm mb-2 text-gray-700 dark:text-yellow-200/80 text-center">
           If you can't find your answer in the FAQ, reach out to our support
           team.
         </p>
         <a
           href="mailto:todoprosuput@gmail.com"
-          className="flex items-center gap-2 text-emerald-800 underline font-medium mb-1"
+          className="flex items-center gap-2 text-emerald-800 dark:text-blue-300 underline font-medium mb-1"
         >
           <FiMail /> Email: todoprosuput@gmail.com
         </a>
@@ -48,11 +50,11 @@ function HelpPage() {
           href="https://wa.me/2349036115780"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-emerald-800 underline font-medium mb-1"
+          className="flex items-center gap-2 text-emerald-800 dark:text-blue-300 underline font-medium mb-1"
         >
           <FaWhatsapp /> WhatsApp: 09036115780
         </a>
-        <span className="flex items-center gap-2 text-emerald-800 font-medium">
+        <span className="flex items-center gap-2 text-emerald-800 dark:text-blue-300 font-medium">
           <FiPhone />
           Phone:{" "}
           <a href="tel:09036115780" className="underline">

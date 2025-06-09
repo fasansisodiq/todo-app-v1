@@ -7,45 +7,61 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import CountdownToFutureDate from "./CountdownTofutureDate";
 import TaskProperties from "./TaskProperties";
 
-function ReusableTaskItem({ task, children }) {
+function ReusableTaskItem({ task, children, expandedId, setExpandedId }) {
   const [openModal, setOpenModal] = useState(false);
 
-  const [openLabel, setOpenLabel] = useState(false);
-  const [closeLabel, setCloseLabel] = useState(true);
+  // Use expandedId and setExpandedId for controlling expanded state
+
+  const isExpanded = expandedId === task?.id;
 
   const handleToggleLabel = () => {
-    setOpenLabel(!openLabel);
-    setCloseLabel(!closeLabel);
+    if (isExpanded) {
+      setExpandedId(null);
+    } else {
+      setExpandedId(task?.id);
+    }
   };
-
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
   return (
-    <div className="w-full flex flex-col justify-between items-center">
-      <Table bg="bg-green-80" col={3} className="py-2  ">
-        <div className="w-full flex flex-col  gap-2">
-          <div className="w-full flex justify-between items-center">
+    <div className="w-full flex flex-col items-center">
+      <Table bg="bg-green-80 " col={3} className="py-2 w-full">
+        <div className="w-full flex flex-col gap-2">
+          {/* Top Row: Title, Due, Priority, More */}
+          <div className="w-full flex flex-wrap justify-between items-center gap-2">
             <div className="flex gap-2 items-center">
-              {closeLabel ? (
-                <FaAngleDown onClick={handleToggleLabel} />
-              ) : (
-                <FaAngleUp onClick={handleToggleLabel} />
-              )}
-
-              <span>{task?.title}</span>
+              <button
+                type="button"
+                className="text-emerald-600 dark:text-yellow-600 hover:bg-emerald-100 dark:hover:bg-yellow-100 rounded-full p-1 transition"
+                onClick={handleToggleLabel}
+                aria-label={isExpanded ? "Collapse details" : "Expand details"}
+              >
+                {isExpanded ? <FaAngleUp /> : <FaAngleDown />}
+              </button>
+              <span className="font-semibold text-slate-800 dark:text-yellow-400 dark:opacity-80 text-base md:text-lg">
+                {task?.title}
+              </span>
             </div>
-            <span className="normal-case ">
+            <span className="normal-case text-xs md:text-sm flex-1 text-center">
               <CountdownToFutureDate targetDateString={task?.dueDate} />
             </span>
-            <div className="flex  gap-2 items-center">
-              <span>{task?.priority === "on" ? "high" : "low"}</span>
+            <div className="flex gap-2 items-center">
+              <span
+                className={`px-2 py-1 rounded-full text-xs font-bold uppercase ${
+                  task?.priority === "on"
+                    ? "bg-red-100 dark:bg-yellow-100 text-red-600 dark:text-yellow-800 dark:opacity-60"
+                    : "bg-slate-100 text-slate-500 dark:text-slate-300 dark:bg-slate-700"
+                }`}
+              >
+                {task?.priority ? "High" : "Low"}
+              </span>
               <DisplayHoverMessage
                 element={
-                  <span className="p-1 w-5 h-5 lg:p-2 lg:w-10 lg:h-10 hover:bg-slate-300 hover:rounded-full flex items-center justify-center self-end">
+                  <span className="p-1 w-7 h-7 lg:p-2 lg:w-10 lg:h-10 hover:bg-slate-200 dark:hover:bg-emerald-700 dark:text-yellow-100 hover:rounded-full flex items-center justify-center">
                     <button
                       type="button"
-                      className="sm:text-sm md:text-lg lg:text-2xl "
+                      className="sm:text-sm md:text-lg lg:text-2xl"
                       onClick={handleOpenModal}
                       aria-label="Open task options"
                     >
@@ -53,32 +69,30 @@ function ReusableTaskItem({ task, children }) {
                     </button>
                   </span>
                 }
-                message="open more"
-                mClassName="w-18 md:w-24 sm:w-20 sm:-right-5 sm:bottom-8 lg:w-28 xl:w-35 xl:h-10 h-4 sm:h-6 md:h-7 right-5 bottom-5 lg:w-30 lg:h-8 lg:right-6 lg:bottom-10 xl:-right-10"
+                message="Open more"
               />
             </div>
           </div>
-          {openLabel && (
-            <div className="w-full flex justify-between items-center">
+          {/* Expanded Details */}
+          {isExpanded && (
+            <div className="w-full flex flex-wrap justify-between items-center gap-4 mt-2">
               <TaskProperties label="category" value={task?.taskClass} />
               <TaskProperties label="assignee" value={task?.assignee} />
               <TaskProperties
                 label="status"
-                value={task?.completed === true ? "completed" : "in progress"}
+                value={task?.completed ? "completed" : "in progress"}
               />
             </div>
           )}
         </div>
       </Table>
 
-      {openModal && (
-        <Modal isOpen={openModal} onClose={handleCloseModal}>
-          {children}
-        </Modal>
-      )}
+      {/* Modal for task actions */}
+      <Modal isOpen={openModal} onClose={handleCloseModal}>
+        {children}
+      </Modal>
     </div>
   );
 }
 
 export default ReusableTaskItem;
-// border-r-2 border-r-slate-200

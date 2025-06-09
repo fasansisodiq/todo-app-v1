@@ -1,11 +1,22 @@
 import Label from "../Label";
 
+const taskClasses = [
+  "work",
+  "planned",
+  "assigned",
+  "project",
+  "personal",
+  "house",
+  "friend",
+  "social",
+];
+
 function TaskClass({ defaultValue, value, onChange }) {
-  const bgStyle = "hover:bg-[#c0efe3] ";
+  const bgStyle = "hover:bg-emerald-100 dark:hover:bg-[#2a3b2c]";
   return (
-    <div className=" flex items-center gap-5">
+    <div className="flex items-center gap-5">
       <span>
-        <Label htmlFor="task type"> task class:</Label>
+        <Label htmlFor="task type">task class:</Label>
       </span>
       <select
         name="taskClass"
@@ -14,35 +25,29 @@ function TaskClass({ defaultValue, value, onChange }) {
         value={value}
         defaultValue={defaultValue}
         onChange={onChange}
-        className="capitalize border-0  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-700 p-0.5 lg:p-1 text-[0.8rem] sm:text-[1rem] md:text-sm lg:text-lg xl:text-lg rounded-2xl bg-[#fff] shadow "
+        className="
+          capitalize border-0 dark:border dark:border-emerald-700
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-700 dark:focus:ring-yellow-500
+          p-1 lg:p-2 text-[0.9rem] sm:text-base md:text-sm lg:text-lg xl:text-lg rounded-2xl
+          bg-white/90 dark:bg-[#232b25]/90 text-emerald-700 dark:text-yellow-100
+          shadow transition-colors duration-200
+        "
       >
-        <option className="flex justify-center items-center" value={""}>
+        <option
+          className="flex justify-center items-center text-emerald-400 dark:text-yellow-400/60"
+          value={""}
+        >
           --please choose task class--
         </option>
-        <option className={bgStyle} value={"work"}>
-          work
-        </option>
-        <option className={bgStyle} value={"planned"}>
-          planned
-        </option>
-        <option className={bgStyle} value={"assigned"}>
-          assigned
-        </option>
-        <option className="hover:bg-amber-600" value={"project"}>
-          project
-        </option>
-        <option className={bgStyle} value={"personal"}>
-          personal
-        </option>
-        <option className={bgStyle} value={"house"}>
-          house
-        </option>
-        <option className={bgStyle} value={"friend"}>
-          friend
-        </option>
-        <option className={bgStyle} value={"social"}>
-          social
-        </option>
+        {taskClasses.map((taskClass) => (
+          <option
+            key={taskClass}
+            className={`${bgStyle} text-emerald-700 dark:text-yellow-400/80`}
+            value={taskClass}
+          >
+            {taskClass}
+          </option>
+        ))}
       </select>
     </div>
   );

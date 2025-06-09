@@ -17,9 +17,11 @@ function Logout() {
         label={"log out"}
         type={"others"}
         size={"sm"}
-        bg={"bg-emerald-600"}
-        txtColor={"text-white"}
-        hoverClass={"hover:bg-emerald-700 hover:text-slate-800"}
+        bg={"bg-emerald-600 dark:bg-emerald-800"}
+        txtColor={"text-white dark:text-yellow-200"}
+        hoverClass={
+          "hover:bg-emerald-700 hover:text-slate-800 dark:hover:bg-emerald-900 dark:hover:text-yellow-300"
+        }
         onClick={handleLogOut}
       />
     </div>

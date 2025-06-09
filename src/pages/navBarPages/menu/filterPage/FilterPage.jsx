@@ -14,20 +14,17 @@ function FilterPage() {
   const [creationDate, setCreationDate] = useState("");
 
   return (
-    <div className="flex flex-col min-h-screen w-full">
-      <header className="sticky top-0 z-50 bg-white shadow flex lg:flex-row items-center px-4 py-2 ">
-        <div className="w-full">
-          <TableHeader height="lg:h-21.5" width="lg:w-[85%]" />
-        </div>
-        <div className="flex-shrink-0 w-full lg:w-auto mb-2 lg:mb-0">
-          <FilterNav
-            setOpt={setOpt}
-            creationDate={creationDate}
-            setCreationDate={setCreationDate}
-          />
-        </div>
-      </header>
-      <main className="self-start flex flex-col w-full min-h-screen overflow-y-auto">
+    <div className="flex flex-col min-h-screen w-full  dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] bg-gradient-to-br from-emerald-50 via-white to-emerald-100">
+      <div className="w-full md:w-auto flex justify-end">
+        <FilterNav
+          setOpt={setOpt}
+          creationDate={creationDate}
+          setCreationDate={setCreationDate}
+        />
+      </div>
+      <TableHeader />
+
+      <main className="flex-1 flex flex-col w-full max-w-5xl mx-auto py-6 px-2 gap-4">
         {opt === "all" &&
           taskData
             ?.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))

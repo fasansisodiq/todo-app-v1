@@ -1,22 +1,17 @@
-// import { useOperation } from "../customHooks/operation/useOperation";
 import CloseBtn from "./CloseBtn";
 
 function Modal({ isOpen, onClose, children, alertingModalOpen = false }) {
-  // const { openDesc, openEdit, openDelete, openMarkComp, openMarkPend } =
-  //   useOperation();
-
-  // Hide Modal if AlertingModal is open
   if (!isOpen || alertingModalOpen) return null;
 
   return (
     <div
       onClick={onClose}
-      className={`fixed inset-0 z-40 flex justify-center items-center bg-black/30 backdrop-blur-sm transition-all`}
+      className={`fixed inset-0 z-40 flex justify-center items-center bg-black/30 dark:bg-bg-[#181f1b] dark:rounded-2xl backdrop-blur-sm transition-all`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
         className={`
-          relative bg-white border border-emerald-100 rounded-2xl shadow-2xl
+          relative bg-white dark:bg-[#181f1b] border border-emerald-100 dark:border-yellow-300  rounded-2xl shadow-2xl
           flex flex-col items-center justify-center
           p-6 md:p-8 gap-6
           w-[90vw] max-w-md
@@ -25,12 +20,12 @@ function Modal({ isOpen, onClose, children, alertingModalOpen = false }) {
         `}
       >
         {/* Close Button at top right */}
-        <div className="absolute top-3 right-3 z-10">
+        <div className="absolute -top-1 right-14 z-10 dark:text-yellow-300 text-slate-900">
           <CloseBtn
             isOpen={isOpen}
             onClick={onClose}
-            mClassName="text-lg h-8 w-8"
-            btnPosition=""
+            mClassName="text-lg h-fit w-fit left-0 top-0 sm:left-2 sm:top-2 md:left-3 md:top-3 lg:left-5  lg:top-9"
+            btnPosition=" left-0 top-0 sm:left-2 sm:top-2 md:left-3 md:top-3 lg:left-4 lg:top-2"
           />
         </div>
         {/* Modal Content */}

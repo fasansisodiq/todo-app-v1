@@ -33,13 +33,17 @@ function TaskRelatedStats({
   const stats = { totalTasks, completedTasks, activeTasks, totalLists };
 
   return (
-    <div className="w-full bg-white/80 rounded-lg shadow p-4 flex flex-col gap-4">
+    <div className="w-full bg-white/80 dark:bg-[#464c49] rounded-lg shadow p-4 flex flex-col gap-4">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {statsConfig.map(({ label, icon, key }) => (
           <div key={key} className="flex flex-col items-center">
             {icon}
-            <span className="font-bold text-lg">{stats[key]}</span>
-            <span className="text-xs text-slate-500">{label}</span>
+            <span className="font-bold text-lg dark:text-yellow-100">
+              {stats[key]}
+            </span>
+            <span className="text-xs text-slate-500 dark:text-yellow-50">
+              {label}
+            </span>
           </div>
         ))}
       </div>

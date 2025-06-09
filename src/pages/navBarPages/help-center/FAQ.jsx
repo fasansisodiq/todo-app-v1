@@ -33,7 +33,7 @@ function FAQ({ searchQuery = "" }) {
     <div className="w-full flex flex-col gap-4">
       {Object.entries(groupedFaqs).map(([section, faqs]) => (
         <div key={section} className="mb-4">
-          <h3 className="font-bold text-emerald-700 mb-2 text-base capitalize">
+          <h3 className="font-bold text-emerald-700 dark:text-emerald-300 mb-2 text-base capitalize">
             {section}
           </h3>
           <ul className="space-y-2">
@@ -42,8 +42,8 @@ function FAQ({ searchQuery = "" }) {
                 <button
                   className={`w-full text-left px-3 py-2 rounded transition-colors ${
                     openId === faq.id
-                      ? "bg-emerald-600 text-white"
-                      : "hover:bg-emerald-100 text-emerald-900"
+                      ? "bg-emerald-600 text-white dark:text-yellow-200"
+                      : "hover:bg-emerald-100 text-emerald-900 dark:text-emerald-300 hover:dark:bg-emerald-700"
                   }`}
                   onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
                   aria-expanded={openId === faq.id}
@@ -54,7 +54,7 @@ function FAQ({ searchQuery = "" }) {
                 {openId === faq.id && (
                   <div
                     id={`faq-answer-${faq.id}`}
-                    className="bg-white border border-emerald-200 rounded p-3 mt-1 text-gray-800 shadow"
+                    className="bg-white dark:bg-[#8c8f8d] border border-emerald-200 rounded p-3 mt-1 text-gray-800 dark:text-yellow-300 shadow"
                   >
                     {faq.answer}
                   </div>
@@ -67,7 +67,7 @@ function FAQ({ searchQuery = "" }) {
       <div className="text-center">
         {!showMore && !searchQuery && filteredFaqs.length > 6 && (
           <button
-            className="text-emerald-700 underline font-medium"
+            className="text-emerald-700 dark:text-blue-200 underline font-medium"
             onClick={() => setShowMore(true)}
           >
             See more...

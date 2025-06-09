@@ -4,7 +4,7 @@ import CompletedPage from "./pages/sideBarPages/CompletedPage";
 import FriendPage from "./pages/sideBarPages/FriendPage";
 import HousePage from "./pages/sideBarPages/HousePage";
 import ImportantPage from "./pages/sideBarPages/ImportantPage";
-import NotificationPage from "./pages/sideBarPages/NotificationPage";
+import SharedTaskPage from "./pages/sideBarPages/SharedTaskPage";
 import PendingTaskPage from "./pages/sideBarPages/PendingTaskPage";
 import PersonalPage from "./pages/sideBarPages/PersonalPage";
 import PlannedPage from "./pages/sideBarPages/PlannedPage";
@@ -19,7 +19,7 @@ import HelpPage from "./pages/navBarPages/help-center/HelpPage";
 import FilterPage from "./pages/navBarPages/menu/filterPage/FilterPage";
 import MenuPage from "./pages/navBarPages/menu/MenuPage";
 import ProgressPage from "./pages/navBarPages/progress/ProgressPage";
-import SettingsPage from "./pages/navBarPages/SettingsPage";
+import SettingsPage from "./pages/settings/SettingsPage";
 
 // Utility Pages
 import AddNewTask from "./features/add-task/AddNewTask";
@@ -28,6 +28,7 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import UserProfile from "./pages/navBarPages/menu/ProfilePage/profile/UserProfile";
 import EditProfile from "./pages/navBarPages/menu/ProfilePage/profile/EditProfile";
+import NotificationPage from "./pages/notification/NotificationPage";
 
 const layoutRoutes = [
   // Sidebar
@@ -45,6 +46,7 @@ const layoutRoutes = [
   { path: "pending", element: <PendingTaskPage /> },
   { path: "friend", element: <FriendPage /> },
   { path: "notification", element: <NotificationPage /> },
+  { path: "share", element: <SharedTaskPage /> },
 
   // Navbar/Menu
   { path: "settings", element: <SettingsPage /> },
@@ -68,6 +70,7 @@ const dynamicRoutesPath = [
   ":taskId",
   "today/:taskId",
   "important/:taskId",
+  "pending/:taskId",
   "assigned/:taskId",
   "project/:taskId",
   "work/:taskId",
@@ -78,5 +81,6 @@ const dynamicRoutesPath = [
   "completed/:taskId",
   "planned/:taskId",
   "filter/:taskId",
+  "share/:taskId",
 ];
 export { layoutRoutes, mainRoutes, dynamicRoutesPath };

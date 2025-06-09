@@ -2,21 +2,17 @@ import Table from "../../utils/Table";
 
 function TableHeader({ height }) {
   return (
-    <div className=" w-full bg-white ">
+    <div className=" w-full bg-white dark:bg-[#232b25] ">
       <Table
         // type="header"
-        bg="bg-white"
+        bg="bg-white dark:bg-[#232b25]"
         className={`py-2  font-semibold lg:text-xl  `}
         height={height}
       >
-        <div className="w-full flex justify-between normal-case text-gray-400">
+        <div className="w-full flex justify-between normal-case text-gray-400 dark:text-yellow-50 dark:opacity-40  dark:bg-[#232b25]">
           <span>Name</span>
           <span>Due date</span>
           <span>Priority</span>
-          {/* <span className="flex gap-2 sm:gap-10 lg:gap-18 lg:pr-26 sm:pr-14 ">
-            <span>Due date</span>
-            <span>Priority</span>
-          </span> */}
         </div>
       </Table>
     </div>
