@@ -1,4 +1,9 @@
-const notificationDatas = [
+import { doc, onSnapshot } from "firebase/firestore";
+import NotifBtn from "./NotifBtn";
+import { db } from "../../firebase";
+import { useEffect, useState } from "react";
+
+const taskNotificationDatas = [
   { label: "task name", value: "title" },
   { label: "description", value: "description" },
   // { label: "status", value: "priority" },
@@ -7,8 +12,45 @@ const notificationDatas = [
   { label: "created at", value: "createdAt" },
   { label: "updated at", value: "updatedAt" },
 ];
-function NotificationCard({ notifications, onMarkAsRead }) {
+const teamNotifDatas = [
+  { label: "team name", value: "teamName" },
+  { label: "to", value: "to" },
+  { label: "from", value: "inviterEmail" },
+  { label: "status", value: "status" },
+];
+
+function NotificationCard({
+  notifications,
+  onMarkAsRead,
+  currentUser,
+  activeTeamId,
+  onAcceptTeamInvite,
+  onChangeInviteStatus,
+}) {
+  // const [inviteeData, setInviteeData] = useState(null);
+
+  // useEffect(() => {
+  //   const docRef = doc(db, "teams", activeTeamId);
+  //   const unsubscribe = onSnapshot(docRef, (docSnap) => {
+  //     if (docSnap.exists()) {
+  //       setInviteeData(docSnap.data().invites || []);
+  //     } else {
+  //       console.log("No such document!");
+  //     }
+  //   });
+
+  //   // Cleanup the listener when the component unmounts
+  //   return () => unsubscribe();
+  // }, [activeTeamId]);
+  // console.log(inviteeData);
   if (!notifications) return null;
+
+  //accept invite handler
+  async function handleAcceptInvite() {
+    onMarkAsRead(notifications.id);
+    onChangeInviteStatus(notifications.id);
+    onAcceptTeamInvite(activeTeamId, currentUser);
+  }
   // Helper to display High/Low for priority
   const getPriorityLabel = (priority) => {
     if (priority === true || priority === "on" || priority === "high")
@@ -17,7 +59,12 @@ function NotificationCard({ notifications, onMarkAsRead }) {
   };
   return (
     <div
-      className={`p-4 rounded-xl shadow mb-3 flex items-center justify-between transition-colors duration-200
+      className={`p-4 rounded-xl shadow mb-3 flex ${
+        !notifications.read &&
+        teamNotifDatas &&
+        notifications?.invitationData &&
+        "flex-col"
+      } items-center justify-between transition-colors duration-200
         ${
           notifications.read
             ? "bg-slate-100 dark:bg-[#656b66]"
@@ -34,7 +81,7 @@ function NotificationCard({ notifications, onMarkAsRead }) {
         <>
           {notifications.taskData && (
             <div className="text-xs mt-2">
-              {notificationDatas.map((data) => (
+              {taskNotificationDatas.map((data) => (
                 <div key={data.value} className="dark:text-yellow-200/70">
                   {data.label}:{" "}
                   <span className="font-semibold dark:text-yellow-100">
@@ -58,20 +105,37 @@ function NotificationCard({ notifications, onMarkAsRead }) {
               </div>
             </div>
           )}
+          {notifications.invitationData &&
+            teamNotifDatas?.map((data) => (
+              <div key={data.value} className="dark:text-yellow-200/70 ">
+                {data.label}:{" "}
+                <span className="font-semibold dark:text-yellow-100">
+                  {notifications?.invitationData[data.value]}
+                </span>
+              </div>
+            ))}
         </>
         <div className="text-xs text-slate-400 dark:text-yellow-500">
           {new Date(notifications.createdAt).toLocaleString()}
         </div>
       </div>
-
-      {!notifications.read && (
-        <button
-          className="ml-4 px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 dark:bg-emerald-800 dark:hover:bg-emerald-900 dark:text-yellow-200 transition-colors duration-200"
-          onClick={() => onMarkAsRead(notifications.id)}
-        >
-          Mark as read
-        </button>
-      )}
+      {/* mark as read btn */}
+      {!notifications.read &&
+        taskNotificationDatas &&
+        notifications.taskData && (
+          <NotifBtn
+            label="Mark as read"
+            onClick={() => onMarkAsRead(notifications.id)}
+          />
+        )}
+      {/* accept notification btn */}
+      {!notifications.read &&
+        teamNotifDatas &&
+        notifications?.invitationData && (
+          <span className="self-end">
+            <NotifBtn label="Accept invite" onClick={handleAcceptInvite} />
+          </span>
+        )}
     </div>
   );
 }

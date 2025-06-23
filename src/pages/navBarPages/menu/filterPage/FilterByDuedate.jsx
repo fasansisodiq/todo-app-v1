@@ -18,24 +18,6 @@ const FILTER_PROPS = [
   { from: [0, 7, 21, 30, 90, 180, 270, 0] },
 ];
 
-// function formatDate(dateString) {
-//   if (!dateString) return "";
-//   if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return dateString;
-//   if (/^\d{4}\/\d{2}\/\d{2}$/.test(dateString))
-//     return dateString.replace(/\//g, "-");
-//   let [day, month, year] =
-//     (dateString.includes("-") && dateString.split("-")) ||
-//     (dateString.includes("/") && dateString.split("/"));
-//   if (year && month && day) {
-//     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-//   }
-//   return "";
-// }
-
-// function getDateObj(date) {
-//   return new Date(formatDate(date));
-// }
-
 function FilterByDuedate({ opt }) {
   const { taskData, getDateObj } = useTasks();
   if (

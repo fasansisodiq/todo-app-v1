@@ -9,6 +9,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./authentication/AuthProvider.jsx";
 import { NotificationProvider } from "./customHooks/notification/NotificationProvider.jsx";
 import { DarkModeProvider } from "./customHooks/DarkModeContext.jsx";
+import { TeamCollabProvider } from "./customHooks/team-collaboration/TeamCollabProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -18,7 +19,9 @@ createRoot(document.getElementById("root")).render(
           <NotificationProvider>
             <TasksProvider>
               <DarkModeProvider>
-                <App />
+                <TeamCollabProvider>
+                  <App />
+                </TeamCollabProvider>
               </DarkModeProvider>
             </TasksProvider>
           </NotificationProvider>

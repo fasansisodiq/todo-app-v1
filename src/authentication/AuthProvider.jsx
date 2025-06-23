@@ -8,8 +8,8 @@ import {
   getRedirectResult,
   onAuthStateChanged,
   sendEmailVerification,
+  sendPasswordResetEmail,
 } from "firebase/auth";
-
 import { auth, db, googleProvider } from "../firebase";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -56,13 +56,13 @@ const resizeImage = (file, maxSize = 256) =>
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate();
-  const user = auth.currentUser;
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [hidePassword, setHidePassword] = useState(true);
+  const [error, setError] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [profilePic, setProfilePic] = useState("");
   const [username, setUsername] = useState("");
-  const [profilePic, setProfilePic] = useState(
-    () => localStorage.getItem("profilePic") || null
-  );
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
@@ -72,58 +72,14 @@ export function AuthProvider({ children }) {
   const [country, setCountry] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("User");
   const [joinDate, setJoinDate] = useState("");
   const [lastLogin, setLastLogin] = useState("");
   const [accountStatus, setAccountStatus] = useState("Active");
   const [emailVerified, setEmailVerified] = useState(false);
-  const [hidePassword, setHidePassword] = useState(true);
-  const [error, setError] = useState(null);
-  const [profile, setProfile] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
   const fileInputRef = useRef(null);
 
-  // Sync profilePic with localStorage on mount and when changed
-  useEffect(() => {
-    const storedPic = localStorage.getItem("profilePic");
-    if (storedPic) setProfilePic(storedPic);
-  }, []);
-
-  useEffect(() => {
-    if (profilePic) {
-      localStorage.setItem("profilePic", profilePic);
-    }
-  }, [profilePic]);
-  const handleImageClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  // When profilePic changes, update Firestore and localStorage for the current user
-  useEffect(() => {
-    if (!currentUser || !profilePic) return;
-    // Save to Firestore
-    updateDoc(doc(db, "users", currentUser.uid), { profilePic });
-    // Save to localStorage with user-specific key
-    localStorage.setItem(`profilePic_${currentUser.uid}`, profilePic);
-  }, [profilePic, currentUser]);
-
-  // When user logs in, load profilePic from localStorage cache if available
-  useEffect(() => {
-    if (!currentUser) return;
-    const cachedPic = localStorage.getItem(`profilePic_${currentUser.uid}`);
-    if (cachedPic) setProfilePic(cachedPic);
-  }, [currentUser]);
-
-  // Update profilePic (resize, set state, and Firestore)
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Resize and store in localStorage
-      const resized = await resizeImage(file, 256); // 256px max dimension
-      setProfilePic(resized);
-      // localStorage.setItem("profilePic", resized);
-    }
-  };
+  // Auth state listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -131,185 +87,7 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  function toggleHidePassword() {
-    setHidePassword(!hidePassword);
-  }
-
-  // Function to create a new user and store profile in Firestore
-  const signUp = async function (email, password) {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      setIsSubmitting(true);
-      setJoinDate(new Date().toISOString());
-
-      // Send email verification
-      await sendEmailVerification(user);
-
-      // Store initial profile in Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        email: user.email,
-        joinDate: new Date().toISOString(),
-        role: "User",
-        accountStatus: "Active",
-        emailVerified: user.emailVerified || false,
-      });
-
-      // Show message to user
-      alert(
-        "A verification email has been sent to your email address. Please verify your email before logging in."
-      );
-
-      //  sign out the user immediately after signup to prevent login before verification
-      await signOut(auth);
-      // Redirect to login page
-      navigate("/login");
-      return user;
-    } catch (error) {
-      setIsSubmitting(false);
-      // Handle email already in use error
-      if (error.code === "auth/email-already-in-use") {
-        alert(
-          "This email address is already in use. Please use a different email or log in."
-        );
-        return;
-      }
-      throw error;
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-  // Function to sign in an existing user
-  const signIn = async function (email, password) {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      // Reload user to get latest emailVerified status
-      await user.reload();
-      // Block login if email is not verified
-      if (!user.emailVerified) {
-        await signOut(auth);
-        alert(
-          "Your email is not verified. Please check your inbox and verify your email before logging in."
-        );
-        throw new Error("Email not verified");
-      }
-
-      setError(null);
-
-      // Update lastLogin in Firestore
-      const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        lastLogin: new Date().toISOString(),
-      });
-      setLastLogin(new Date().toISOString());
-      navigate("/layout");
-    } catch (error) {
-      console.error("Error signing in:", error.message);
-      setError(error.code);
-      throw error;
-    }
-  };
-
-  //function to sign in an existing user with google
-  const googleSignin = async function () {
-    try {
-      await signInWithRedirect(auth, googleProvider);
-    } catch (error) {
-      console.error("Error signing in:", error.message);
-      throw error;
-    }
-  };
-  // Handle Google redirect result
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then(async (result) => {
-        if (result && result.user) {
-          // Optionally update Firestore with lastLogin
-          const userRef = doc(db, "users", result.user.uid);
-          await updateDoc(userRef, {
-            lastLogin: new Date().toISOString(),
-          });
-          setLastLogin(new Date().toISOString());
-          setError(null);
-          navigate("/layout");
-        }
-      })
-      .catch((error) => {
-        console.error("Google sign-in redirect error:", error.message);
-        setError(error.code);
-      });
-  }, [navigate]);
-  // Function to sign out the current user
-  const logOut = async function () {
-    try {
-      await signOut(auth);
-      console.log("User signed out");
-    } catch (error) {
-      console.error("Error signing out:", error.message);
-      throw error;
-    }
-  };
-
-  //functions to update user profile
-  async function updateUserProfile(data) {
-    try {
-      await updateProfile(auth.currentUser, {
-        displayName: data.username,
-        photoURL: data.profilePic,
-      });
-      // Profile updated!
-      console.log("Profile updated!");
-      alert("Profile updated!");
-    } catch (error) {
-      // An error occurred.
-      console.error("Error updating profile:", error.message);
-      alert("Error updating profile:", error.message);
-      throw error;
-    }
-  }
-
-  // Function to update profilePic in localStorage by resizing
-  const updatePhotoURL = async (file) => {
-    if (!file) {
-      alert("Please select an image to upload.");
-      return;
-    }
-    try {
-      const resized = await resizeImage(file, 256); // 256px max dimension
-      setProfilePic(resized);
-      localStorage.setItem("profilePic", resized);
-      // Optionally update Firestore and Firebase Auth with the base64 string or upload to storage if needed
-      // await updateProfile(auth.currentUser, { photoURL: resized });
-      // await updateDoc(doc(db, "users", auth.currentUser.uid), { profilePic: resized });
-      return resized;
-    } catch (error) {
-      console.error("Error updating photo URL:", error);
-      return false;
-    }
-  };
-
-  // Function to update user data in Firestore
-  const updateUserData = async (newData) => {
-    try {
-      await updateDoc(doc(db, "users", currentUser.uid), newData);
-      if (newData.role !== undefined) {
-        setRole(newData.role);
-      }
-    } catch (error) {
-      console.error("Error updating user data:", error);
-    }
-  };
-
-  // Function to get user data from Firestore
+  // Load profilePic from Firestore and cache in localStorage
   useEffect(() => {
     if (!currentUser) return;
     const userRef = doc(db, "users", currentUser.uid);
@@ -317,9 +95,7 @@ export function AuthProvider({ children }) {
       if (docSnap.exists()) {
         const data = docSnap.data();
         setProfile(data);
-        setProfilePic(
-          localStorage.getItem("profilePic") || data.profilePic || ""
-        );
+        setProfilePic(data.profilePic || "");
         setUsername(data.username || "");
         setFullName(data.fullName || "");
         setPhoneNumber(data.phoneNumber || "");
@@ -339,6 +115,13 @@ export function AuthProvider({ children }) {
             ? data.emailVerified
             : currentUser.emailVerified || false
         );
+        // Cache profilePic per user
+        if (data.profilePic) {
+          localStorage.setItem(
+            `profilePic_${currentUser.uid}`,
+            data.profilePic
+          );
+        }
       } else {
         setProfile(null);
         setProfilePic("");
@@ -362,6 +145,280 @@ export function AuthProvider({ children }) {
     return () => unsubscribe();
   }, [currentUser]);
 
+  // When profilePic changes, update Firestore and localStorage for the current user
+  useEffect(() => {
+    if (!currentUser || !profilePic) return;
+    updateDoc(doc(db, "users", currentUser.uid), { profilePic });
+    localStorage.setItem(`profilePic_${currentUser.uid}`, profilePic);
+  }, [profilePic, currentUser]);
+
+  // When user logs in, load profilePic from localStorage cache if available
+  useEffect(() => {
+    if (!currentUser) return;
+    const cachedPic = localStorage.getItem(`profilePic_${currentUser.uid}`);
+    if (cachedPic) setProfilePic(cachedPic);
+  }, [currentUser]);
+
+  // Handle profile image file input
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const resized = await resizeImage(file, 256);
+      setProfilePic(resized);
+    }
+  };
+
+  function toggleHidePassword() {
+    setHidePassword((prev) => !prev);
+  }
+  // Sign up new user (allow re-registration if Firestore user doc is missing)
+  const signUp = async (email, password) => {
+    try {
+      setIsSubmitting(true);
+      // Try to create a new Firebase Auth user
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      // Always (re)create the Firestore user profile
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        joinDate: new Date().toISOString(),
+        role: "User",
+        accountStatus: "Active",
+        emailVerified: user.emailVerified || false,
+      });
+
+      alert(
+        "A verification email has been sent to your email address. Please verify your email before logging in."
+      );
+      await signOut(auth);
+      navigate("/login");
+      return user;
+    } catch (error) {
+      setIsSubmitting(false);
+      if (error.code === "auth/email-already-in-use") {
+        // Try to sign in to check if the user is deleted in Firestore
+        try {
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          const user = userCredential.user;
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (!userDoc.exists()) {
+            // User exists in Auth but not in Firestore, recreate Firestore profile
+            await setDoc(doc(db, "users", user.uid), {
+              email: user.email,
+              joinDate: new Date().toISOString(),
+              role: "User",
+              accountStatus: "Active",
+              emailVerified: user.emailVerified || false,
+            });
+            alert(
+              "Account restored. Please verify your email before logging in."
+            );
+            await signOut(auth);
+            navigate("/login");
+            return user;
+          } else {
+            alert(
+              "This email address is already in use. Please use a different email or log in."
+            );
+            await signOut(auth);
+            return;
+          }
+        } catch (signInError) {
+          console.log(signInError);
+          alert(
+            "This email address is already in use. Please use a different email or log in."
+          );
+          return;
+        }
+      }
+      throw error;
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  // // Sign up new user (allow re-registration if Firestore user doc is missing)
+  // const signUp = async (email, password) => {
+  //   try {
+  //     setIsSubmitting(true);
+  //     // Try to create a new Firebase Auth user
+  //     const userCredential = await createUserWithEmailAndPassword(
+  //       auth,
+  //       email,
+  //       password
+  //     );
+  //     const user = userCredential.user;
+  //     setJoinDate(new Date().toISOString());
+
+  //     await sendEmailVerification(user);
+  //     // Always (re)create the Firestore user profile
+  //     await setDoc(doc(db, "users", user.uid), {
+  //       email: user.email,
+  //       joinDate: new Date().toISOString(),
+  //       role: "User",
+  //       accountStatus: "Active",
+  //       emailVerified: user.emailVerified || false,
+  //     });
+
+  //     alert(
+  //       "A verification email has been sent to your email address. Please verify your email before logging in."
+  //     );
+  //     await signOut(auth);
+  //     navigate("/login");
+  //     return user;
+  //   } catch (error) {
+  //     setIsSubmitting(false);
+  //     if (error.code === "auth/email-already-in-use") {
+  //       alert(
+  //         "This email address is already in use. Please use a different email or log in."
+  //       );
+  //       return;
+  //     }
+  //     throw error;
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
+  // Sign in existing user
+  const signIn = async (email, password) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      await user.reload();
+      if (!user.emailVerified) {
+        await signOut(auth);
+        alert(
+          "Your email is not verified. Please check your inbox and verify your email before logging in."
+        );
+        throw new Error("Email not verified");
+      }
+      setError(null);
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, {
+        lastLogin: new Date().toISOString(),
+      });
+      setLastLogin(new Date().toISOString());
+      navigate("/layout");
+    } catch (error) {
+      console.error("Error signing in:", error.message);
+      setError(error.code);
+      throw error;
+    }
+  };
+
+  // Google sign-in
+  const googleSignin = async () => {
+    try {
+      await signInWithRedirect(auth, googleProvider);
+    } catch (error) {
+      console.error("Error signing in:", error.message);
+      throw error;
+    }
+  };
+
+  // Handle Google redirect result
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (result && result.user) {
+          const userRef = doc(db, "users", result.user.uid);
+          await updateDoc(userRef, {
+            lastLogin: new Date().toISOString(),
+          });
+          setLastLogin(new Date().toISOString());
+          setError(null);
+          navigate("/layout");
+        }
+      })
+      .catch((error) => {
+        console.error("Google sign-in redirect error:", error.message);
+        setError(error.code);
+      });
+  }, [navigate]);
+
+  // Sign out
+  const logOut = async () => {
+    try {
+      await signOut(auth);
+      console.log("User signed out");
+    } catch (error) {
+      console.error("Error signing out:", error.message);
+      throw error;
+    }
+  };
+
+  // Update user profile in Firebase Auth
+  async function updateUserProfile(data) {
+    try {
+      await updateProfile(auth.currentUser, {
+        displayName: data.username,
+        photoURL: data.profilePic,
+      });
+      alert("Profile updated!");
+    } catch (error) {
+      console.error("Error updating profile:", error.message);
+      alert("Error updating profile:", error.message);
+      throw error;
+    }
+  }
+
+  // Update user data in Firestore
+  const updateUserData = async (newData) => {
+    try {
+      await updateDoc(doc(db, "users", currentUser.uid), newData);
+      if (newData.role !== undefined) setRole(newData.role);
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+  };
+
+  // Update profilePic in localStorage by resizing
+  const updatePhotoURL = async (file) => {
+    if (!file) {
+      alert("Please select an image to upload.");
+      return;
+    }
+    try {
+      const resized = await resizeImage(file, 256);
+      setProfilePic(resized);
+      localStorage.setItem(`profilePic_${currentUser.uid}`, resized);
+      return resized;
+    } catch (error) {
+      console.error("Error updating photo URL:", error);
+      return false;
+    }
+  };
+  // Password reset function
+  const resetPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert(
+        "✨ Password reset link sent! Please check your inbox (and spam folder). Follow the instructions in the email to securely reset your password."
+      );
+    } catch (error) {
+      if (error.code === "auth/user-not-found") {
+        alert("No account found with that email address.");
+      } else {
+        alert("Something went wrong. Please try again later.");
+      }
+    }
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -414,6 +471,7 @@ export function AuthProvider({ children }) {
         fileInputRef,
         handleFileChange,
         handleImageClick,
+        resetPassword,
       }}
     >
       {children}

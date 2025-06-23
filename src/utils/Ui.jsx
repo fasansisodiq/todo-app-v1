@@ -5,7 +5,7 @@ function Ui({ icon, label, taskNum }) {
   return (
     <>
       <div
-        onClick={() => handleSort()}
+        // onClick={() => handleSort()}
         className={`
       w-full flex justify-between items-center px-1.5 py-1 sm:px-3 sm:py-2 sm:my-1 rounded-xl cursor-pointer
       bg-gradient-to-r from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]

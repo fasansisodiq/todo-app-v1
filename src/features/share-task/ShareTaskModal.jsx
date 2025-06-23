@@ -5,14 +5,30 @@ import AlertingModal from "../../utils/AlertingModal";
 import { FaShareAlt } from "react-icons/fa";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 
-function ShareTaskModal({ title, id, userId = "new user", task }) {
+function ShareTaskModal({ title, id, recipientIdentifier = "new user" }) {
   const { openShare, onCloseShare, setOpenModal } = useOperation();
   const { shareTaskWithUser } = useTasks();
-  async function handleShare() {
-    await shareTaskWithUser(id, userId);
-    onCloseShare();
-    setOpenModal(null);
-  }
+
+  // async function handleShare() {
+  //   console.log(recipientIdentifier);
+  //   await shareTaskWithUser(id, recipientIdentifier);
+  //   onCloseShare();
+  //   setOpenModal(null);
+  // }
+
+  const handleShare = async () => {
+    console.log("handleShare called with recipient:", recipientIdentifier);
+    try {
+      await shareTaskWithUser(id, recipientIdentifier);
+      alert("Task shared!");
+      onCloseShare();
+      setOpenModal(null);
+    } catch (error) {
+      console.error("Error in handleShare:", error);
+      alert("Failed to share task. Please check permissions and try again.");
+    }
+  };
+  // handleShare();
   return (
     <AlertingModal
       title={title}
@@ -20,7 +36,7 @@ function ShareTaskModal({ title, id, userId = "new user", task }) {
       onClick={onCloseShare}
       iconColor={"text-emerald-400 "}
       // animation={" animate-ping"}
-      modalMessage={" you want to share this task?"}
+      modalMessage={` You are about to share this task with ${recipientIdentifier}?`}
       icon={<FaShareAlt />}
     >
       <CustomButton
@@ -31,7 +47,8 @@ function ShareTaskModal({ title, id, userId = "new user", task }) {
       />
 
       <Link
-        to={`${id}?id=${id}&title=${task.title}&assignee=${task.assignee}&dueDate=${task.dueDate}&description=${task.description}&priority=${task.priority}&taskClass=${task.taskClass}`}
+        // to={`${id}?id=${id}&title=${task.title}&assignee=${task.assignee}&dueDate=${task.dueDate}&description=${task.description}&priority=${task.priority}&taskClass=${task.taskClass}`}
+        to="/layout/share"
       >
         <CustomButton
           onClick={handleShare}

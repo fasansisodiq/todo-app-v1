@@ -1,4 +1,3 @@
-import React from "react";
 import TrashedTaskOperations from "./TrashedTaskOperations";
 import ReusableTaskItem from "../../utils/ReusableTaskItem";
 

@@ -140,7 +140,7 @@ function LoginPage() {
         </form>
         <div className="flex justify-between items-center w-full mt-2">
           <Link
-            to="/#"
+            to="/forget-password"
             className="text-blue-600 hover:underline text-sm font-medium"
           >
             Forgot password?

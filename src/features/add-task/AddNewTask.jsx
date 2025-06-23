@@ -29,7 +29,7 @@ function AddNewTask() {
       pending: false,
       userId: auth?.currentUser?.uid,
       createdBy: auth?.currentUser?.uid,
-      sharedWith: [],
+      // sharedWith: [],
       createdAt: new Date().toISOString(),
     };
 

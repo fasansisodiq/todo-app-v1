@@ -14,6 +14,7 @@ import Trash from "./Trash";
 import Work from "./Work";
 import Pending from "./Pending";
 import Shared from "./Shared";
+import Teams from "./Teams";
 
 function SideBar() {
   return (
@@ -39,6 +40,7 @@ function SideBar() {
         <Search />
       </div>
       {/* Main Navigation */}
+      <Teams />
       <nav className="flex flex-col gap-3  sm:gap-2 sm:mt-2">
         <Today />
         <Important />

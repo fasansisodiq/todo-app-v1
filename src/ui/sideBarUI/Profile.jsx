@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import DisplayHoverMessage from "../../utils/DisplayHoverMessage";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import { useAuth } from "../../authentication/useAuth";
-import ProfilePicture from "../../pages/navBarPages/menu/ProfilePage/profile/ProfilePicture";
 import { useNotifications } from "../../customHooks/notification/useNotifications";
 import DarkModeToggle from "../../utils/DarkModeBtn";
 

@@ -29,6 +29,10 @@ import LoginPage from "./pages/LoginPage";
 import UserProfile from "./pages/navBarPages/menu/ProfilePage/profile/UserProfile";
 import EditProfile from "./pages/navBarPages/menu/ProfilePage/profile/EditProfile";
 import NotificationPage from "./pages/notification/NotificationPage";
+import { elements } from "chart.js";
+import ForgotPassword from "./pages/ForgetPasswordPage";
+import TeamCollabPage from "./pages/sideBarPages/TeamCollabPage";
+import AcceptInvite from "./features/team collaboration/AcceptInvite";
 
 const layoutRoutes = [
   // Sidebar
@@ -47,6 +51,7 @@ const layoutRoutes = [
   { path: "friend", element: <FriendPage /> },
   { path: "notification", element: <NotificationPage /> },
   { path: "share", element: <SharedTaskPage /> },
+  { path: "teams", element: <TeamCollabPage /> },
 
   // Navbar/Menu
   { path: "settings", element: <SettingsPage /> },
@@ -65,6 +70,8 @@ const mainRoutes = [
   { path: "login", element: <LoginPage /> },
   { path: "profile", element: <UserProfile /> },
   { path: "edit-profile", element: <EditProfile /> },
+  { path: "forget-password", element: <ForgotPassword /> },
+  { path: "accept-invite", element: <AcceptInvite /> },
 ];
 const dynamicRoutesPath = [
   ":taskId",
@@ -81,6 +88,6 @@ const dynamicRoutesPath = [
   "completed/:taskId",
   "planned/:taskId",
   "filter/:taskId",
-  "share/:taskId",
+  // "share/:taskId",
 ];
 export { layoutRoutes, mainRoutes, dynamicRoutesPath };

@@ -4,7 +4,7 @@ import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
 
 function SharedTaskPage() {
   const { sharedTasks } = useTasks();
-
+  console.log(sharedTasks);
   return (
     <div className="w-full">
       <TaskOverviewHeader />

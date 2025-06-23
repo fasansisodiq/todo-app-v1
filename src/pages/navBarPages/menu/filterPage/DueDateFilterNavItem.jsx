@@ -15,7 +15,7 @@ function DueDateFilterNavItem({ onClick }) {
   return (
     <>
       {dueDateOptions.map((group) => (
-        <OptionGroup label={group.label} key={group.label}>
+        <OptionGroup label={group.label} myKey={group.label}>
           {group.options.map((option) => (
             <FilterNavItem key={option} label={option} onClick={onClick}>
               {option}

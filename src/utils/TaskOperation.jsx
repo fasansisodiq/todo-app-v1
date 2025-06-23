@@ -16,8 +16,8 @@ function TaskOperation({
         cursor-pointer
         ${
           open
-            ? "bg-emerald-50 dark:hover:bg-yellow-50 shadow"
-            : "hover:bg-emerald-100 dark:hover:bg-slate-700"
+            ? "bg-emerald-50 dark:bg-[#777d83] shadow"
+            : "hover:bg-emerald-100 dark:hover:bg-[#7b7d82]"
         }
         ${mClassName}
       `}
@@ -29,7 +29,7 @@ function TaskOperation({
         role="button"
         aria-label={label}
       >
-        <span className="text-emerald-600 dark:text-yellow-400 dark:opacity-75 text-xl md:text-2xl lg:text-3xl flex items-center">
+        <span className="text-emerald-600 dark:text-yellow-400/75 text-lg md:text-xl lg:text-2xl flex items-center">
           {icon}
         </span>
         <span className="capitalize font-semibold text-slate-800 dark:text-yellow-100 text-base md:text-lg">

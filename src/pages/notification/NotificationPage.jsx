@@ -5,9 +5,14 @@ import { db } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { FaArrowLeft } from "react-icons/fa";
+import { useTeamCollab } from "../../customHooks/team-collaboration/useTeamCollab";
+import { useAuth } from "../../authentication/useAuth";
 
 function NotificationPage() {
-  const { notifications, loading, markAsRead } = useNotifications();
+  const { acceptTeamInvite, activeTeamId } = useTeamCollab();
+  const { currentUser } = useAuth();
+  const { notifications, loading, markAsRead, changeInviteStatus } =
+    useNotifications();
   const navigate = useNavigate();
 
   // Auto-delete read notifications older than 7 days
@@ -56,6 +61,10 @@ function NotificationPage() {
               key={notif.id}
               notifications={notif}
               onMarkAsRead={markAsRead}
+              activeTeamId={activeTeamId}
+              onChangeInviteStatus={changeInviteStatus}
+              onAcceptTeamInvite={acceptTeamInvite}
+              currentUser={currentUser}
             />
           )
       )}
