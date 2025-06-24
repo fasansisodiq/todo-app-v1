@@ -3,7 +3,7 @@ import CompletedTaskOperation from "../../features/mark-as-completed/CompletedTa
 import PendingTaskOperation from "../../features/mark-as-pending/PendingTaskOperation";
 import TaskDescriptionOperation from "./taskDescription/TaskDescriptionOperation";
 import TempDeleteTaskOperation from "../../features/move-task-to-trash/TempDeleteTaskOperation";
-import ShareTaskOperation from "../../features/share-task/SharetaskOperation";
+import ShareTaskOperation from "../../features/share-task/ShareTaskOperation";
 
 function TaskOperations({ task, description, title }) {
   const taskOperations = [
