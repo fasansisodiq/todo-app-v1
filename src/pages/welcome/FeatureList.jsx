@@ -6,7 +6,7 @@ import { TbReportAnalytics } from "react-icons/tb";
 const texts = [
   {
     icon: <MdEdit className="text-emerald-500 text-lg mr-2" />,
-    text: "Add, edit, and delete tasks: You can add new tasks, edit existing tasks, and remove tasks.",
+    text: "Add, edit,trash, and delete tasks: You can add new tasks, edit existing tasks, and remove tasks.",
   },
   {
     icon: <FcCheckmark className="text-lg mr-2" />,
@@ -14,7 +14,7 @@ const texts = [
   },
   {
     icon: <BsFilter className="text-emerald-400 text-lg mr-2" />,
-    text: "Filter tasks: Quickly find tasks by status, due date, or assignee.",
+    text: "Filter tasks:Tasks are filtered into different categories. Quickly find tasks by status, due date, or assignee.",
   },
   {
     icon: <FcBarChart className="text-lg mr-2" />,
@@ -22,7 +22,15 @@ const texts = [
   },
   {
     icon: <TbReportAnalytics className="text-emerald-400 text-lg mr-2" />,
-    text: "Reporting: Get insightful reports on your time and productivity.",
+    text: "Reporting: Get insightful reports on your time and productivity with real-time tracking and reporting.",
+  },
+  {
+    icon: <TbReportAnalytics className="text-emerald-400 text-lg mr-2" />,
+    text: "Robust security and user access management:Focus on managing your tasks and projects, protect your data and control access with confidence",
+  },
+  {
+    icon: <TbReportAnalytics className="text-emerald-400 text-lg mr-2" />,
+    text: "Robust collaboration : Get insightful reports on your time and productivity with real-time tracking and reporting.",
   },
 ];
 
