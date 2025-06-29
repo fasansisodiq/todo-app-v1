@@ -5,6 +5,7 @@ import { useTasks } from "../../customHooks/tasks/useTasks";
 import { useAuth } from "../../authentication/useAuth";
 import { useNotifications } from "../../customHooks/notification/useNotifications";
 import DarkModeToggle from "../../utils/DarkModeBtn";
+import Logo from "../../utils/Logo";
 
 function Profile() {
   const { date } = useTasks();
@@ -31,6 +32,12 @@ function Profile() {
         <h1 className="opacity-90 font-extrabold tracking-widest text-emerald-700 dark:text-yellow-300 text-lg md:text-xl uppercase drop-shadow">
           todopro
         </h1>
+        {/* <img
+          src="/public/todopro-light.jpg"
+          alt="logo"
+          className="size-10 bg-white"
+        /> */}
+        {/* <Logo size={5} /> */}
         <div className="flex items-center gap-2">
           <DarkModeToggle />
           {enableNotifications && notifications && (
@@ -56,7 +63,7 @@ function Profile() {
         </div>
       </div>
       {/* Date */}
-      <span className="text-xs md:text-base text-slate-400 dark:text-slate-300 font-mono pt-1 self-end">
+      <span className="text-[0.6rem] sm:text-xs md:text-base text-slate-400 dark:text-slate-300 font-mono pt-1 self-end">
         {date}
       </span>
       {/* Greeting */}

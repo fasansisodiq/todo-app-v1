@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useCallback } from "react";
+
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import Search from "../../utils/Search";
 import {
   formattedDate,
   formattedTodayDate,
 } from "../../customHooks/tasks/DateFormerter";
-import { useState, useCallback } from "react";
 
 function SearchTask() {
   const navigate = useNavigate();
@@ -77,14 +78,13 @@ function SearchTask() {
 
   return (
     <div className="lg:pb-4 relative w-full">
-      <>
-        <Search
-          placeholder={"Search task #"}
-          value={searchQuery}
-          handleSearch={handleSearch}
-          onChange={handleInputChange}
-        />
-      </>
+      <Search
+        placeholder={"Search task #"}
+        value={searchQuery}
+        handleSearch={handleSearch}
+        onChange={handleInputChange}
+      />
+
       {/* Fancy Live results dropdown */}
       {searchQuery && liveResults.length > 0 && (
         <ul className="absolute left-0 right-0 mt-2 bg-white dark:bg-[#232b25] border border-emerald-100 dark:border-emerald-800 rounded-xl shadow-2xl max-h-72 overflow-y-auto z-50 w-full animate-fade-in">

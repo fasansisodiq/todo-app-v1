@@ -50,6 +50,7 @@ export function NotificationProvider({ children }) {
 
   // Real-time updates for notifications
   useEffect(() => {
+    setLoading(true);
     const userNotificationsRef = getUserNotificationsRef();
     if (!currentUser || !userNotificationsRef) {
       setNotifications([]);

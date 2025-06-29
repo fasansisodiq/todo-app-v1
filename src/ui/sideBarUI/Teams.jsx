@@ -1,4 +1,5 @@
-import TeamIcon from "../../features/team collaboration/TeamIcon";
+import { FcCollaboration } from "react-icons/fc";
+
 import PageNavigator from "../../utils/PageNavigator";
 import Ui from "../../utils/Ui";
 
@@ -13,7 +14,7 @@ function Teams() {
         <Ui
           label={"teams"}
           // taskNum={personalTaskNum < 1 ? "" : personalTaskNum}
-          icon={<TeamIcon />}
+          icon={<FcCollaboration />}
         />
       </PageNavigator>
     </>

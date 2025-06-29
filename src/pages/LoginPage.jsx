@@ -54,9 +54,9 @@ function LoginPage() {
     }
   };
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
-      <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center gap-6">
-        <Logo size={48} />
+    <div className="w-[15rem]sm:w-[20rem] md:w-[25rem] lg:w-[35rem] min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
+      <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center ">
+        <Logo size={30} />
         <h1 className="text-emerald-700 text-3xl font-extrabold text-center tracking-wide">
           Welcome Back!
         </h1>
@@ -138,7 +138,7 @@ function LoginPage() {
             className="w-full py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg transition-all duration-200 text-lg"
           />
         </form>
-        <div className="flex justify-between items-center w-full mt-2">
+        <div className="flex justify-between items-center w-full mt-2  pt-4">
           <Link
             to="/forget-password"
             className="text-blue-600 hover:underline text-sm font-medium"

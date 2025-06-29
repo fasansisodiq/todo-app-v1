@@ -33,17 +33,17 @@ function OverviewScreen() {
         {showHeaderAndFilter && (
           <header className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-extrabold text-emerald-700 dark:text-yellow-200 tracking-wide">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-emerald-700 dark:text-yellow-200 tracking-wide">
                 Task Overview
               </h1>
-              <p className="text-slate-500 dark:text-slate-300 text-base md:text-lg mt-1">
+              <p className="text-slate-500 dark:text-slate-300 text-sm sm:text-base md:text-lg mt-1">
                 See your progress, stats, and manage your tasks at a glance.
               </p>
             </div>
             <div className="flex gap-2">
               {/* Add Task Button (example quick action) */}
               <button
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 text-white font-semibold shadow hover:bg-emerald-700 dark:bg-emerald-800 dark:hover:bg-emerald-900 dark:text-yellow-200 transition-all text-sm md:text-base"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 text-white font-semibold shadow hover:bg-emerald-700 dark:bg-emerald-800 dark:hover:bg-emerald-900 dark:text-yellow-200 transition-all text-xs md:text-base"
                 onClick={() => navigate("/layout/new-task")}
                 aria-label="Add new task"
               >

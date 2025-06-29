@@ -60,7 +60,7 @@ function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
+    <div className="w-[15rem]sm:w-[20rem] md:w-[25rem] lg:w-[35rem] min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
       <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center gap-6">
         <Logo size={48} />
         <h1 className="capitalize text-3xl text-emerald-700 font-bold mt-2 mb-1 text-center">
