@@ -1,17 +1,20 @@
 import { useTasks } from "../../customHooks/tasks/useTasks";
+import TrashedSubtaskItem from "../../features/move-subtask-to-trash/trashSubtaskItem";
 import TrashedTaskItem from "../../features/move-task-to-trash/TrashedTaskItem";
-import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
 
 function TrashPage() {
-  const { trashData } = useTasks();
-
+  const { trashData, subtasksMap } = useTasks();
+  // console.log("subtaskTrash", subtasksMap?.subtaskTrash);
   return (
     <div className="w-full">
-      <TaskOverviewHeader />
       <ul>
         {trashData?.length > 0 &&
           trashData.map((task, idx) => (
             <TrashedTaskItem task={task} key={idx + 1} idx={idx} />
+          ))}
+        {subtasksMap?.subtaskTrash?.length > 0 &&
+          subtasksMap.subtaskTrash.map((subtask, idx) => (
+            <TrashedSubtaskItem subtask={subtask} key={idx + 1} idx={idx} />
           ))}
       </ul>
     </div>

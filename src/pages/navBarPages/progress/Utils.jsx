@@ -125,6 +125,24 @@ export function useTaskStats() {
             case "restored":
               actionText = `restored "${act.taskTitle}"`;
               break;
+            case "subtask_added":
+              actionText = `added a new subtask: "${act.subtaskTitle}" to "${act.taskTitle}"`;
+              break;
+            case "subtask_completed":
+              actionText = `completed a subtask: "${act.subtaskTitle}" of "${act.taskTitle}"`;
+              break;
+            case "subtask_deleted":
+              actionText = `deleted a subtask: "${act.subtaskTitle}" of "${act.taskTitle}"`;
+              break;
+            case "subtask_updated":
+              actionText = `updated a subtask: "${act.subtaskTitle}" of "${act.taskTitle}"`;
+              break;
+            case "subtask_restored":
+              actionText = `restored a subtask: "${act.subtaskTitle}" of "${act.taskTitle}"`;
+              break;
+            case "subtask_trashed":
+              actionText = `trashed a subtask: "${act.subtaskTitle}" of "${act.taskTitle}"`;
+              break;
             default:
               actionText = act.taskTitle || act.type;
           }

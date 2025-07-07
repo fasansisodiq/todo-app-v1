@@ -2,21 +2,28 @@ import { doc, onSnapshot } from "firebase/firestore";
 import NotifBtn from "./NotifBtn";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 const taskNotificationDatas = [
   { label: "task name", value: "title" },
   { label: "description", value: "description" },
-  // { label: "status", value: "priority" },
+  { label: "status", value: "status" },
   { label: "assignee", value: "assignee" },
   { label: "due date", value: "dueDate" },
-  { label: "created at", value: "createdAt" },
-  { label: "updated at", value: "updatedAt" },
 ];
 const teamNotifDatas = [
   { label: "team name", value: "teamName" },
   { label: "to", value: "to" },
   { label: "from", value: "inviterEmail" },
   { label: "status", value: "status" },
+];
+
+const subtaskNotificationDatas = [
+  { label: "subtask name", value: "title" },
+  { label: "description", value: "description" },
+  { label: "due date", value: "dueDate" },
+  { label: "priority", value: "priority" },
+  { label: "assignee", value: "assignee" },
 ];
 
 function NotificationCard({
@@ -79,12 +86,12 @@ function NotificationCard({
           {notifications.message}
         </div>
         <>
-          {notifications.taskData && (
+          {notifications.taskData && !notifications.subtaskData && (
             <div className="text-xs mt-2">
               {taskNotificationDatas.map((data) => (
-                <div key={data.value} className="dark:text-yellow-200/70">
+                <div key={data.label} className=" dark:text-yellow-200/70">
                   {data.label}:{" "}
-                  <span className="font-semibold dark:text-yellow-100">
+                  <span className="font-semibold text-slate-900 dark:text-yellow-100">
                     {notifications.taskData[data.value]}
                   </span>
                 </div>
@@ -105,6 +112,26 @@ function NotificationCard({
               </div>
             </div>
           )}
+
+          {notifications.subtaskData && notifications.taskData && (
+            <div className="text-xs mt-2">
+              <div className="font-semibold text-emerald-700 dark:text-yellow-200 mb-1">
+                Task:{" "}
+                <span className="font-semibold dark:text-yellow-100">
+                  {notifications.taskData.title}
+                </span>
+              </div>
+              {subtaskNotificationDatas.map((data) => (
+                <div key={data.label} className="dark:text-yellow-200/70">
+                  {data.label}:{" "}
+                  <span className="font-semibold dark:text-yellow-100">
+                    {notifications.subtaskData[data.value]}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
           {notifications.invitationData &&
             teamNotifDatas?.map((data) => (
               <div key={data.value} className="dark:text-yellow-200/70 ">
@@ -115,8 +142,27 @@ function NotificationCard({
               </div>
             ))}
         </>
-        <div className="text-xs text-slate-400 dark:text-yellow-500">
+        <div className="flex flex-col text-xs text-slate-400 dark:text-yellow-500">
           {new Date(notifications.createdAt).toLocaleString()}
+          {/* <Link
+            to={`/layout/${
+              notifications?.taskData?.taskClass ||
+              notifications?.subtaskData?.taskClass
+            }`}
+            className="text-blue-600 hover:text-blue-800 font-semibold pt-1 underline"
+          >
+            view task details
+          </Link> */}
+          <Link
+            to={`/layout/${
+              notifications?.taskData?.taskClass ||
+              notifications?.subtaskData?.parentTaskClass ||
+              ""
+            }`}
+            className="text-blue-600 hover:text-blue-800 font-semibold pt-1 underline"
+          >
+            view task details
+          </Link>
         </div>
       </div>
       {/* mark as read btn */}

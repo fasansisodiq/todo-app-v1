@@ -70,9 +70,7 @@ function CountdownToFutureDate({ targetDateString }) {
 
   return (
     <div>
-      <p className="text-sm md:text-base text-slate-600 dark:text-yellow-200 dark:opacity-60">
-        {handleDueDate()}
-      </p>
+      <p className=" dark:text-yellow-200 dark:opacity-60">{handleDueDate()}</p>
     </div>
   );
 }

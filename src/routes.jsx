@@ -23,13 +23,15 @@ import SettingsPage from "./pages/settings/SettingsPage";
 
 // Utility Pages
 import AddNewTask from "./features/add-task/AddNewTask";
+// import AddSubTask from "./features/add-suntasks/AddSubTaskModal";
+
+// Main Pages
 import WelcomePage from "./pages/welcome/WelcomePage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import UserProfile from "./pages/navBarPages/menu/ProfilePage/profile/UserProfile";
 import EditProfile from "./pages/navBarPages/menu/ProfilePage/profile/EditProfile";
 import NotificationPage from "./pages/notification/NotificationPage";
-import { elements } from "chart.js";
 import ForgotPassword from "./pages/ForgetPasswordPage";
 import TeamCollabPage from "./pages/sideBarPages/TeamCollabPage";
 import AcceptInvite from "./features/team collaboration/AcceptInvite";
@@ -62,6 +64,7 @@ const layoutRoutes = [
 
   // Utility
   { path: "task/new", element: <AddNewTask /> },
+  // { path: "task/subtask", element: <AddSubTask /> },
 ];
 
 const mainRoutes = [

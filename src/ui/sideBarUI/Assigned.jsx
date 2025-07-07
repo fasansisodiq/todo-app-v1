@@ -7,17 +7,19 @@ function Assigned() {
   const assignedNumTasks = useTaskNumberFetcher("assigned");
   return (
     <>
-      <PageNavigator to="/layout/assigned" activeClassName={" h-6"}>
-        <Ui
-          label={"assigned"}
-          taskNum={assignedNumTasks < 1 ? "" : assignedNumTasks}
-          icon={
-            <span className="text-lime-500">
-              <CgAssign />
-            </span>
-          }
-        />
-      </PageNavigator>
+      {assignedNumTasks >= 1 && (
+        <PageNavigator to="/layout/assigned" activeClassName={" h-6"}>
+          <Ui
+            label={"assigned"}
+            taskNum={assignedNumTasks < 1 ? "" : assignedNumTasks}
+            icon={
+              <span className="text-lime-500">
+                <CgAssign />
+              </span>
+            }
+          />
+        </PageNavigator>
+      )}
     </>
   );
 }

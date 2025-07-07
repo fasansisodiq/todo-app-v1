@@ -27,23 +27,37 @@ function LoginPage() {
   const userNotFound = errorCode === "auth/user-not-found";
   const incorrectEmail = errorCode === "auth/wrong-email";
 
-  // Sign in an existing user
-  const handleLogin = (e) => {
+  // Sign in an existing user and persist login until logout
+  const handleLogin = async (e) => {
     e.preventDefault();
-    signIn(email, password);
-
-    setPersistence(auth, browserSessionPersistence)
-      .then(() => {
-        return signInWithEmailAndPassword(auth, email, password);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
+    try {
+      // Set persistence to local (user stays logged in until logout)
+      await setPersistence(auth, browserSessionPersistence);
+      await signIn(email, password);
+    } catch (error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode);
+      console.log(errorMessage);
+    }
   };
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   signIn(email, password);
+
+  //   setPersistence(auth, browserSessionPersistence)
+  //     .then(() => {
+  //       return signInWithEmailAndPassword(auth, email, password);
+  //     })
+  //     .catch((error) => {
+  //       // Handle Errors here.
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       console.log(errorCode);
+  //       console.log(errorMessage);
+  //     });
+  // };
 
   //function to sign in an existing user with google
   const handleSignInWithGoogle = async () => {

@@ -7,10 +7,12 @@ import { useAuth } from "../authentication/useAuth";
 import { useEffect, useState } from "react";
 import Spinner from "../utils/Spinner";
 import { Navigate } from "react-router";
+import { useTasks } from "../customHooks/tasks/useTasks";
 
 function AppLayout() {
   const { darkMode, setDarkMode } = useDarkMode();
   const { currentUser } = useAuth();
+  const { ToastContainer } = useTasks();
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
@@ -41,6 +43,17 @@ function AppLayout() {
           <OperationProvider>
             <OverviewScreen />
           </OperationProvider>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </main>
       </div>
     </div>

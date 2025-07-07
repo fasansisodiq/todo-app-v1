@@ -7,17 +7,19 @@ function House() {
   const houseTaskNum = useTaskNumberFetcher("house");
   return (
     <>
-      <PageNavigator to="/layout/house" activeClassName={" h-6"}>
-        <Ui
-          label={"house"}
-          taskNum={houseTaskNum < 1 ? "" : houseTaskNum}
-          icon={
-            <span className="text-orange-400">
-              <HiHomeModern />
-            </span>
-          }
-        />
-      </PageNavigator>
+      {houseTaskNum >= 1 && (
+        <PageNavigator to="/layout/house" activeClassName={" h-6"}>
+          <Ui
+            label={"house"}
+            taskNum={houseTaskNum < 1 ? "" : houseTaskNum}
+            icon={
+              <span className="text-orange-400">
+                <HiHomeModern />
+              </span>
+            }
+          />
+        </PageNavigator>
+      )}
     </>
   );
 }

@@ -1,9 +1,8 @@
-import React from "react";
 import ColumnDiv from "../ColumnDiv";
 import Label from "../Label";
 import Input from "../Input";
 
-function TaskAssignee({ value, defaultValue, onChange }) {
+function Assignee({ value, defaultValue, onChange, id, required }) {
   return (
     <ColumnDiv>
       <span className="flex justify-start">
@@ -13,13 +12,14 @@ function TaskAssignee({ value, defaultValue, onChange }) {
         type={"text"}
         placeholder={"Who will execute the task?"}
         name={"assignee"}
-        id={"assignee"}
+        id={id || "assignee"}
         defaultValue={defaultValue}
         value={value}
         onChange={onChange}
+        required={required}
       />
     </ColumnDiv>
   );
 }
 
-export default TaskAssignee;
+export default Assignee;

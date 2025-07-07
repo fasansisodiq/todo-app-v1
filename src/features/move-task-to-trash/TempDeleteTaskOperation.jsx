@@ -8,7 +8,7 @@ function TempDeleteTaskOperation({ id, title, task }) {
   return (
     <>
       <TaskOperation
-        label={"Delete"}
+        label={"Move to Trash"}
         open={openTrash}
         onClick={onOpenTrash}
         icon={<PiWarningCircle />}

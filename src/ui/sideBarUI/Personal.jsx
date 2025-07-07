@@ -7,21 +7,23 @@ function Personal() {
   const personalTaskNum = useTaskNumberFetcher("personal");
   return (
     <>
-      <PageNavigator
-        to="/layout/personal"
-        activeClassName={" h-6"}
-        notActiveClassName={"hover:bg-slate-300 hover:px-0.5 px-0.5"}
-      >
-        <Ui
-          label={"personal"}
-          taskNum={personalTaskNum < 1 ? "" : personalTaskNum}
-          icon={
-            <span className="text-pink-600">
-              <GiSelfLove />
-            </span>
-          }
-        />
-      </PageNavigator>
+      {personalTaskNum >= 1 && (
+        <PageNavigator
+          to="/layout/personal"
+          activeClassName={" h-6"}
+          notActiveClassName={"hover:bg-slate-300 hover:px-0.5 px-0.5"}
+        >
+          <Ui
+            label={"personal"}
+            taskNum={personalTaskNum < 1 ? "" : personalTaskNum}
+            icon={
+              <span className="text-pink-600">
+                <GiSelfLove />
+              </span>
+            }
+          />
+        </PageNavigator>
+      )}
     </>
   );
 }

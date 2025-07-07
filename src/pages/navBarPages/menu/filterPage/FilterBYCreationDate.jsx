@@ -1,5 +1,5 @@
 import { useTasks } from "../../../../customHooks/tasks/useTasks";
-import TaskItem from "../../../tasks/TaskItem";
+import ReusableTaskItem from "../../../../utils/ReusableTaskItem";
 
 function FilterByCreationDate({ taskData, creationDate }) {
   const { getDateObj } = useTasks;
@@ -20,7 +20,7 @@ function FilterByCreationDate({ taskData, creationDate }) {
       <div className="mt-4">
         {filteredTasks?.length > 0 ? (
           filteredTasks.map((task, idx) => (
-            <TaskItem task={task} key={task.id} idx={idx} />
+            <ReusableTaskItem task={task} key={task.id} idx={idx} />
           ))
         ) : (
           <div className="text-gray-500 text-center w-full">

@@ -7,17 +7,19 @@ function Work() {
   const workTaskNum = useTaskNumberFetcher("work");
   return (
     <>
-      <PageNavigator to="/layout/work" activeClassName={" h-6"}>
-        <Ui
-          label={"work"}
-          taskNum={workTaskNum < 1 ? "" : workTaskNum}
-          icon={
-            <span className="text-orange-600">
-              <MdWork />
-            </span>
-          }
-        />
-      </PageNavigator>
+      {workTaskNum >= 1 && (
+        <PageNavigator to="/layout/work" activeClassName={" h-6"}>
+          <Ui
+            label={"work"}
+            taskNum={workTaskNum < 1 ? "" : workTaskNum}
+            icon={
+              <span className="text-orange-600">
+                <MdWork />
+              </span>
+            }
+          />
+        </PageNavigator>
+      )}
     </>
   );
 }

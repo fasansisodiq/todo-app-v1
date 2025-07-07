@@ -3,7 +3,7 @@ import { FaCheckDouble } from "react-icons/fa6";
 import TaskOperation from "../../utils/TaskOperation";
 import { useOperation } from "../../customHooks/operation/useOperation";
 
-function CompletedTaskOperation({ id, tittle }) {
+function CompletedTaskOperation({ id, title }) {
   const { openMarkComp, onOpenMarkComp } = useOperation();
   return (
     <>
@@ -13,7 +13,7 @@ function CompletedTaskOperation({ id, tittle }) {
         open={openMarkComp}
         onClick={onOpenMarkComp}
       >
-        <CompletedTaskModal tittle={tittle} id={id} />
+        <CompletedTaskModal tittle={title} id={id} />
       </TaskOperation>
     </>
   );

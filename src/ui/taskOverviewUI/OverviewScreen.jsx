@@ -1,6 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
-import { FiFilter, FiPlus } from "react-icons/fi";
-import { useState } from "react";
+import { FiPlus } from "react-icons/fi";
 
 const taskRroutes = [
   "today",
@@ -44,7 +43,7 @@ function OverviewScreen() {
               {/* Add Task Button (example quick action) */}
               <button
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 text-white font-semibold shadow hover:bg-emerald-700 dark:bg-emerald-800 dark:hover:bg-emerald-900 dark:text-yellow-200 transition-all text-sm md:text-base"
-                onClick={() => navigate("/layout/new-task")}
+                onClick={() => navigate("/layout/task/new")}
                 aria-label="Add new task"
               >
                 <FiPlus className="text-base" />

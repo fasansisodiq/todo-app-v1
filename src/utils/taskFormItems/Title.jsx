@@ -1,9 +1,8 @@
-import React from "react";
 import Input from "../Input";
 import Label from "../Label";
 import ColumnDiv from "../ColumnDiv";
 
-function TaskTitle({ value, defaultValue, onChange }) {
+function Title({ value, defaultValue, onChange, id, required }) {
   return (
     <ColumnDiv>
       <span className="flex justify-start">
@@ -12,13 +11,14 @@ function TaskTitle({ value, defaultValue, onChange }) {
       <Input
         placeholder={"Name or title for your task"}
         name={"title"}
-        id={"title"}
+        id={id || "task-title"}
         defaultValue={defaultValue}
         value={value}
         onChange={onChange}
+        required={required}
       />
     </ColumnDiv>
   );
 }
 
-export default TaskTitle;
+export default Title;
