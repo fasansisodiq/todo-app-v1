@@ -1,14 +1,9 @@
 import { useTeamCollab } from "../../customHooks/team-collaboration/useTeamCollab";
 
-export default function TeamMembers({
-  teamMembers,
-  onRemove,
-  onRoleChange,
-  currentUserId,
-}) {
-  // const { teamMembers, onRemove, onRoleChange, currentUserId } =
-  //   useTeamCollab();
-
+export default function TeamMembers() {
+  const { activeTeamId, teamMembers, onRemove, onRoleChange, currentUserId } =
+    useTeamCollab();
+  if (!activeTeamId) return null;
   return (
     <div>
       <h3 className="font-semibold text-emerald-700 dark:text-emerald-200 mb-2">

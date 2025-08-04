@@ -17,7 +17,6 @@ export default function TeamDashboard() {
   const { currentUser } = useAuth();
   const {
     activeTeamId,
-    setActiveTeamId,
     teamMembers,
     onRemove,
     onInvite,
@@ -32,21 +31,12 @@ export default function TeamDashboard() {
         <div className="p-4 border-b border-emerald-100 dark:border-emerald-900">
           <TeamCreate />
         </div>
-        <TeamList onSelect={setActiveTeamId} activeTeamId={activeTeamId} />
+        <TeamList />
         {activeTeamId && (
           <div className="p-4 border-t border-emerald-100 dark:border-emerald-900">
-            <TeamMembers
-              teamMembers={teamMembers}
-              onRemove={onRemove}
-              currentUserId={currentUserId}
-              onRoleChange={onRoleChange}
-            />
+            <TeamMembers />
             {/* <TeamDetails teamId={activeTeamId} /> */}
-            <InviteTeamMember
-              onInvite={onInvite}
-              teamId={activeTeamId}
-              inviter={currentUser}
-            />
+            <InviteTeamMember />
           </div>
         )}
       </aside>

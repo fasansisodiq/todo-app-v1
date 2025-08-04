@@ -12,6 +12,7 @@ import {
 import { db } from "../../firebase";
 import NotificationContext from "./NotificationContext";
 import { useAuth } from "../../authentication/useAuth";
+import capitalizer ;
 import { useTeamCollab } from "../team-collaboration/useTeamCollab";
 
 export function NotificationProvider({ children }) {
@@ -24,17 +25,53 @@ export function NotificationProvider({ children }) {
 
   // Memoized reference to user's notifications subcollection
   const getUserNotificationsRef = useCallback(
-    () =>
+    (userId) =>
       currentUser
-        ? collection(db, "users", currentUser.uid, "notifications")
+        ? collection(
+            db,
+            "users",
+            userId ? userId : currentUser.uid,
+            "notifications"
+          )
         : null,
     [currentUser]
   );
+  // //Memoized reference to team notifications subcollection
+  // const getTeamNotificationsRef = useCallback(
+  //   (teamId) =>
+  //     currentUser
+  //       ? collection(
+  //           db,
+  //           "teams",
+  //           teamId ? teamId : currentUser.uid,
+  //           "notifications"
+  //         )
+  //       : null,
+  //   [currentUser]
+  // );
+
+  // //add notification to team's subcollection
+  // const addTeamNotification = useCallback(
+  //   async (teamId, notification) => {
+  //     const teamNotificationsRef = getTeamNotificationsRef(teamId);
+  //     if (!currentUser || !teamNotificationsRef) return;
+  //     try {
+  //       await addDoc(teamNotificationsRef, {
+  //         ...notification,
+  //         createdAt: new Date().toISOString(),
+  //         status: "pending",
+  //       });
+  //     } catch (err) {
+  //       console.error("Failed to add team notification:", err);
+  //     }
+  //   },
+  //   [currentUser, getTeamNotificationsRef]
+  // );
 
   // Add notification to user's subcollection
   const addNotification = useCallback(
     async (notification) => {
-      const userNotificationsRef = getUserNotificationsRef();
+      const userNotificationsRef = getUserNotificationsRef(notification.userId);
       if (!currentUser || !userNotificationsRef) return;
       try {
         await addDoc(userNotificationsRef, {
@@ -129,13 +166,20 @@ export function NotificationProvider({ children }) {
       switch (type) {
         case "team-invite":
           title = "Team Invitation";
-          //  [Team Member Name],  "Website Redesign" project.
-          message = `Hi ${invitationData.inviteeName} you've been invited to collaborate on the ${invitationData.teamName} project. Please review the tasks and let me know if you have any questions. Thanks! ".`; //
+          message = `Hi ${
+            invitationData.inviteeName
+          } you've been invited to collaborate on the ${capitalizer(
+            invitationData.teamName
+          )} project. Please review the tasks and let me know if you have any questions. Thanks! ".`; //
           break;
-        // case "invite-sent":
-        //   title = "Invitation sent";
-        //   message = `you sent an invite to ${invitationData.inviteeEmail}  to collaborate on the " ${invitationData.teamName}" .`; //
-        //   break;
+        case "accepted-invite":
+          title = "Invitation Accepted";
+          message = `Hi ${invitationData.inviterName}, ${
+            invitationData.inviteeName
+          } has accepted your invitation to join the ${capitalizer(
+            invitationData.teamName
+          )} project.`;
+          break;
 
         default:
           title = "Team Notification";
