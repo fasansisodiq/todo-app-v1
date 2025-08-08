@@ -1,20 +1,23 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import TaskForm from "../../utils/taskFormItems/TaskForm";
-import TaskTitle from "../../utils/taskFormItems/TaskTitle";
-import TaskAssignee from "../../utils/taskFormItems/TaskAssignee";
-import TaskDueDate from "../../utils/taskFormItems/TaskDueDate";
-import TaskFormButtons from "../../utils/TaskFormButtons";
-import TextArea from "../../utils/taskFormItems/TextArea";
-import TaskPriority from "../../utils/taskFormItems/TaskPriority";
-import TaskClass from "../../utils/taskFormItems/TaskClass";
-import { useOperation } from "../../customHooks/operation/useOperation";
-import { useTasks } from "../../customHooks/tasks/useTasks";
 import { auth } from "../../firebase";
 import { useState } from "react";
+
+import Title from "../../utils/taskFormItems/Title";
+import TaskAssignee from "../../utils/taskFormItems/Assignee";
+import TaskDueDate from "../../utils/taskFormItems/TaskDueDate";
+import TextArea from "../../utils/taskFormItems/Description";
+import TaskPriority from "../../utils/taskFormItems/TaskPriority";
+import TaskClass from "../../utils/taskFormItems/TaskClass";
+import TaskFormButtons from "../../utils/taskFormItems/TaskFormButtons";
+
+import { useOperation } from "../../customHooks/operation/useOperation";
+import { useTasks } from "../../customHooks/tasks/useTasks";
+import { useNotifications } from "../../customHooks/notification/useNotifications";
 
 function EditTask() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { toast } = useTasks();
   const params = Object.fromEntries(searchParams.entries());
   const { id, title, assignee, dueDate, description, priority, taskClass } =
     params;
@@ -26,24 +29,25 @@ function EditTask() {
     taskClass: taskClass,
     priority: priority,
     description: description,
-    completed: false,
-    pending: false,
     userId: auth?.currentUser?.uid,
+    status: "",
   };
 
   const [updatedTask, setUpdatedTask] = useState(updatedData);
   const { onCloseEdit, setOpenModal } = useOperation();
   const { updateTask } = useTasks();
+  const { setUpdateCanceled } = useNotifications();
 
   function handleSubmit(e) {
     e.preventDefault();
     updateTask(id, {
       ...updatedTask,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toLocaleString(),
     });
     onCloseEdit();
     () => setOpenModal(null);
     navigate(-1);
+    toast(`Task ${updatedTask.title} updated successfully`);
   }
 
   // Modern, robust change handler
@@ -61,7 +65,7 @@ function EditTask() {
         Edit Task
       </h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <TaskTitle
+        <Title
           onChange={handleEditChange}
           value={updatedTask.title}
           className="text-base md:text-lg"
@@ -74,7 +78,7 @@ function EditTask() {
           />
           <TaskDueDate
             onChange={handleEditChange}
-            defaultValue={updatedTask.dueDate}
+            value={updatedTask.dueDate}
             className="flex-1 text-base md:text-lg"
           />
         </div>
@@ -88,7 +92,7 @@ function EditTask() {
         </div>
         <div className="flex-1">
           <TaskPriority
-            defaultChecked={priority}
+            checked={updatedTask.priority}
             onChange={handleEditChange}
             className="text-base md:text-lg"
           />
@@ -103,7 +107,11 @@ function EditTask() {
           <TaskFormButtons
             submitLabel="Save"
             onSave={handleSubmit}
-            onCancel={() => navigate(-1)}
+            disabled={!title && !description && !dueDate}
+            onCancel={() => {
+              setUpdateCanceled(true);
+              navigate(-1);
+            }}
             className="text-base md:text-lg"
           />
         </div>

@@ -13,8 +13,7 @@ function Modal({ isOpen, onClose, children, alertingModalOpen = false }) {
         className={`
           relative bg-white dark:bg-[#181f1b] border border-emerald-100 dark:border-yellow-300  rounded-2xl shadow-2xl
           flex flex-col items-center justify-center
-          p-6 md:p-8 gap-6
-          w-[90vw] max-w-md
+          p-6 max-w-md mx-auto
           transition-all duration-300
           ${isOpen ? "scale-100 opacity-100" : "scale-110 opacity-0"}
         `}

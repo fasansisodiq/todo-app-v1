@@ -1,8 +1,8 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
-import { FiFilter, FiPlus } from "react-icons/fi";
-import { useState } from "react";
+import { FiPlus } from "react-icons/fi";
+import QuickActionBtn from "../../utils/QuickActionBtn";
 
-const taskRroutes = [
+const taskRoutes = [
   "today",
   "planned",
   "important",
@@ -25,7 +25,7 @@ function OverviewScreen() {
   const showHeaderAndFilter =
     location.pathname === "/layout" ||
     location.pathname === "/layout/" ||
-    taskRroutes.some((route) => location.pathname === `/layout/${route}`);
+    taskRoutes.some((route) => location.pathname === `/layout/${route}`);
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] py-8 px-2 transition-colors duration-300">
@@ -42,14 +42,18 @@ function OverviewScreen() {
             </div>
             <div className="flex gap-2">
               {/* Add Task Button (example quick action) */}
-              <button
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 text-white font-semibold shadow hover:bg-emerald-700 dark:bg-emerald-800 dark:hover:bg-emerald-900 dark:text-yellow-200 transition-all text-xs md:text-base"
-                onClick={() => navigate("/layout/new-task")}
+              <QuickActionBtn
+                label="new task"
+                onClick={() => navigate("/layout/task/new")}
+              />
+              {/* <button
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 text-white font-semibold shadow hover:bg-emerald-700 dark:bg-emerald-800 dark:hover:bg-emerald-900 dark:text-yellow-200 transition-all text-sm md:text-base"
+                onClick={() => navigate("/layout/task/new")}
                 aria-label="Add new task"
               >
                 <FiPlus className="text-base" />
                 New Task
-              </button>
+              </button> */}
             </div>
           </header>
         )}

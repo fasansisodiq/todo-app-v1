@@ -1,27 +1,28 @@
-import React from "react";
-import Label from "../Label";
-import ColumnDiv from "../ColumnDiv";
-import { useFocus } from "../../customHooks/tasks/useFocus";
+import { useFocus } from "../customHooks/tasks/useFocus";
 
-function TextArea({ defaultValue, value, onChange, className = "" }) {
+function TextArea({
+  onChange,
+  defaultValue,
+  value,
+  className = "",
+  rows = 2,
+  required,
+  placeholder,
+}) {
   const { isFocused, setIsFocused, useFocusOnMouseOver } = useFocus();
   const focusRef = useFocusOnMouseOver(isFocused);
-
   return (
-    <div className="w-full">
-      <ColumnDiv>
-        <span className="flex justify-start mb-1">
-          <Label htmlFor="description">Description</Label>
-        </span>
-        <textarea
-          ref={focusRef}
-          onMouseEnter={() => setIsFocused(true)}
-          onMouseLeave={() => setIsFocused(false)}
-          onChange={onChange}
-          defaultValue={defaultValue}
-          value={value}
-          required
-          className={`
+    <>
+      <textarea
+        ref={focusRef}
+        onMouseEnter={() => setIsFocused(true)}
+        onMouseLeave={() => setIsFocused(false)}
+        onChange={onChange}
+        defaultValue={defaultValue}
+        value={value}
+        required={required}
+        rows={rows}
+        className={`
             w-full min-h-[100px] px-4 py-3 rounded-xl
             border-2
             ${
@@ -36,12 +37,11 @@ function TextArea({ defaultValue, value, onChange, className = "" }) {
             resize-y
             ${className}
           `}
-          placeholder="Description for the task"
-          name="description"
-          id="description"
-        />
-      </ColumnDiv>
-    </div>
+        placeholder={placeholder}
+        name="description"
+        id="description"
+      />
+    </>
   );
 }
 

@@ -1,19 +1,15 @@
 import { useTasks } from "../../customHooks/tasks/useTasks";
-import TableHeader from "../../ui/taskOverviewUI/TableHeader";
-import TaskItem from "../tasks/TaskItem";
+import ReusableTaskItem from "../../utils/ReusableTaskItem";
 
 function ImportantPage() {
   const { taskData } = useTasks();
   return (
     <div className="w-full">
-      <TableHeader />
       <ul>
         {taskData?.length > 0 &&
           taskData
-            .filter((task) => task.completed === false && task.priority)
-            .map((task, idx) => (
-              <TaskItem task={task} key={task.id} idx={idx} />
-            ))}
+            .filter((task) => task.completed === false && task.status == "high")
+            .map((task) => <ReusableTaskItem task={task} key={task.id} />)}
       </ul>
     </div>
   );

@@ -77,12 +77,14 @@ export function AuthProvider({ children }) {
   const [lastLogin, setLastLogin] = useState("");
   const [accountStatus, setAccountStatus] = useState("Active");
   const [emailVerified, setEmailVerified] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const fileInputRef = useRef(null);
 
   // Auth state listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      setAuthLoading(false);
     });
     return unsubscribe;
   }, []);
@@ -422,6 +424,7 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
+        authLoading,
         signUp,
         signIn,
         googleSignin,

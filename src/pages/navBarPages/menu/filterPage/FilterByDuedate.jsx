@@ -1,6 +1,7 @@
 import { formattedDate } from "../../../../customHooks/tasks/DateFormerter";
 import { useTasks } from "../../../../customHooks/tasks/useTasks";
-import TaskItem from "../../../tasks/TaskItem";
+import ReusableTaskItem from "../../../../utils/ReusableTaskItem";
+
 const FILTER_PROPS = [
   {
     name: [
@@ -45,7 +46,7 @@ function FilterByDuedate({ opt }) {
           })
           .sort((a, b) => getDateObj(a.dueDate) - getDateObj(b.dueDate))
           .map((task, tIdx) => (
-            <TaskItem task={task} key={task.id} idx={tIdx} />
+            <ReusableTaskItem task={task} key={task.id} idx={tIdx} />
           ))}
       </div>
     );

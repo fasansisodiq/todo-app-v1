@@ -9,21 +9,23 @@ function Shared() {
   const shareTaskNum = sharedTasks?.length;
   return (
     <>
-      <PageNavigator
-        to="/layout/share"
-        activeClassName={" h-6"}
-        notActiveClassName={"hover:bg-slate-300 hover:px-0.5 px-0.5"}
-      >
-        <Ui
-          label={"shared"}
-          taskNum={shareTaskNum < 1 ? "" : shareTaskNum}
-          icon={
-            <span className="text-pink-600">
-              <FaShareAlt />
-            </span>
-          }
-        />
-      </PageNavigator>
+      {shareTaskNum >= 1 && (
+        <PageNavigator
+          to="/layout/share"
+          activeClassName={" h-6"}
+          notActiveClassName={"hover:bg-slate-300 hover:px-0.5 px-0.5"}
+        >
+          <Ui
+            label={"shared"}
+            taskNum={shareTaskNum < 1 ? "" : shareTaskNum}
+            icon={
+              <span className="text-pink-600">
+                <FaShareAlt />
+              </span>
+            }
+          />
+        </PageNavigator>
+      )}
     </>
   );
 }

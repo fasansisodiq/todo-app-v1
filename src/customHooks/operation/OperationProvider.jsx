@@ -9,6 +9,9 @@ const initialState = {
   openMarkPend: false,
   openRestore: false,
   openTrash: false,
+  openShare: false,
+  openSubTask: false,
+  openEditSubTask: false,
 };
 const operationReducer = (state, action) => {
   switch (action.type) {
@@ -28,6 +31,10 @@ const operationReducer = (state, action) => {
       return { ...state, openTrash: action.payload };
     case "operation/setOpenShare":
       return { ...state, openShare: action.payload };
+    case "operation/setOpenSubTask":
+      return { ...state, openSubTask: action.payload };
+    case "operation/subtask/setOpenEditSubtask":
+      return { ...state, openEditSubTask: action.payload };
     default:
       return state;
   }
@@ -91,6 +98,19 @@ export function OperationProvider({ children }) {
   function handleCloseShare() {
     dispatch({ type: "operation/setOpenShare", payload: false });
   }
+  function handleOpenSubTask() {
+    dispatch({ type: "operation/setOpenSubTask", payload: true });
+  }
+  function handleCloseSubTask() {
+    dispatch({ type: "operation/setOpenSubTask", payload: false });
+  }
+  function handleOpenEditSubTask() {
+    dispatch({ type: "operation/subtask/setOpenEditSubtask", payload: true });
+  }
+  function handleCloseEditSubTask() {
+    dispatch({ type: "operation/subtask/setOpenEditSubtask", payload: false });
+  }
+
   const [
     {
       openDesc,
@@ -101,6 +121,8 @@ export function OperationProvider({ children }) {
       openRestore,
       openTrash,
       openShare,
+      openSubTask,
+      openEditSubTask,
     },
     dispatch,
   ] = useReducer(operationReducer, initialState);
@@ -144,6 +166,14 @@ export function OperationProvider({ children }) {
         openShare,
         onOpenShare: handleOpenShare,
         onCloseShare: handleCloseShare,
+
+        openSubTask,
+        onOpenSubTask: handleOpenSubTask,
+        onCloseSubTask: handleCloseSubTask,
+
+        openEditSubTask,
+        onOpenEditSubTask: handleOpenEditSubTask,
+        onCloseEditSubTask: handleCloseEditSubTask,
       }}
     >
       {children}

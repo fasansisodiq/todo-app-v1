@@ -1,4 +1,5 @@
-import { PiWarningCircle } from "react-icons/pi";
+import { FaTrash } from "react-icons/fa";
+
 import { useOperation } from "../../customHooks/operation/useOperation";
 import TaskOperation from "../../utils/TaskOperation";
 import PermDeleteTaskModal from "./PermDeleteTaskModal";
@@ -11,7 +12,7 @@ function PermDeleteTaskOperation({ task, title }) {
         label={"Delete"}
         open={openDelete}
         onClick={onOpenDelete}
-        icon={<PiWarningCircle />}
+        icon={<FaTrash />}
       >
         <PermDeleteTaskModal title={title} id={task.id} task={task} />
       </TaskOperation>

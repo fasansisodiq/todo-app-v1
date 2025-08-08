@@ -6,9 +6,7 @@ function Logo({ size }) {
     <img
       className={` ${size}`}
       src={`${
-        darkMode
-          ? "/public/todopro-dark-removebg.png"
-          : "/public/todopro-light-removebg.png"
+        darkMode ? "/todopro-dark-removebg.png" : "/todopro-light-removebg.png"
       }`}
       alt="app logo"
     />

@@ -6,7 +6,7 @@ import FilterByAssignee from "./FilterByAssignee";
 import FilterByDuedate from "./FilterByDuedate";
 import FilterByCreationDate from "./FilterBYCreationDate";
 import FilterByUpdatedAt from "./FilterByUpdatedAt";
-import TaskItem from "../../../tasks/TaskItem";
+import ReusableTaskItem from "../../../../utils/ReusableTaskItem";
 
 function FilterPage() {
   const { taskData, uniqueAssignees } = useTasks();
@@ -29,7 +29,7 @@ function FilterPage() {
           taskData
             ?.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
             .map((task, idx) => (
-              <TaskItem task={task} key={task.id} idx={idx} />
+              <ReusableTaskItem task={task} key={task.id} idx={idx} />
             ))}
         {opt !== "all" &&
           opt !== "recently updated" &&

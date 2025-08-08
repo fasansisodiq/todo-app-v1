@@ -13,8 +13,10 @@ import {
 import { auth } from "../firebase.js";
 import Message from "../utils/Message.jsx";
 import Logo from "../utils/Logo";
+import { useTasks } from "../customHooks/tasks/useTasks.js";
 
 function LoginPage() {
+  const { toast } = useTasks();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -27,22 +29,24 @@ function LoginPage() {
   const userNotFound = errorCode === "auth/user-not-found";
   const incorrectEmail = errorCode === "auth/wrong-email";
 
-  // Sign in an existing user
-  const handleLogin = (e) => {
+  // Sign in an existing user and persist login until logout
+  const handleLogin = async (e) => {
     e.preventDefault();
-    signIn(email, password);
-
-    setPersistence(auth, browserSessionPersistence)
-      .then(() => {
-        return signInWithEmailAndPassword(auth, email, password);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
+    try {
+      // Set persistence to local (user stays logged in until logout)
+      await setPersistence(auth, browserSessionPersistence);
+      await signIn(email, password);
+    } catch (error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode === "auth/network-request-failed") {
+        toast(`${errorMessage}`);
+      } else {
         console.log(errorCode);
         console.log(errorMessage);
-      });
+      }
+    }
   };
 
   //function to sign in an existing user with google
@@ -69,7 +73,7 @@ function LoginPage() {
               {/* Email Input */}
               <div className="relative">
                 <Input
-                  width="w-full"
+                  // width="w-full"
                   type="email"
                   error={incorrectEmail}
                   placeholder="Enter your email"
@@ -88,7 +92,7 @@ function LoginPage() {
               {/* Password Input */}
               <div className="relative">
                 <Input
-                  width="w-full"
+                  // width="w-full"
                   error={incorrectPassword}
                   type={hidePassword ? "password" : "text"}
                   placeholder="Enter your password"
@@ -102,6 +106,9 @@ function LoginPage() {
                   <span
                     className="absolute right-10 top-1/2 -translate-y-1/2 text-emerald-600 text-xl cursor-pointer"
                     onClick={toggleHidePassword}
+                    tabIndex={0}
+                    role="button"
+                    aria-label="Toggle password visibility"
                   >
                     {hidePassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
                   </span>

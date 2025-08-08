@@ -1,5 +1,5 @@
 import { useTasks } from "../../../../customHooks/tasks/useTasks";
-import TaskItem from "../../../tasks/TaskItem";
+import ReusableTaskItem from "../../../../utils/ReusableTaskItem";
 
 function FilterByAssignee({ opt, name }) {
   const { taskData, getDateObj } = useTasks();
@@ -25,7 +25,7 @@ function FilterByAssignee({ opt, name }) {
     <ul>
       {filteredTasks.map((task, idx) => (
         <li key={task.id}>
-          <TaskItem task={task} idx={idx} />
+          <ReusableTaskItem task={task} idx={idx} />
         </li>
       ))}
     </ul>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNotifications } from "../../customHooks/notification/useNotifications";
 import NotificationCard from "./NotificationCard";
 import { db } from "../../firebase";
@@ -14,6 +14,9 @@ function NotificationPage() {
   const { notifications, loading, markAsRead, changeInviteStatus } =
     useNotifications();
   const navigate = useNavigate();
+
+  // State for toggling notifications view
+  const [showAll, setShowAll] = useState(false);
 
   // Auto-delete read notifications older than 7 days
   useEffect(() => {
@@ -41,6 +44,11 @@ function NotificationPage() {
     return a.read ? 1 : -1; // unread first
   });
 
+  // Limit to 5 notifications unless showAll is true
+  const visibleNotifications = showAll
+    ? sortedNotifications
+    : sortedNotifications.slice(0, 5);
+
   return (
     <div className="max-w-2xl mx-auto py-8 px-2">
       <button
@@ -54,7 +62,7 @@ function NotificationPage() {
         Notifications
       </h1>
 
-      {sortedNotifications.map(
+      {visibleNotifications.map(
         (notif) =>
           notif && (
             <NotificationCard
@@ -68,6 +76,17 @@ function NotificationPage() {
             />
           )
       )}
+
+      <div className="flex justify-center mt-4">
+        {sortedNotifications.length > 5 && (
+          <button
+            onClick={() => setShowAll((prev) => !prev)}
+            className="px-4 py-2 rounded bg-emerald-100 dark:bg-yellow-900 text-emerald-700 dark:text-yellow-200 font-semibold hover:bg-emerald-200 dark:hover:bg-yellow-800 transition-all duration-200"
+          >
+            {showAll ? "See less" : "See more"}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

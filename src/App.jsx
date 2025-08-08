@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
 
@@ -13,17 +13,20 @@ import TodayPage from "./pages/sideBarPages/TodayPage";
 // Utils
 import Spinner from "./utils/Spinner";
 import { dynamicRoutesPath, layoutRoutes, mainRoutes } from "./routes";
+import { useAuth } from "./authentication/useAuth";
 
 function App() {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, error] = useAuthState(auth);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Spinner />
-      </div>
-    );
+  const { authLoading } = useAuth();
+
+  if (authLoading) {
+    return <Spinner />;
   }
+
+  // if (!currentUser) {
+  //   return null;
+  // }
 
   if (error) {
     return <div>Error: {error.message}</div>;

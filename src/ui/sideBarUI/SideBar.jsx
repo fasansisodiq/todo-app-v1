@@ -56,17 +56,10 @@ function SideBar() {
         <Friend />
         <Social />
       </nav>
-      <div className="mt-auto pt-4">
-        <Trash />
-      </div>
+
+      <Trash />
     </aside>
   );
 }
 
 export default SideBar;
-// label === "today" ||
-//         label === "important" ||
-//         label === "completed" ||
-//         label === "pending" ||
-//         label === "shared" ||
-//         taskNum >= 1 &&

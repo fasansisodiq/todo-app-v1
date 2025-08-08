@@ -7,17 +7,19 @@ function Friend() {
   const friendTaskNum = useTaskNumberFetcher("friend");
   return (
     <>
-      <PageNavigator to="/layout/friend" activeClassName={" h-6"}>
-        <Ui
-          label={"friend"}
-          taskNum={friendTaskNum < 1 ? "" : friendTaskNum}
-          icon={
-            <span className="text-pink-700">
-              <FaUserFriends />
-            </span>
-          }
-        />
-      </PageNavigator>
+      {friendTaskNum >= 1 && (
+        <PageNavigator to="/layout/friend" activeClassName={" h-6"}>
+          <Ui
+            label={"friend"}
+            taskNum={friendTaskNum < 1 ? "" : friendTaskNum}
+            icon={
+              <span className="text-pink-700">
+                <FaUserFriends />
+              </span>
+            }
+          />
+        </PageNavigator>
+      )}
     </>
   );
 }

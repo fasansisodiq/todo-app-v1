@@ -10,10 +10,12 @@ function Input({
   onChange,
   width,
   error,
+
   className,
   maxLength,
   pattern,
   inputMode,
+  required = false,
   autoComplete = "off",
 }) {
   const { isFocused, setIsFocused, useFocusOnMouseOver } = useFocus();
@@ -24,14 +26,27 @@ function Input({
       <input
         ref={inputRef}
         onMouseEnter={() =>
-          type !== "email" && type !== "date" && setIsFocused(true)
+          type !== "email" &&
+          type !== "date" &&
+          type !== "checkbox" &&
+          setIsFocused(true)
         }
         onMouseLeave={() =>
-          type !== "email" && type !== "date" && setIsFocused(false)
+          type !== "email" &&
+          type !== "date" &&
+          type !== "checkbox" &&
+          setIsFocused(false)
         }
         className={`
-          ${width ? width : "w-full"}
-          h-12 px-4 py-2
+           
+          ${
+            width
+              ? width
+              : type === "checkbox"
+              ? "w-5 h-5 accent-emerald-600 dark:accent-yellow-500 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-700 dark:focus:ring-yellow-500 rounded-lg border-0 dark:border dark:border-emerald-700 focus:outline-none"
+              : "w-full  h-12 px-4 py-2"
+          }
+         
           rounded-full border-2
           ${
             error
@@ -57,7 +72,7 @@ function Input({
         pattern={pattern}
         inputMode={inputMode}
         autoComplete={autoComplete}
-        required
+        required={required}
       />
       {/* Fancy focus ring */}
       <span

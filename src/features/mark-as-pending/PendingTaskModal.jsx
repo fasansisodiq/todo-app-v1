@@ -4,42 +4,54 @@ import CustomButton from "../../utils/CustomButton";
 import { useOperation } from "../../customHooks/operation/useOperation";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import { useNavigate } from "react-router";
+import TaskOperationModal from "../../utils/TaskOperationModal";
 
-function PendingTaskModal({ tittle, task }) {
+function PendingTaskModal({ task }) {
   const navigate = useNavigate();
-  const { openMarkPend, onCloseMarkPend, setOpenModal } = useOperation();
+  // const [openMarkPend, setOpenMarkPen] = useState()
+  const { openMarkPend, onCloseMarkPend } = useOperation();
   const { updateTask } = useTasks();
 
   async function handleMarkAsPending() {
-    await updateTask(task.id, { pending: true });
-    onCloseMarkPend();
-    () => setOpenModal(false);
+    await updateTask(task.id, {
+      pending: true,
+      status: "pending",
+      completed: false,
+    });
     navigate(`/layout/${task.taskClass}`);
   }
   return (
-    <AlertingModal
-      tittle={tittle}
-      isOpen={openMarkPend}
-      onClick={onCloseMarkPend}
-      iconColor={"text-yellow-400 "}
-      modalMessage={"You want to mark this task as pending?"}
-      icon={<MdPending />}
-    >
-      <CustomButton
-        onClick={onCloseMarkPend}
-        size={"sm"}
-        type={"secondary"}
-        label={"no"}
+    <>
+      <TaskOperationModal
+        task={task}
+        isOpen={openMarkPend}
+        submitLabel="mark as pending"
+        onSave={handleMarkAsPending}
       />
-      <CustomButton
-        size={"sm"}
-        type={"others"}
-        bg={"bg-yellow-600"}
-        label={"yes"}
-        txtColor={"text-white"}
-        onClick={handleMarkAsPending}
-      />
-    </AlertingModal>
+    </>
+    // <AlertingModal
+    //   tittle={tittle}
+    //   isOpen={openMarkPend}
+    //   onClick={onCloseMarkPend}
+    //   iconColor={"text-yellow-400 "}
+    //   modalMessage={"You want to mark this task as pending?"}
+    //   icon={<MdPending />}
+    // >
+    //   <CustomButton
+    //     onClick={onCloseMarkPend}
+    //     size={"sm"}
+    //     type={"secondary"}
+    //     label={"no"}
+    //   />
+    //   <CustomButton
+    //     size={"sm"}
+    //     type={"others"}
+    //     bg={"bg-yellow-600"}
+    //     label={"yes"}
+    //     txtColor={"text-white"}
+    //     onClick={handleMarkAsPending}
+    //   />
+    // </AlertingModal>
   );
 }
 

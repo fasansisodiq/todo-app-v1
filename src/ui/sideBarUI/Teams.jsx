@@ -1,9 +1,12 @@
 import { FcCollaboration } from "react-icons/fc";
 
+import { useTeamCollab } from "../../customHooks/team-collaboration/useTeamCollab";
 import PageNavigator from "../../utils/PageNavigator";
 import Ui from "../../utils/Ui";
 
 function Teams() {
+  const { teams } = useTeamCollab();
+  const totalTeamNumber = teams ? Object.keys(teams).length : 0;
   return (
     <>
       <PageNavigator
@@ -13,7 +16,7 @@ function Teams() {
       >
         <Ui
           label={"teams"}
-          // taskNum={personalTaskNum < 1 ? "" : personalTaskNum}
+          taskNum={totalTeamNumber < 1 ? "" : totalTeamNumber}
           icon={<FcCollaboration />}
         />
       </PageNavigator>

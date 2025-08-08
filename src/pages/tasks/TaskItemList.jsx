@@ -1,21 +1,32 @@
+import { FaCheckCircle, FaEdit, FaTrashAlt } from "react-icons/fa";
+import { MdCancel, MdPending } from "react-icons/md";
+import { useState } from "react";
+
 import TaskItem from "../TaskItem";
 import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
 import { useTasks } from "../../customHooks/taskData/useTasks";
 import Spinner from "../../utils/Spinner";
 import Message from "../../utils/Message";
+import ReusableTaskItem from "../../utils/ReusableTaskItem";
 
 function TaskItemList() {
   const { taskData, isLoading } = useTasks();
+
   if (isLoading) return <Spinner text={"loading"} />;
   if (!Array.isArray(taskData) || taskData.length === 0)
-    return <Message msg="No task avialable" color="red" />;
+    return <Message msg="No task available" color="red" />;
 
   return (
     <div className="flex flex-col gap-2 ">
       <TaskOverviewHeader />
-      <ul>
-        {taskData.map((task, idx) => (
-          <TaskItem task={task} key={idx} idx={idx} />
+      <ul className="space-y-2">
+        {taskData.map((task) => (
+          <li
+            className="flex items-center gap-3 p-2 rounded-lg border border-emerald-50 dark:border-emerald-800 bg-emerald-50 dark:bg-[#23272f] shadow-sm relative"
+            key={task?.id}
+          >
+            <ReusableTaskItem task={task} />
+          </li>
         ))}
       </ul>
     </div>

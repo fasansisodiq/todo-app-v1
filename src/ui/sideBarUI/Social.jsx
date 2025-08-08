@@ -7,17 +7,19 @@ function Social() {
   const socialTaskNum = useTaskNumberFetcher("social");
   return (
     <>
-      <PageNavigator to="/layout/social" activeClassName={" h-6"}>
-        <Ui
-          label={"social"}
-          taskNum={socialTaskNum < 1 ? "" : socialTaskNum}
-          icon={
-            <span className="text-amber-500">
-              <TbSocial />
-            </span>
-          }
-        />
-      </PageNavigator>
+      {socialTaskNum >= 1 && (
+        <PageNavigator to="/layout/social" activeClassName={" h-6"}>
+          <Ui
+            label={"social"}
+            taskNum={socialTaskNum < 1 ? "" : socialTaskNum}
+            icon={
+              <span className="text-amber-500">
+                <TbSocial />
+              </span>
+            }
+          />
+        </PageNavigator>
+      )}
     </>
   );
 }

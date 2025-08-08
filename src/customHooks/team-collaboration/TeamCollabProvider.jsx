@@ -18,6 +18,7 @@ import { db } from "../../firebase";
 import { useAuth } from "../../authentication/useAuth";
 import { TeamCollabContext } from "./TeamCollabContext";
 import { useNotifications } from "../notification/useNotifications";
+import { useTasks } from "../tasks/useTasks";
 
 export function TeamCollabProvider({ children }) {
   const { currentUser, username } = useAuth();
@@ -31,32 +32,35 @@ export function TeamCollabProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [invitee, setInvitee] = useState({});
   const [team, setTeam] = useState(null);
+
   const { addTeamNotifications } = useNotifications();
 
-  function useTeam(teamId) {
-    useEffect(() => {
-      if (!teamId) return;
-      const docRef = doc(db, "teams", teamId);
-      const unsub = onSnapshot(docRef, (docSnap) => {
-        if (docSnap.exists()) {
-          setTeam({ id: docSnap.id, ...docSnap.data() });
-        } else {
-          setTeam(null);
-          console.log(team);
-        }
-      });
-      return unsub;
-    }, [teamId]);
+  const { toast } = useTasks();
 
-    return team;
-  }
-  useTeam(activeTeamId);
+  // function useTeam(teamId) {
+  //   useEffect(() => {
+  //     if (!teamId) return;
+  //     const docRef = doc(db, "teams", teamId);
+  //     const unsub = onSnapshot(docRef, (docSnap) => {
+  //       if (docSnap.exists()) {
+  //         setTeam({ id: docSnap.id, ...docSnap.data() });
+  //       } else {
+  //         setTeam(null);
+  //         console.log(team);
+  //       }
+  //     });
+  //     return unsub;
+  //   }, [teamId]);
+
+  //   return team;
+  // }
+  // useTeam(activeTeamId);
 
   // Fetch teams for current user (as creator or as a member by UID)
   useEffect(() => {
     if (!currentUser) return;
-    const teamsRef = collection(db, "teams");
-
+    // const teamsRef = collection(db, "teams");
+    const teamsRef = collection(db, "users", currentUser.uid, "teams");
     // Query 1: Teams where user is a member
     const q1 = query(
       teamsRef,
@@ -97,33 +101,19 @@ export function TeamCollabProvider({ children }) {
     return unsub1;
   }, [currentUser]);
 
-  // Fetch members for active team
+  // Fetch members and invites for active team
   useEffect(() => {
     if (!activeTeamId || !currentUser) {
       setTeamMembers([]);
       setTeamInvites([]);
       return;
     }
-    const teamDocRef = doc(db, "teams", activeTeamId);
+    const teamDocRef = doc(db, "users", currentUser.uid, "teams", activeTeamId);
     const unsub = onSnapshot(teamDocRef, (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
-        // Check if current user is the creator or a team member
-        const isCreator = data.createdBy === currentUser.uid;
-        const isMember = Array.isArray(data.members)
-          ? data.members.some((m) =>
-              typeof m === "string"
-                ? m === currentUser.uid
-                : m.userId === currentUser.uid
-            )
-          : false;
-        if (isCreator || isMember) {
-          setTeamMembers(data.members || []);
-          setTeamInvites(data.invites || []);
-        } else {
-          setTeamMembers([]);
-          setTeamInvites([]);
-        }
+        setTeamMembers(data.members || []);
+        setTeamInvites(data.invites || []);
       } else {
         setTeamMembers([]);
         setTeamInvites([]);
@@ -134,44 +124,99 @@ export function TeamCollabProvider({ children }) {
 
   // Fetch tasks for active team
   useEffect(() => {
-    if (!activeTeamId) {
+    if (!activeTeamId || !currentUser) {
       setTeamTasks([]);
       return;
     }
-    const q = collection(db, "teams", activeTeamId, "tasks");
+    const q = collection(
+      db,
+      "users",
+      currentUser.uid,
+      "teams",
+      activeTeamId,
+      "tasks"
+    );
     const unsub = onSnapshot(q, (snap) => {
       setTeamTasks(snap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     });
     return unsub;
-  }, [activeTeamId]);
+  }, [activeTeamId, currentUser]);
+  // // Fetch members for active team
+  // useEffect(() => {
+  //   if (!activeTeamId || !currentUser) {
+  //     setTeamMembers([]);
+  //     setTeamInvites([]);
+  //     return;
+  //   }
+  //   const teamDocRef = doc(db, "teams", activeTeamId);
+  //   const unsub = onSnapshot(teamDocRef, (docSnap) => {
+  //     if (docSnap.exists()) {
+  //       const data = docSnap.data();
+  //       // Check if current user is the creator or a team member
+  //       const isCreator = data.createdBy === currentUser.uid;
+  //       const isMember = Array.isArray(data.members)
+  //         ? data.members.some((m) =>
+  //             typeof m === "string"
+  //               ? m === currentUser.uid
+  //               : m.userId === currentUser.uid
+  //           )
+  //         : false;
+  //       if (isCreator || isMember) {
+  //         setTeamMembers(data.members || []);
+  //         setTeamInvites(data.invites || []);
+  //       } else {
+  //         setTeamMembers([]);
+  //         setTeamInvites([]);
+  //       }
+  //     } else {
+  //       setTeamMembers([]);
+  //       setTeamInvites([]);
+  //     }
+  //   });
+  //   return unsub;
+  // }, [activeTeamId, currentUser]);
+
+  // // Fetch tasks for active team
+  // useEffect(() => {
+  //   if (!activeTeamId) {
+  //     setTeamTasks([]);
+  //     return;
+  //   }
+  //   const q = collection(db, "teams", activeTeamId, "tasks");
+  //   const unsub = onSnapshot(q, (snap) => {
+  //     setTeamTasks(snap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+  //   });
+  //   return unsub;
+  // }, [activeTeamId]);
 
   // Create a new team
   const createTeam = useCallback(
     async (newTeamName, currentUser) => {
       if (!currentUser) return;
       if (!newTeamName || !newTeamName.trim()) {
-        alert("Team name is required.");
+        toast("Team name is required.");
         return;
       }
-      const docRef = await addDoc(collection(db, "teams"), {
-        name: newTeamName,
-        createdBy: currentUser.uid,
-        createdAt: serverTimestamp(),
-        members: [
-          // currentUser.uid,
-          {
-            userId: currentUser.uid,
-            email: currentUser.email,
-            role: "team leader",
-          },
-        ],
-        invites: [],
-      });
+      const docRef = await addDoc(
+        collection(db, "users", currentUser.uid, "teams"),
+        {
+          name: newTeamName,
+          createdBy: currentUser.uid,
+          createdAt: serverTimestamp(),
+          members: [
+            {
+              userId: currentUser.uid,
+              email: currentUser.email,
+              role: "team leader",
+            },
+          ],
+          invites: [],
+        }
+      );
       setActiveTeamId(docRef.id);
-      console.log(activeTeamId);
       return docRef.id;
     },
-    [activeTeamId]
+    [toast, setActiveTeamId]
   );
 
   // Invite a member by email
@@ -185,7 +230,7 @@ export function TeamCollabProvider({ children }) {
         const userSnap = await getDocs(q);
 
         if (userSnap.empty) {
-          alert("please enter your registered email address");
+          toast("please enter your registered email address");
           throw new Error("Invitee not found.");
         }
 
@@ -197,7 +242,8 @@ export function TeamCollabProvider({ children }) {
         const inviteeName = inviteeDoc.data().username || "";
 
         // Get team data
-        const teamRef = doc(db, "teams", teamId);
+        // const teamRef = doc(db, "teams", teamId);
+        const teamRef = doc(db, "users", currentUser.uid, "teams", teamId);
         const teamSnap = await getDoc(teamRef);
 
         if (!teamSnap.exists()) {
@@ -208,7 +254,7 @@ export function TeamCollabProvider({ children }) {
         const teamName = teamData.name || "";
 
         if (!inviteeEmail) {
-          alert("Email is required.");
+          toast("Email is required.");
           setLoading(false);
           return;
         }
@@ -216,7 +262,7 @@ export function TeamCollabProvider({ children }) {
         if (
           (teamData.invites || []).some((inv) => inv.email === inviteeEmail)
         ) {
-          alert("This email has already been invited.");
+          toast("This email has already been invited.");
           setLoading(false);
           return;
         }
@@ -232,21 +278,21 @@ export function TeamCollabProvider({ children }) {
           }),
         });
         //  Send notification to invitee
-        await addTeamNotifications({
-          type: "team-invite",
-          invitationData: {
-            to: inviteeEmail,
-            type: "team-invite",
-            teamId: activeTeamId,
-            teamName,
-            inviterName: username,
-            inviteeName,
-            inviterEmail: inviter.email,
-            inviteeEmail,
-            createdAt: serverTimestamp(),
-            status: "pending",
-          },
-        });
+        // await addTeamNotifications({
+        //   type: "team-invite",
+        //   invitationData: {
+        //     to: inviteeEmail,
+        //     type: "team-invite",
+        //     teamId: activeTeamId,
+        //     teamName,
+        //     inviterName: username,
+        //     inviteeName,
+        //     inviterEmail: inviter.email,
+        //     inviteeEmail,
+        //     createdAt: serverTimestamp(),
+        //     status: "pending",
+        //   },
+        // });
         //  Send notification to inviter (optional)
         // await addTeamNotifications({
         //   to: inviter.email,
@@ -257,24 +303,24 @@ export function TeamCollabProvider({ children }) {
         //   status: "sent",
         // });
 
-        alert("Invitation sent!");
+        toast("Invitation sent!");
       } catch (err) {
         console.error("Failed to invite:", err);
-        alert(
+        toast(
           "Failed to send invitation. Please check your permissions and try again."
         );
       }
     },
-    [currentUser, addTeamNotifications, activeTeamId, username]
+    [currentUser, toast]
   );
-  console.log(invitee);
+
   //Accept team invite by invitee
   const acceptTeamInvite = async (teamId, invitee) => {
     try {
       const teamRef = doc(db, "teams", teamId);
       const teamSnap = await getDoc(teamRef);
       if (!teamSnap.exists()) {
-        alert("Team not found.");
+        toast("Team not found.");
         setLoading(false);
         return;
       }
@@ -283,14 +329,14 @@ export function TeamCollabProvider({ children }) {
 
       // Only allow creator to invite
       if (team.createdBy !== currentUser.uid) {
-        alert("Only the team creator can invite members.");
+        toast("Only the team creator can invite members.");
         setLoading(false);
         return;
       }
 
       // Check if already a member
       if ((team.members || []).some((m) => m.userId === invitee.usserId)) {
-        alert("This user is already a member.");
+        toast("This user is already a member.");
         setLoading(false);
         return;
       }
@@ -331,7 +377,7 @@ export function TeamCollabProvider({ children }) {
         await updateDoc(teamRef, { invites: updatedInvites });
       }
 
-      alert("you have been added as member of the team successfully!");
+      toast("you have been added as member of the team successfully!");
       // 3. Update notification status (optional)
       // Find the invite notification for this user and team, then update its status
       // (You may want to use a query to find and update the notification document)
@@ -431,7 +477,7 @@ export function TeamCollabProvider({ children }) {
         setEmail,
         loading,
         setLoading,
-        useTeam,
+        // useTeam,
         team,
       }}
     >
@@ -443,7 +489,7 @@ export function TeamCollabProvider({ children }) {
 //   async (teamId, inviteeEmail, inviter) => {
 //     const teamRef = doc(db, "teams", teamId);
 //     if (!inviteeEmail) {
-//       alert("Email is required.");
+//       toast("Email is required.");
 //       return;
 //     }
 
@@ -487,7 +533,7 @@ export function TeamCollabProvider({ children }) {
 //   const teamSnap = await getDocs(teamRef);
 
 //   if (!teamSnap.exists()) {
-//     alert("Team not found.");
+//     toast("Team not found.");
 //     setLoading(false);
 //     return;
 //   }
@@ -495,13 +541,13 @@ export function TeamCollabProvider({ children }) {
 //   const teamData = teamSnap.data();
 //   // 2. Only allow creator to invite (if that's your rule)
 //   if (teamData.createdBy !== currentUser.uid) {
-//     alert("Only the team creator can invite members.");
+//     toast("Only the team creator can invite members.");
 //     setLoading(false);
 //     return;
 //   }
 //   // 3. Check if already invited
 //   if ((teamData.invites || []).some((inv) => inv.email === email)) {
-//     alert("This email has already been invited.");
+//     toast("This email has already been invited.");
 //     setLoading(false);
 //     return;
 //   }
@@ -520,7 +566,7 @@ export function TeamCollabProvider({ children }) {
 //       status: "pending",
 //     }),
 //   });
-//   alert("Invitation sent!");
+//   toast("Invitation sent!");
 //   // 2. Send notification to invitee
 //   if (!inviter || !inviter.userId || !inviter.email) {
 //     throw new Error("Inviter information is missing or incomplete.");
