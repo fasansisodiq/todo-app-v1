@@ -1,12 +1,12 @@
 import { useDarkMode } from "../customHooks/DarkModeContext";
 
-function Logo({ size }) {
+function Logo({ className }) {
   const { darkMode } = useDarkMode();
   return (
     <img
-      className={` ${size}`}
+      className={`${className}`}
       src={`${
-        darkMode ? "/todopro-dark-removebg.png" : "/todopro-light-removebg.png"
+        darkMode ? "/todopro-dark-removebg.png" : "/todopro-light-small.png"
       }`}
       alt="app logo"
     />

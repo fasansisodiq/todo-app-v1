@@ -12,7 +12,6 @@ import {
 import { db } from "../../firebase";
 import NotificationContext from "./NotificationContext";
 import { useAuth } from "../../authentication/useAuth";
-import capitalizer ;
 import { useTeamCollab } from "../team-collaboration/useTeamCollab";
 
 export function NotificationProvider({ children }) {

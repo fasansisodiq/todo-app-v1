@@ -14,6 +14,7 @@ import { auth } from "../firebase.js";
 import Message from "../utils/Message.jsx";
 import Logo from "../utils/Logo";
 import { useTasks } from "../customHooks/tasks/useTasks.js";
+import H1 from "../utils/H1.jsx";
 
 function LoginPage() {
   const { toast } = useTasks();
@@ -58,17 +59,18 @@ function LoginPage() {
     }
   };
   return (
-    <div className="w-[15rem]sm:w-[20rem] md:w-[25rem] lg:w-[35rem] min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
+    <div className="w-[15rem] sm:w-[25rem] lg:w-[35rem] max-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
       <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center ">
-        <Logo size={30} />
-        <h1 className="text-emerald-700 text-3xl font-extrabold text-center tracking-wide">
-          Welcome Back!
-        </h1>
-        <form className={`flex flex-col gap-6 w-full`} onSubmit={handleLogin}>
-          <div>
-            <h2 className="text-xl md:text-2xl text-slate-800 mb-4 font-semibold text-center">
-              Log in to your account
-            </h2>
+        <Logo className="size-10 sm:size-20 md:size-25" />
+        <H1>Welcome Back!</H1>
+        <form
+          className={`flex flex-col gap-4 w-full pt-4`}
+          onSubmit={handleLogin}
+        >
+          <div className="flex flex-col  w-full">
+            <span className="capitalize text-lg md:text-xl text-stone-800 pb-4 self-start">
+              Log in
+            </span>
             <div className="flex flex-col gap-4">
               {/* Email Input */}
               <div className="relative">

@@ -8,29 +8,38 @@ import FeatureList from "./FeatureList";
 import HowItWorks from "./HowItWorks";
 import SocialProof from "./SocialProof";
 import Testimonials from "./Testimonials";
-import Logo from "./Logo";
 
 function WelcomePage() {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col items-center w-full bg-gradient-to-br from-emerald-50 via-white to-emerald-100 text-slate-800 font-sans">
       {/* Header */}
-      <header className="flex flex-col items-center gap-2 mt-8 mb-4">
-        <Logo />
-        <span className="text-2xl lg:text-4xl font-extrabold text-emerald-700 tracking-wide drop-shadow">
-          todopro
-        </span>
-        <span className="text-lg lg:text-2xl text-emerald-800 font-semibold mt-2">
-          Get things done, beautifully.
-        </span>
-        <span className="text-base lg:text-xl text-slate-500 font-medium text-center">
-          Your #1 <span className="text-emerald-600 font-semibold">2-in-1</span>{" "}
-          task manager &amp; todo list app.
-        </span>
-      </header>
+      <nav className="w-full h-10 bg-emerald-50 sm:h-15 md:h-24  shadow-2xl fixed top-0 right-0 left-0 z-50 justify-between px-4  sm:px-6 md:px-8 flex  items-center ">
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+          <img
+            src="/public/todopro-light-small.png"
+            className="size-10 sm:size-10 md:size-16"
+          />
+
+          <span className="text-2xl lg:text-4xl font-extrabold text-emerald-700 tracking-wide drop-shadow">
+            todopro
+          </span>
+        </div>
+        <span className="">login</span>
+      </nav>
 
       {/* Main Content Stacked */}
-      <div className="flex flex-col gap-6 items-stretch w-full max-w-2xl px-2 flex-1">
+      <div className="flex flex-col gap-6 items-stretch w-full max-w-2xl px-2 pt-30 flex-1">
+        <div className="flex flex-col justify-center items-center gap-4">
+          <span className="text-lg lg:text-2xl text-emerald-800 font-semibold mt-2">
+            Get things done, beautifully.
+          </span>
+          <span className="text-base lg:text-xl text-slate-500 font-medium text-center">
+            Your #1{" "}
+            <span className="text-emerald-600 font-semibold">2-in-1</span> task
+            manager &amp; todo list app.
+          </span>
+        </div>
         {/* Social Proof */}
         <SocialProof />
 
@@ -57,11 +66,14 @@ function WelcomePage() {
         <Testimonials />
 
         {/* Call to action button */}
-        <div className="flex justify-center mt-4 md:mt-6">
+        <div className="flex justify-center items-center mt-4  mb-2">
           <Button
             label={
               <span className="flex items-center gap-2">
-                <FcTodoList className="text-xl" />
+                {/* <img
+                  src="/public/todopro-light-small.png"
+                  className="size-2 sm:size-4 md:size-6"
+                /> */}
                 Get Started
               </span>
             }

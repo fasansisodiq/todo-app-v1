@@ -5,6 +5,7 @@ import Button from "../utils/Button";
 import { useAuth } from "../authentication/useAuth.js";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import Logo from "../utils/Logo";
+import H1 from "../utils/H1.jsx";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -60,13 +61,11 @@ function SignupPage() {
   };
 
   return (
-    <div className="w-[15rem]sm:w-[20rem] md:w-[25rem] lg:w-[35rem] min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
+    <div className="w-[15rem] sm:w-[25rem] lg:w-[35rem] max-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
       <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center gap-6">
-        <Logo size={48} />
-        <h1 className="capitalize text-3xl text-emerald-700 font-bold mt-2 mb-1 text-center">
-          Welcome Onboard!
-        </h1>
-        <span className="mb-2 text-lg md:text-xl text-[#08130a] opacity-70 font-semibold text-center">
+        <Logo className="size-10 sm:size-20 md:size-25" />
+        <H1>Welcome Onboard!</H1>
+        <span className=" text-lg md:text-xl text-[#08130a] opacity-70 font-semibold text-center">
           Let&apos;s help you meet your goals
         </span>
         <form onSubmit={handleSignup} className="flex flex-col gap-4 w-full">
