@@ -59,7 +59,7 @@ function LoginPage() {
     }
   };
   return (
-    <div className="w-[15rem] sm:w-[25rem] lg:w-[35rem] max-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
+    <div className="w-full sm:w-[25rem] lg:w-[35rem] max-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
       <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center ">
         <Logo className="size-10 sm:size-20 md:size-25" />
         <H1>Welcome Back!</H1>
