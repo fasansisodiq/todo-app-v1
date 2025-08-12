@@ -28,16 +28,12 @@ function Profile() {
   return (
     <div className="relative w-full max-w-xs flex flex-col px-3 md:px-6 py-8 items-center gap-8 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] rounded-2xl shadow-2xl font-sans border border-emerald-100 dark:border-emerald-900 transition-colors duration-300">
       {/* Header: Logo, Dark Mode, Notification */}
-      <div className="w-full flex-1 items-center justify-between px-1 mb-2">
-        <h1 className="opacity-90 font-extrabold tracking-widest text-emerald-700 dark:text-yellow-300 text-lg md:text-xl uppercase drop-shadow">
+      <div className="w-full flex flex-col gap-1 sm:gap-0 sm:flex-row items-center justify-between px-1 mb-2">
+        {/* <h1 className="opacity-90 font-extrabold tracking-widest text-emerald-700 dark:text-yellow-300 text-lg md:text-xl uppercase drop-shadow">
           todopro
-        </h1>
-        {/* <img
-          src="/public/todopro-light.jpg"
-          alt="logo"
-          className="size-10 bg-white"
-        /> */}
-        {/* <Logo size={5} /> */}
+        </h1> */}
+
+        <Logo size={2} />
         <div className="flex items-center gap-2">
           <DarkModeToggle />
           {enableNotifications && notifications && (

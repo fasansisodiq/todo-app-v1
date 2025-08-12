@@ -94,7 +94,6 @@ function LoginPage() {
               {/* Password Input */}
               <div className="relative">
                 <Input
-                  // width="w-full"
                   error={incorrectPassword}
                   type={hidePassword ? "password" : "text"}
                   placeholder="Enter your password"
@@ -147,7 +146,7 @@ function LoginPage() {
             className="w-full py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg transition-all duration-200 text-lg"
           />
         </form>
-        <div className="flex justify-between items-center w-full mt-2  pt-4">
+        <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row sm:justify-between  items-center w-full mt-2  pt-4">
           <Link
             to="/forget-password"
             className="text-blue-600 hover:underline text-sm font-medium"

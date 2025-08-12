@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Button from "../../utils/Button";
 import { FcTodoList } from "react-icons/fc";
 // import Logo from "../../utils/Logo";
@@ -25,7 +25,13 @@ function WelcomePage() {
             todopro
           </span>
         </div>
-        <span className="">login</span>
+        <Link
+          to="/login"
+          className="w-fit h-fit  p-0.5 px-2 flex justify-center items-center  sm:px-3 md:px-4 rounded-full bg-emerald-600 hover:bg-emerald-30 transition-all duration-200 shadow-lg text-white text-xs"
+        >
+          log in
+          {/* <Button label={<span>login</span>} type="button" /> */}
+        </Link>
       </nav>
 
       {/* Main Content Stacked */}
@@ -66,10 +72,10 @@ function WelcomePage() {
         <Testimonials />
 
         {/* Call to action button */}
-        <div className="flex justify-center items-center mt-4  mb-2">
+        <div className="flex justify-center items-center  sm:mt-2  mb-15 md:mb-20">
           <Button
             label={
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-4">
                 {/* <img
                   src="/public/todopro-light-small.png"
                   className="size-2 sm:size-4 md:size-6"

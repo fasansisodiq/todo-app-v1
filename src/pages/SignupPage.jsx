@@ -65,7 +65,7 @@ function SignupPage() {
       <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center gap-6">
         <Logo className="size-20 sm:size-20 md:size-25" />
         <H1>Welcome Onboard!</H1>
-        <span className=" text-lg md:text-xl text-[#08130a] opacity-70 font-semibold text-center">
+        <span className=" text-sm md:text-xl text-[#08130a] opacity-70 font-semibold text-center">
           Let&apos;s help you meet your goals
         </span>
         <form onSubmit={handleSignup} className="flex flex-col gap-4 w-full">
