@@ -63,7 +63,7 @@ function SignupPage() {
   return (
     <div className="w-full sm:w-[25rem] lg:w-[35rem] max-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 px-2">
       <div className="w-full max-w-md bg-white/90 rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col items-center gap-6">
-        <Logo className="size-10 sm:size-20 md:size-25" />
+        <Logo className="size-20 sm:size-20 md:size-25" />
         <H1>Welcome Onboard!</H1>
         <span className=" text-lg md:text-xl text-[#08130a] opacity-70 font-semibold text-center">
           Let&apos;s help you meet your goals
