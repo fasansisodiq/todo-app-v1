@@ -86,7 +86,7 @@ function Profile() {
         <span className="mt-2 sm:text-lg font-bold text-[0.8rem] text-emerald-700 dark:text-yellow-200 capitalize tracking-wide">
           {fullName || username || email}
         </span>
-        <span className="text-xs text-slate-400 dark:text-slate-300">
+        <span className=" text-[0.4rem] sm:text-xs text-slate-400 dark:text-slate-300">
           {email}
         </span>
       </div>
