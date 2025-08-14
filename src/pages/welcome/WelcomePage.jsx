@@ -17,7 +17,7 @@ function WelcomePage() {
       <nav className="w-full h-10 bg-emerald-50 sm:h-15 md:h-24  shadow-2xl fixed top-0 right-0 left-0 z-50 justify-between px-4  sm:px-6 md:px-8 flex  items-center ">
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
           <img
-            src="/public/todopro-light-small.png"
+            src="/todopro-light-small.png"
             className="size-10 sm:size-10 md:size-16"
           />
 
