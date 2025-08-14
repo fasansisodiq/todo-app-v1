@@ -8,6 +8,7 @@ import FeatureList from "./FeatureList";
 import HowItWorks from "./HowItWorks";
 import SocialProof from "./SocialProof";
 import Testimonials from "./Testimonials";
+import Logo from "../utils/Logo";
 
 function WelcomePage() {
   const navigate = useNavigate();
