@@ -37,7 +37,7 @@ function AppLayout() {
         {/* Sticky Navbar */}
         <nav className="sticky top-0 z-20 w-full border-b shadow-sm transition-colors duration-300 bg-white/80 dark:bg-[#232b25]/80 border-emerald-100 dark:border-emerald-900">
           <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-        </header>
+        </nav>
         {/* Main Content */}
         <main className="flex-1 flex flex-col overflow-y-auto">
           <OperationProvider>
