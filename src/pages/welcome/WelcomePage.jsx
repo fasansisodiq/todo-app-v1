@@ -21,7 +21,7 @@ function WelcomePage() {
             src="/todopro-light-small.png"
             className="size-10 sm:size-10 md:size-16"
           />
-
+        <Logo className="size-10 sm:size-12 md:size-16" />
           <span className="text-2xl lg:text-4xl font-extrabold text-emerald-700 tracking-wide drop-shadow">
             todopro
           </span>
