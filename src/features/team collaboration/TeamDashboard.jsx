@@ -25,7 +25,7 @@ export default function TeamDashboard() {
   } = useTeamCollab();
 
   return (
-    <div className="flex h-screen bg-emerald-50 dark:bg-[#181c23] transition-colors">
+    <div className="flex flex-col sm:flex-row h-screen bg-emerald-50 dark:bg-[#181c23] transition-colors">
       {/* Sidebar */}
       <aside className="w-72 md:w-100 bg-white dark:bg-[#23272f] border-r border-emerald-100 dark:border-emerald-900 flex flex-col">
         <div className="p-4 border-b border-emerald-100 dark:border-emerald-900">
