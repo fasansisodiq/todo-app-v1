@@ -43,7 +43,7 @@ function Navbar() {
   return (
     <nav
       className="
-        sticky top-0 z-40 w-screen sm:w-full
+        sticky top-0 z-40 w-full
         bg-gradient-to-r from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]
         border-b border-emerald-100 dark:border-emerald-900 shadow-xl
         flex items-center justify-between sm:justify-end sm:gap-2 md:gap-4 lg:gap-8
