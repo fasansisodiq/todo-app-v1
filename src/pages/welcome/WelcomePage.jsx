@@ -15,13 +15,13 @@ function WelcomePage() {
   return (
     <div className="min-h-screen flex flex-col items-center w-full bg-gradient-to-br from-emerald-50 via-white to-emerald-100 text-slate-800 font-sans">
       {/* Header */}
-      <nav className="w-full h-10 bg-emerald-50 sm:h-15 md:h-24  shadow-2xl fixed top-0 right-0 left-0 z-50 justify-between px-4  sm:px-6 md:px-8 flex  items-center ">
+      <nav className="w-full h-12 bg-emerald-50 sm:h-15 md:h-24  shadow-2xl fixed top-0 right-0 left-0 z-50 justify-between px-4  sm:px-6 md:px-8 flex  items-center ">
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
           <img
             src="/todopro-light-small.png"
             className="size-10 sm:size-10 md:size-16"
           />
-        <Logo className="size-10 sm:size-12 md:size-16" />
+   
           <span className="text-2xl lg:text-4xl font-extrabold text-emerald-700 tracking-wide drop-shadow">
             todopro
           </span>
