@@ -8,7 +8,6 @@ import FeatureList from "./FeatureList";
 import HowItWorks from "./HowItWorks";
 import SocialProof from "./SocialProof";
 import Testimonials from "./Testimonials";
-import Logo from "../utils/Logo";
 
 function WelcomePage() {
   const navigate = useNavigate();
@@ -21,7 +20,7 @@ function WelcomePage() {
             src="/todopro-light-small.png"
             className="size-10 sm:size-10 md:size-16"
           />
-   
+
           <span className="text-2xl lg:text-4xl font-extrabold text-emerald-700 tracking-wide drop-shadow">
             todopro
           </span>
