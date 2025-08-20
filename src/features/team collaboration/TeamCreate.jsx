@@ -18,7 +18,7 @@ export default function TeamCreate() {
   };
 
   return (
-    <form onSubmit={handleCreate} className="flex gap-2">
+    <form onSubmit={handleCreate} className="flex flex-col sm:flex-row gap-2">
       <input
         className="flex-1 rounded-lg px-3 py-2 border border-emerald-200 dark:border-emerald-700 bg-white dark:bg-[#23272f] text-slate-800 dark:text-emerald-100 placeholder-slate-400 dark:placeholder-emerald-400 capitalize "
         placeholder="New team name"
