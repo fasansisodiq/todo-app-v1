@@ -22,7 +22,7 @@ function FilterPage() {
           setCreationDate={setCreationDate}
         />
       </div>
-      <TableHeader />
+      {/* <TableHeader /> */}
 
       <main className="flex-1 flex flex-col w-full max-w-5xl mx-auto py-6 px-2 gap-4">
         {opt === "all" &&

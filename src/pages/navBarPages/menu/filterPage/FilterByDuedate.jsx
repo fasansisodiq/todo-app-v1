@@ -26,7 +26,11 @@ function FilterByDuedate({ opt }) {
     !Array.isArray(FILTER_PROPS) ||
     FILTER_PROPS.length === 0
   )
-    return null;
+    return (
+      <div className="text-gray-500 w-full text-center">
+        {`No tasks overdue for ${opt} found.`}
+      </div>
+    );
 
   const names = FILTER_PROPS.find((p) => p.name)?.name || [];
   const daysLimits = FILTER_PROPS.find((p) => p.daysLimit)?.daysLimit || [];
@@ -65,7 +69,7 @@ function FilterByDuedate({ opt }) {
             return dueDateObj >= todayDate && dueDateObj >= oneYearFromToday;
           })
           .map((task, tIdx) => (
-            <TaskItem task={task} key={task.id} idx={tIdx} />
+            <ReusableTaskItem task={task} key={task.id} idx={tIdx} />
           ))}
       </div>
     );
@@ -100,7 +104,7 @@ function FilterByDuedate({ opt }) {
           isDateWithinFutureLimit(task.dueDate, filter.from, filter.daysLimit)
         )
         .map((task, tIdx) => (
-          <TaskItem task={task} key={task.id} idx={tIdx} />
+          <ReusableTaskItem task={task} key={task.id} idx={tIdx} />
         ))}
     </div>
   );

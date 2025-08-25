@@ -56,7 +56,7 @@ function ProgressPage() {
         </div>
 
         {/* Progress Ring & Weekly/Monthly Summary */}
-        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <div className="flex flex-col items-center justify-center bg-white dark:bg-[#2f3532] rounded-xl shadow p-6">
             <ProgressRing
               percentage={
@@ -77,7 +77,7 @@ function ProgressPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-4xl mb-8">
           {stats.map((stat) => (
             <StartsCard
               key={stat.label}
@@ -90,7 +90,7 @@ function ProgressPage() {
         </div>
 
         {/* Pie Chart & Bar Chart */}
-        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div className="bg-white dark:bg-[#2f3532] rounded-xl shadow p-6">
             <h2 className="text-lg font-bold text-emerald-700 dark:text-emerald-300 mb-4">
               Task Status Breakdown
@@ -106,7 +106,7 @@ function ProgressPage() {
         </div>
 
         {/* Recent Activity Feed & Top Projects */}
-        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <RacentActivity />
           <TopProjects />
         </div>

@@ -23,7 +23,7 @@ function ProfileSection() {
       <h2 className="text-lg font-bold text-slate-700 dark:text-emerald-300/70">
         Profile
       </h2>
-      <div className="flex flex-col md:flex-row gap-4 items-center">
+      <div className="flex flex-col lg:flex-row gap-4 items-center">
         <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-yellow-100 flex items-center justify-center text-3xl font-bold text-emerald-600 dark:text-yellow-600 overflow-hidden">
           {profilePic ? (
             <img

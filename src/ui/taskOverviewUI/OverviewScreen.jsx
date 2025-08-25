@@ -28,7 +28,7 @@ function OverviewScreen() {
     taskRoutes.some((route) => location.pathname === `/layout/${route}`);
 
   return (
-    <main className="w-full min-h-screen flex flex-col items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] py-8 px-2 transition-colors duration-300">
+    <main className="w-full min-h-screen flex flex-col items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]  px-2 transition-colors duration-300">
       <section className="w-full max-w-5xl bg-white/90 dark:bg-[#232b25]/90 rounded-2xl shadow-2xl border border-emerald-100 dark:border-emerald-900 p-6 md:p-10 flex flex-col gap-6 transition-colors duration-300">
         {showHeaderAndFilter && (
           <header className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
@@ -40,21 +40,12 @@ function OverviewScreen() {
                 See your progress, stats, and manage your tasks at a glance.
               </p>
             </div>
-            <div className="flex gap-2">
-              {/* Add Task Button (example quick action) */}
-              <QuickActionBtn
-                label="new task"
-                onClick={() => navigate("/layout/task/new")}
-              />
-              {/* <button
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 text-white font-semibold shadow hover:bg-emerald-700 dark:bg-emerald-800 dark:hover:bg-emerald-900 dark:text-yellow-200 transition-all text-sm md:text-base"
-                onClick={() => navigate("/layout/task/new")}
-                aria-label="Add new task"
-              >
-                <FiPlus className="text-base" />
-                New Task
-              </button> */}
-            </div>
+
+            {/* Add Task Button (example quick action) */}
+            <QuickActionBtn
+              label="new task"
+              onClick={() => navigate("/layout/task/new")}
+            />
           </header>
         )}
         <div className="flex-1">
