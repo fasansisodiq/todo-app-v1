@@ -3,14 +3,12 @@ import { Link } from "react-router-dom";
 import DisplayHoverMessage from "../../utils/DisplayHoverMessage";
 import { useTasks } from "../../customHooks/tasks/useTasks";
 import { useAuth } from "../../authentication/useAuth";
-import { useNotifications } from "../../customHooks/notification/useNotifications";
-import DarkModeToggle from "../../utils/DarkModeBtn";
 import Logo from "../../utils/Logo";
 
 function Profile() {
   const { date } = useTasks();
   const { username, fullName, profilePic, email } = useAuth();
-  const { notifications, enableNotifications } = useNotifications();
+  // const { notifications, enableNotifications } = useNotifications();
 
   // Greeting logic
   const getGreeting = () => {
@@ -20,40 +18,13 @@ function Profile() {
     return "Good evening";
   };
 
-  //calculate total, read, and unread notifications
-  const totalNotifications = notifications?.length;
-  const readNotifications = notifications.filter((notif) => notif.read).length;
-  const unreadNotifications = totalNotifications - readNotifications;
-
   return (
-    <div className="relative w-full max-w-xs flex flex-col px-3  py-8 items-center gap-8 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] rounded-2xl shadow-2xl font-sans border border-emerald-100 dark:border-emerald-900 transition-colors duration-300">
-      {/* Header: Logo, Dark Mode, Notification */}
-      <div className="w-full flex flex-col gap-1 sm:gap-0 sm:flex-row items-center justify-between px-1 mb-2">
+    <div className="relative w-full  flex flex-col px-3  py-8 items-center gap-8 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] rounded-2xl shadow-lg font-sans border border-emerald-100 dark:border-emerald-900 transition-colors duration-300">
+      {/*  Logo */}
+      {/* <div className="w-full flex flex-col gap-1 sm:gap-0 sm:flex-row items-center justify-between px-1 mb-2">
         <Logo className="size-30 sm:size-20 md:size-25" />
-        <div className="flex items-center gap-2">
-          <DarkModeToggle />
-          {enableNotifications && notifications && (
-            <Link to={"/layout/notification"} className="relative">
-              <DisplayHoverMessage
-                element={
-                  <span className="font-bold relative">
-                    <p className="text-2xl md:text-3xl lg:text-4xl text-emerald-500 dark:text-yellow-300 drop-shadow">
-                      <CiBellOn />
-                    </p>
-                    {unreadNotifications > 0 && (
-                      <span className="absolute -top-1 right-1 w-4 h-4 md:w-5 md:h-5 bg-red-600 border-2 border-white rounded-full flex items-center justify-center text-[0.7rem] text-white font-bold shadow">
-                        {unreadNotifications}
-                      </span>
-                    )}
-                  </span>
-                }
-                message={"See all notifications"}
-                mClassName="w-36 h-8 text-xs"
-              />
-            </Link>
-          )}
-        </div>
-      </div>
+      
+      </div> */}
       {/* Date */}
       <span className="text-[0.6rem] sm:text-xs md:text-base text-slate-400 dark:text-slate-300 font-mono pt-1 self-end">
         {date}

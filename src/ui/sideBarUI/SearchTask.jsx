@@ -8,11 +8,17 @@ import {
   formattedTodayDate,
 } from "../../customHooks/tasks/DateFormerter";
 
-function SearchTask() {
+function SearchTask({ onClose }) {
   const navigate = useNavigate();
   const { searchQuery = "", setSearchQuery, taskData = [] } = useTasks();
   const [liveResults, setLiveResults] = useState([]);
-
+  const handleNavigate = useCallback(
+    (route) => {
+      navigate(`/layout/${route}`);
+      liveResults && onClose();
+    },
+    [navigate, liveResults, onClose]
+  );
   // Live search: filter tasks as user types
   const handleInputChange = useCallback(
     (e) => {
@@ -59,25 +65,25 @@ function SearchTask() {
       // Navigate to the first matching task's section
       const firstTask = liveResults[0];
       if (firstTask.completed === false && firstTask.priority === "on") {
-        navigate(`/layout/important`);
+        handleNavigate("important");
       } else if (firstTask.completed === true) {
-        navigate(`/layout/completed`);
+        handleNavigate("completed");
       } else if (firstTask.dueDate === formattedTodayDate) {
-        navigate(`/layout/today`);
+        handleNavigate("today");
       } else if (firstTask.dueDate === formattedDate(searchQuery)) {
-        navigate(`/layout/${firstTask.taskClass}`);
+        handleNavigate(firstTask.taskClass);
       } else {
-        navigate(`/layout/${firstTask.taskClass}`);
+        handleNavigate(firstTask.taskClass);
       }
 
       setSearchQuery("");
       setLiveResults([]);
     },
-    [searchQuery, liveResults, navigate, setSearchQuery]
+    [searchQuery, liveResults, setSearchQuery, handleNavigate]
   );
 
   return (
-    <div className="lg:pb-4 relative w-full">
+    <div className="lg:pb-4 relative w-100 sm:w-200">
       <Search
         placeholder={"Search task #"}
         value={searchQuery}
@@ -95,15 +101,15 @@ function SearchTask() {
               onClick={() => {
                 // Navigate to the selected task's section
                 if (task.completed === false && task.priority === "on") {
-                  navigate(`/layout/important`);
+                  handleNavigate("important");
                 } else if (task.completed === true) {
-                  navigate(`/layout/completed`);
+                  handleNavigate("completed");
                 } else if (task.dueDate === formattedTodayDate) {
-                  navigate(`/layout/today`);
+                  handleNavigate("today");
                 } else if (task.dueDate === formattedDate(searchQuery)) {
-                  navigate(`/layout/${task.taskClass}`);
+                  handleNavigate(task.taskClass);
                 } else {
-                  navigate(`/layout/${task.taskClass}`);
+                  handleNavigate(task.taskClass);
                 }
                 setSearchQuery("");
                 setLiveResults([]);

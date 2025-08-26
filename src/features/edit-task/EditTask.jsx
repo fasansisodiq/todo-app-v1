@@ -110,7 +110,7 @@ function EditTask() {
             disabled={!title && !description && !dueDate}
             onCancel={() => {
               setUpdateCanceled(true);
-              navigate(-1);
+              navigate(`/layout/${taskClass.toLowerCase()}`);
             }}
             className="text-base md:text-lg"
           />

@@ -116,10 +116,9 @@ function TaskItem({ task, onSave, operationLabel }) {
                   onClick={(e) => {
                     const target = e.target.textContent.toLowerCase().trim();
                     target !== "cancel" && handleTaskModalOpen(task);
-                    setTargetLabel(e.target.textContent);
+                    setTargetLabel(target);
                     // console.log(e.target);
                   }}
-                  // onClick={menu.action}
                 >
                   {menu.icon && <span>{menu.icon}</span>}
                   <span>{menu.label}</span>
