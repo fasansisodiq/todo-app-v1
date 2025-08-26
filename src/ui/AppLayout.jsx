@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import Spinner from "../utils/Spinner";
 import { Navigate } from "react-router";
 import { useTasks } from "../customHooks/tasks/useTasks";
-import StickyNav from "../utils/StickyNaV";
 
 function AppLayout() {
   const { darkMode, setDarkMode } = useDarkMode();
@@ -30,12 +29,12 @@ function AppLayout() {
       } dark:bg-[#181f1b]`}
     >
       {/* Sticky Navbar */}
-      <StickyNav>
+      <>
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-      </StickyNav>
+      </>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex  min-h-screen">
+      <div className="flex-1 flex  min-h-screen mt-25">
         {/* Sticky Sidebar */}
         <aside className="sticky top-0 left-0 min-h-screen z-30 flex-shrink-0">
           <SideBar />

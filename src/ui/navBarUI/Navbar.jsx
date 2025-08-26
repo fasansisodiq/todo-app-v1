@@ -3,6 +3,7 @@ import TodoNavigator from "../../utils/TodoNavigator";
 import DisplayHoverMessage from "../../utils/DisplayHoverMessage";
 import Logout from "./Logout";
 import AddNewTaskBtn from "../../features/add-task/AddNewTaskBtn";
+import StickyNav from "../../utils/StickyNaV";
 
 const navLinks = [
   {
@@ -41,18 +42,7 @@ const navLinks = [
 
 function Navbar() {
   return (
-    <nav
-      className="
-        sticky top-0 z-40 w-full
-        bg-gradient-to-r from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]
-        border-b border-emerald-100 dark:border-emerald-900 shadow-xl
-        flex items-center justify-between sm:justify-end sm:gap-2 md:gap-4 lg:gap-8
-        h-14 sm:h-16 md:h-20 px-1 sm:px-4 md:px-8 lg:px-12
-        rounded-b-2xl
-        backdrop-blur-md
-        transition-all duration-300 text-[0.7rem] sm:text-[0.9rem]
-      "
-    >
+    <StickyNav>
       <AddNewTaskBtn />
       {navLinks.map((link) => (
         <TodoNavigator
@@ -72,7 +62,7 @@ function Navbar() {
         message="Done with todo?"
         mClassName="w-21 h-4 sm:h-5 sm:w-30 sm:-right-4 sm:-bottom-6 md:h-6 md:w-31 md:-right-3 -right-8 -bottom-6 lg:w-33 xl:w-45 lg:h-8 lg:-right-5 lg:-bottom-11 xl:h-10 xl:-right-8 xl:-bottom-12"
       />
-    </nav>
+    </StickyNav>
   );
 }
 
