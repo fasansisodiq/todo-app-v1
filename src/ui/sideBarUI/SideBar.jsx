@@ -17,6 +17,7 @@ import Shared from "./Shared";
 import Teams from "./Teams";
 
 function SideBar() {
+const [showProfile,setShowProfile]= useState(false);
   return (
     <aside
       className={`
@@ -32,9 +33,12 @@ function SideBar() {
       }}
     >
       {/* Profile Card */}
-      <div className="mb-2">
+    <div className="flex flex-col gap-2">
+  <div className="capitalize" onClick={setShowProfile(!showProfile)}>profile</div>
+     {showProfile &&  <div className="mb-2">
         <Profile />
-      </div>
+      </div>}
+</div>
       {/* Search Bar */}
       <div className="mb-2 pl-2">
         <Search />
