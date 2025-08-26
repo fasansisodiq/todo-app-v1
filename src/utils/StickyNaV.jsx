@@ -4,4 +4,4 @@ function StickyNav ({children}) => {
 );
 }
 
-export default StickyNav 
+export default StickyNav;
