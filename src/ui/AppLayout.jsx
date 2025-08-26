@@ -6,7 +6,7 @@ import { useDarkMode } from "../customHooks/DarkModeContext"; // Import your hoo
 import { useAuth } from "../authentication/useAuth";
 import { useEffect, useState } from "react";
 import Spinner from "../utils/Spinner";
-import StickyNav from "../utils/StickyNav";
+import StickyNav from ".../utils/StickyNav";
 import { Navigate } from "react-router";
 import { useTasks } from "../customHooks/tasks/useTasks";
 
