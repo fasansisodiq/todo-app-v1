@@ -24,20 +24,23 @@ function AppLayout() {
 
   return (
     <div
-      className={`w-screen min-h-screen flex relative transition-colors duration-300 ${
+      className={`w-screen min-h-screen flex flex-col relative transition-colors duration-300 ${
         darkMode ? "bg-[#181f1b]" : "bg-[#f0f4f3]"
       } dark:bg-[#181f1b]`}
     >
-      {/* Sticky Sidebar */}
-      <aside className="sticky top-0 left-0 min-h-screen z-30 flex-shrink-0">
-        <SideBar />
-      </aside>
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-h-screen">
-        {/* Sticky Navbar */}
+
+{/* Sticky Navbar */}
         <nav className="sticky top-0 z-20 w-full border-b shadow-sm transition-colors duration-300 bg-white/80 dark:bg-[#232b25]/80 border-emerald-100 dark:border-emerald-900">
           <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
         </nav>
+
+      
+      {/* Main Content Area */}
+      <div className="flex-1 flex  min-h-screen">
+        {/* Sticky Sidebar */}
+      <aside className="sticky top-0 left-0 min-h-screen z-30 flex-shrink-0">
+        <SideBar />
+      </aside>
         {/* Main Content */}
         <main className="flex-1 flex flex-col overflow-y-auto">
           <OperationProvider>
