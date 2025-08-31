@@ -11,7 +11,8 @@ import { MdCancel } from "react-icons/md";
 
 import Modal from "../../utils/Modal";
 import { useOperation } from "../../customHooks/operation/useOperation";
-import QuickActionBtn from "../../utils/QuickActionBtn";
+import { GoPlus } from "react-icons/go";
+import CustomButton from "../../utils/CustomButton";
 
 const subtaskDetails = [
   "title",
@@ -146,7 +147,13 @@ function Subtasks({ task }) {
             Subtasks
           </h4>
           {/* Add subTask Button (example quick action) */}
-          <QuickActionBtn label="new subtask" onClick={onOpenSubTask} />
+          <CustomButton
+            btnType="primary"
+            size="sm"
+            icon={<GoPlus />}
+            label="new subtask"
+            onClick={onOpenSubTask}
+          />
         </div>
 
         {subtasks && subtasks.length > 0 ? (

@@ -10,6 +10,7 @@ const taskNotificationDatas = [
   { label: "status", value: "status" },
   { label: "assignee", value: "assignee" },
   { label: "due date", value: "dueDate" },
+  { label: "priority", value: "priority" },
 ];
 const teamNotifDatas = [
   { label: "team name", value: "teamName" },
@@ -96,20 +97,6 @@ function NotificationCard({
                   </span>
                 </div>
               ))}
-              <div>
-                <span className="font-semibold dark:text-yellow-200/70">
-                  Priority:
-                </span>{" "}
-                <span
-                  className={
-                    getPriorityLabel(notifications.taskData.priority) === "High"
-                      ? "text-red-600 dark:text-red-400 font-bold"
-                      : "text-slate-500 dark:text-yellow-400 font-bold"
-                  }
-                >
-                  {getPriorityLabel(notifications.taskData.priority)}
-                </span>
-              </div>
             </div>
           )}
 
@@ -154,11 +141,14 @@ function NotificationCard({
             view task details
           </Link> */}
           <Link
-            to={`/layout/${
-              notifications?.taskData?.taskClass ||
-              notifications?.subtaskData?.parentTaskClass ||
-              ""
-            }`}
+            to={
+              (notifications?.taskData?.status !== "in progress" &&
+                `/layout/${notifications?.taskData?.status}`) ||
+              `/layout/${
+                notifications?.taskData?.taskClass ||
+                notifications?.subtaskData?.parentTaskClass
+              }`
+            }
             className="text-blue-600 hover:text-blue-800 font-semibold pt-1 underline"
           >
             view task details

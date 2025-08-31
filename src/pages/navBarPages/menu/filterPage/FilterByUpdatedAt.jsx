@@ -1,11 +1,10 @@
-import { useTasks } from "../../../../customHooks/tasks/useTasks";
 import ReusableTaskItem from "../../../../utils/ReusableTaskItem";
 
-function FilterByUpdatedAt({ taskData, days = 7 }) {
-  const { getDateObj } = useTasks;
+function FilterByUpdatedAt({ taskData, updatedDays }) {
   const now = new Date();
   const daysAgo = new Date(now);
-  daysAgo.setDate(now.getDate() - days);
+  daysAgo.setDate(now.getDate() - updatedDays);
+  // daysAgo.setDate(now.getDate() - days);
 
   const filteredTasks = taskData
     ?.filter(
@@ -14,7 +13,7 @@ function FilterByUpdatedAt({ taskData, days = 7 }) {
         new Date(task.updatedAt) >= daysAgo &&
         new Date(task.updatedAt) <= now
     )
-    .sort((a, b) => getDateObj(a.dueDate) - getDateObj(b.dueDate));
+    .sort((a, b) => a.dueDate - b.dueDate);
 
   return (
     <div>

@@ -8,7 +8,11 @@ function ImportantPage() {
       <ul>
         {taskData?.length > 0 &&
           taskData
-            .filter((task) => task.completed === false && task.status == "high")
+            .filter(
+              (task) =>
+                task.completed === false &&
+                task.priority.toLowerCase() === "high"
+            )
             .map((task) => <ReusableTaskItem task={task} key={task.id} />)}
       </ul>
     </div>

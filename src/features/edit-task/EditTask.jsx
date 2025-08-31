@@ -17,7 +17,7 @@ import { useNotifications } from "../../customHooks/notification/useNotification
 function EditTask() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { toast } = useTasks();
+  const { toast, handleTaskModalClose } = useTasks();
   const params = Object.fromEntries(searchParams.entries());
   const { id, title, assignee, dueDate, description, priority, taskClass } =
     params;
@@ -34,7 +34,7 @@ function EditTask() {
   };
 
   const [updatedTask, setUpdatedTask] = useState(updatedData);
-  const { onCloseEdit, setOpenModal } = useOperation();
+  const { onCloseEdit } = useOperation();
   const { updateTask } = useTasks();
   const { setUpdateCanceled } = useNotifications();
 
@@ -45,7 +45,7 @@ function EditTask() {
       updatedAt: new Date().toLocaleString(),
     });
     onCloseEdit();
-    () => setOpenModal(null);
+    handleTaskModalClose();
     navigate(-1);
     toast(`Task ${updatedTask.title} updated successfully`);
   }
@@ -110,6 +110,7 @@ function EditTask() {
             disabled={!title && !description && !dueDate}
             onCancel={() => {
               setUpdateCanceled(true);
+              handleTaskModalClose();
               navigate(`/layout/${taskClass.toLowerCase()}`);
             }}
             className="text-base md:text-lg"

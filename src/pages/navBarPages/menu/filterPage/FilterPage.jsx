@@ -11,15 +11,22 @@ import ReusableTaskItem from "../../../../utils/ReusableTaskItem";
 function FilterPage() {
   const { taskData, uniqueAssignees } = useTasks();
   const [opt, setOpt] = useState("all");
-  const [creationDate, setCreationDate] = useState("");
+  // selected creation date state for filtering
+  const [creationDate, setCreationDate] = useState([]);
+  const [updatedDays, setUpdatedDays] = useState(1);
 
   return (
     <div className="flex flex-col min-h-screen w-full  dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] bg-gradient-to-br from-emerald-50 via-white to-emerald-100">
-      <div className="w-full md:w-auto flex justify-end">
+      <div className="w-full md:w-auto flex justify-between">
+        <header className="text-2xl md:text-3xl text-emerald-700 dark:text-yellow-700 font-bold p-4 md:p-6">
+          Filter Tasks
+        </header>
         <FilterNav
           setOpt={setOpt}
           creationDate={creationDate}
           setCreationDate={setCreationDate}
+          updatedDays={updatedDays}
+          setUpdatedDays={setUpdatedDays}
         />
       </div>
       {/* <TableHeader /> */}
@@ -41,7 +48,7 @@ function FilterPage() {
             />
           )}
         {opt !== "all" && opt !== "createdAt" && opt === "recently updated" && (
-          <FilterByUpdatedAt taskData={taskData} days={7} />
+          <FilterByUpdatedAt taskData={taskData} updatedDays={updatedDays} />
         )}
         {opt !== "all" && opt !== "createdAt" && opt !== "recently updated" && (
           <FilterByDuedate opt={opt} />

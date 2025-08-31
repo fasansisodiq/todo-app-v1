@@ -37,7 +37,7 @@ const faqSections = [
         id: 6,
         question: "Can I prioritize tasks?",
         answer:
-          "Yes, you can prioritize tasks by checking the priority box while adding it as new task.",
+          "Yes, you can prioritize tasks by selecting the priority level (Low,Medium, High) from the priority's options while adding it as new task.",
       },
     ],
   },

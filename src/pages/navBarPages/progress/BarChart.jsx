@@ -1,7 +1,7 @@
 import { useTaskStats } from "./Utils";
 
 function BarChart({ barColor = "#10b981", bgColor = "#e5e7eb" }) {
-  // Use completedPerDay from your stats hook
+  // Use completedPerDay from  stats hook
   const { completedPerDay } = useTaskStats();
 
   // If completedPerDay is an array of { label, value } and value is an array of tasks, use .length

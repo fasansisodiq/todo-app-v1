@@ -1,8 +1,3 @@
-import { FaCheckCircle, FaEdit, FaTrashAlt } from "react-icons/fa";
-import { MdCancel, MdPending } from "react-icons/md";
-import { useState } from "react";
-
-import TaskItem from "../TaskItem";
 import TaskOverviewHeader from "../../ui/taskOverviewUI/TaskOverviewHeader";
 import { useTasks } from "../../customHooks/taskData/useTasks";
 import Spinner from "../../utils/Spinner";

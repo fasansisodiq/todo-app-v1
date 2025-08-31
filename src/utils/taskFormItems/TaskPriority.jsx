@@ -10,7 +10,7 @@ function TaskPriority({ value, onChange }) {
       <select
         id="priority"
         name="priority"
-        value={value || "please select"}
+        value={value}
         onChange={onChange}
         className=" rounded-lg px-3 py-2 border border-emerald-200 dark:border-emerald-700 bg-white dark:bg-[#181f1b] text-slate-800 dark:text-emerald-100  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-700 dark:focus:ring-yellow-500"
         required

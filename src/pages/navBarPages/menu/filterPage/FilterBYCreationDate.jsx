@@ -1,8 +1,6 @@
-import { useTasks } from "../../../../customHooks/tasks/useTasks";
 import ReusableTaskItem from "../../../../utils/ReusableTaskItem";
 
 function FilterByCreationDate({ taskData, creationDate }) {
-  const { getDateObj } = useTasks;
   // Filter tasks by creation date if a date is selected
   const filteredTasks = creationDate
     ? taskData
@@ -12,7 +10,7 @@ function FilterByCreationDate({ taskData, creationDate }) {
             new Date(task.createdAt).toLocaleDateString() ===
               new Date(creationDate).toLocaleDateString()
         )
-        .sort((a, b) => getDateObj(a.dueDate) - getDateObj(b.dueDate))
+        .sort((a, b) => a.dueDate - b.dueDate)
     : taskData;
 
   return (

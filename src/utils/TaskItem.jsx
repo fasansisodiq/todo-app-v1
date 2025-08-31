@@ -4,20 +4,16 @@ import { FaEllipsisV } from "react-icons/fa";
 
 import CountdownToFutureDate from "./CountdownTofutureDate";
 import Subtasks from "../features/add-subtasks/Subtasks";
-import TaskOperationModal from "./TaskOperationModal";
 import { capitalizeFirstLetter } from "./capitalizeFirstLetter";
-import AddSubTaskModal from "../features/add-subtasks/AddSubTaskModal";
 import { useTasks } from "../customHooks/tasks/useTasks";
 
-function TaskItem({ task, onSave, operationLabel }) {
+function TaskItem({ task, operationLabel, setTargetLabel }) {
   const [expandedId, setExpandedId] = useState(null);
-  const [targetLabel, setTargetLabel] = useState("");
+  // const [targetLabel, setTargetLabel] = useState("");
 
   const {
-    taskModal,
     taskMenuId,
     handleTaskModalOpen,
-    handleTaskModalClose,
     handleTaskMenuOpen,
     handleTaskMenuClose,
   } = useTasks();
@@ -29,7 +25,7 @@ function TaskItem({ task, onSave, operationLabel }) {
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <>
       <div
         className={`w-full rounded-2xl shadow-lg border border-emerald-100 dark:border-emerald-900 bg-white dark:bg-[#1a2220] mb-4 transition-all`}
       >
@@ -52,14 +48,14 @@ function TaskItem({ task, onSave, operationLabel }) {
             className={`${
               isExpanded &&
               " bg-emerald-100 dark:bg-emerald-900 p-2 md:px-4 rounded-lg border border-emerald-200 dark:border-emerald-700"
-            } flex items-center gap-2 md:gap-4 w-full sm:w-auto`}
+            } flex flex-col sm:flex-row  items-center gap-2 md:gap-4 w-full sm:w-auto`}
           >
             <span
               className={`font-medium ${
                 task.completed
                   ? "line-through text-slate-400 dark:text-emerald-400"
                   : "text-slate-800 dark:text-emerald-100"
-              }" font-bold text-lg md:text-xl text-emerald-800 dark:text-yellow-200 truncate max-w-[180px]"`}
+              }" font-bold text-sm sm:text-lg md:text-xl text-emerald-800 dark:text-yellow-200 truncate max-w-[180px]"`}
             >
               {capitalizeFirstLetter(task?.title)}
             </span>
@@ -103,7 +99,7 @@ function TaskItem({ task, onSave, operationLabel }) {
         )}
         {taskMenuId === task.id && (
           <div
-            className="absolute right-10 top-2 z-20 bg-white dark:bg-[#23272f] border border-emerald-200 dark:border-emerald-700 rounded-lg shadow-lg py-2 w-40 md:w-60"
+            className="absolute right-10 top-6 z-70 bg-white dark:bg-[#23272f]  bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] border border-emerald-200 dark:border-emerald-700 rounded-lg shadow-lg py-2 w-40 md:w-60"
             onMouseLeave={handleTaskMenuClose}
           >
             {operationLabel.map((menu) => (
@@ -114,10 +110,11 @@ function TaskItem({ task, onSave, operationLabel }) {
                 <button
                   className="w-full flex gap-2 md:gap-3 items-center text-left px-4 py-2 hover:bg-emerald-50 dark:hover:bg-emerald-800  transition"
                   onClick={(e) => {
-                    const target = e.target.textContent.toLowerCase().trim();
-                    target !== "cancel" && handleTaskModalOpen(task);
-                    setTargetLabel(target);
-                    // console.log(e.target);
+                    // const target = e.target.textContent.toLowerCase().trim();
+                    // target !== "cancel" && handleTaskModalOpen(task);
+                    handleTaskModalOpen(task);
+                    setTargetLabel(e.target.textContent);
+                    // console.log(targetLabel);
                   }}
                 >
                   {menu.icon && <span>{menu.icon}</span>}
@@ -128,17 +125,7 @@ function TaskItem({ task, onSave, operationLabel }) {
           </div>
         )}
       </div>
-
-      {/* Modal for task actions */}
-      <TaskOperationModal
-        taskModal={taskModal}
-        onCloseTaskOperationModal={handleTaskModalClose}
-        task={task}
-        submitLabel={targetLabel}
-        onSave={() => onSave(targetLabel)}
-      />
-      <AddSubTaskModal task={task} />
-    </div>
+    </>
   );
 }
 

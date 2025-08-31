@@ -5,7 +5,7 @@ import ProfileSection from "./ProfileSection";
 function SettingsPage() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] flex flex-col items-center py-10 px-2">
-      <section className="w-full max-w-2xl bg-white/90 dark:bg-[#232b25]   rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col gap-8">
+      <section className="w-full max-w-2xl bg-white/90 dark:bg-[#232b25]  bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]   rounded-2xl shadow-2xl border border-emerald-100 p-8 flex flex-col gap-8">
         <header className="mb-4">
           <h1 className="text-2xl md:text-3xl font-extrabold text-emerald-700 dark:text-emerald-400 tracking-wide text-center">
             Settings

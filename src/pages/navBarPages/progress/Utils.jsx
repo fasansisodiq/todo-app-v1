@@ -116,6 +116,9 @@ export function useTaskStats() {
             case "completed":
               actionText = `completed "${act.taskTitle}"`;
               break;
+            case "trashed":
+              actionText = `trashed "${act.taskTitle || act.taskId}"`;
+              break;
             case "deleted":
               actionText = `deleted "${act.taskTitle || act.taskId}"`;
               break;

@@ -33,7 +33,7 @@ function App() {
   }
 
   return (
-    <div className="font-sans flex justify-center items-center w-screen min-h-screen shadow overflow-auto bg-[#f0f4f3]">
+    <div className="font-sans flex justify-center items-center w-screen min-h-screen shadow overflow-auto bg-[#f0f4f3] ">
       <Routes>
         {mainRoutes.map(({ path, element }) => (
           <Route path={path} key={path} element={element} />

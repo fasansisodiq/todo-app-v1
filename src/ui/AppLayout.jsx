@@ -24,7 +24,7 @@ function AppLayout() {
 
   return (
     <div
-      className={`w-screen min-h-screen flex flex-col relative transition-colors duration-300 ${
+      className={`w-screen min-h-screen flex flex-col relative transition-colors duration-300 pb-7 ${
         darkMode ? "bg-[#181f1b]" : "bg-[#f0f4f3]"
       } dark:bg-[#181f1b]`}
     >
@@ -34,9 +34,9 @@ function AppLayout() {
       </>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex  min-h-screen mt15 sm:mt-25">
+      <div className=" flex  min-h-full items-stretch mt-15 sm:mt-25">
         {/* Sticky Sidebar */}
-        <aside className="sticky top-0 left-0 min-h-screen z-30 flex-shrink-0">
+        <aside className=" min-h-full ">
           <SideBar />
         </aside>
         {/* Main Content */}

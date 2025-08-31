@@ -4,10 +4,19 @@ import Label from "../../../../utils/Label";
 import DueDateFilterNavItem from "./DueDateFilterNavItem";
 import FilterNavItem from "./FilterNavItem";
 import AssigneeFilterNavItem from "./AssigneeFilterNavItem";
+import FormatFilterPicker from "./Utils/FormatFilterPicker";
 
-function FilterNav({ setOpt, creationDate, setCreationDate }) {
+function FilterNav({
+  setOpt,
+  creationDate,
+  setCreationDate,
+  updatedDays,
+  setUpdatedDays,
+}) {
   const [isActive, setIsActive] = useState("all");
   const [show, setShow] = useState(false);
+
+  const numbers = Array.from({ length: 30 }, (_, index) => index + 1);
 
   const handleIsActive = (label) => {
     setIsActive(label);
@@ -15,7 +24,8 @@ function FilterNav({ setOpt, creationDate, setCreationDate }) {
     setShow(false);
   };
   function handClear() {
-    setCreationDate("");
+    creationDate && setCreationDate("");
+    updatedDays && setUpdatedDays(1);
     setIsActive("all");
   }
   const filterNavItems = [
@@ -27,38 +37,51 @@ function FilterNav({ setOpt, creationDate, setCreationDate }) {
     },
   ];
   return (
-    <>
+    <div className="flex gap-2 items-center p-2  justify-self-end">
       {isActive === "creation date" && (
-        <div className="flex items-center mb-2">
+        <FormatFilterPicker pickerState={creationDate} handClear={handClear}>
+          <Label htmlFor="creationDate" className="mr-2">
+            Select Date:
+          </Label>
           <input
             type="date"
             value={creationDate}
             onChange={(e) => setCreationDate(e.target.value)}
             className="border rounded p-1"
           />
-          {creationDate && (
-            <button
-              className="ml-2 px-2 py-1 bg-gray-200 dark:bg-emerald-500 rounded"
-              onClick={handClear}
-            >
-              Clear
-            </button>
-          )}
-        </div>
+        </FormatFilterPicker>
       )}
-      <nav className="w-fit self-start flex flex-col items-center bg-teal-100 dark:bg-[#8c8f8d] p-2 h-fit shadow-lg capitalize cursor-pointer font-semibold">
+      {isActive === "recently updated" && (
+        <FormatFilterPicker pickerState={updatedDays} handClear={handClear}>
+          <Label htmlFor="updatedDays" className="mr-2">
+            Updated in last
+          </Label>
+          <select
+            onChange={(e) => setUpdatedDays(e.target.value)}
+            value={updatedDays}
+            className="border rounded p-1 border-emerald-300 dark:border-emerald-600 ring-emerald-300 dark:ring-emerald-600"
+          >
+            {numbers.map((number) => (
+              <option key={number} value={number}>
+                {number} day{number > 1 ? "s" : ""}
+              </option>
+            ))}
+          </select>
+        </FormatFilterPicker>
+      )}
+      <nav className="w-fit self-start flex flex-col items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]  p-2 h-fit shadow-lg capitalize cursor-pointer font-semibold">
         <Label htmlFor="filter" className="text-lg lg:text-2xl">
           filter
         </Label>
         <div
-          className={`w-35 h-4 ${
+          className={`w-fit min-w-40 h-4 ${
             show ? "p-0.5" : "p-1"
           } flex-1 justify-between items-center relative`}
         >
           <div
             className={`w-full flex justify-between items-center ${
               show
-                ? "ring-emerald-700 dark:ring-yellow-600 dark:bg-yellow-50 dark:border-yellow-600 ring-2 border-4 border-white bg-white rounded-full shadow-lg"
+                ? "ring-emerald-700 dark:ring-yellow-600 dark:bg-[#232b25] dark:border-yellow-600 ring-2  border-white bg-white rounded-full shadow-lg"
                 : ""
             }`}
           >
@@ -69,13 +92,13 @@ function FilterNav({ setOpt, creationDate, setCreationDate }) {
               type="button"
               aria-label="Toggle filter dropdown"
               onClick={() => setShow((prev) => !prev)}
-              className="focus:outline-none"
+              className="focus:outline-none text-emerald-800 dark:text-yellow-600 "
             >
-              <IoChevronDownOutline size={25} />
+              <IoChevronDownOutline size={24} />
             </button>
           </div>
           {show && (
-            <div className="bg-white w-34 h-fit px-1 flex flex-col border-2 border-white dark:border-[#464c49]   dark:bg-[#464c49] shadow-2xl absolute rounded-lg py-2 z-10">
+            <div className=" w-fit h-fit px-1 flex flex-col border-2 border-emerald-50 dark:border-[#232b25]    shadow-2xl absolute rounded-lg py-2 z-10 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] ">
               {filterNavItems.map((item, index) => (
                 <FilterNavItem
                   key={index}
@@ -92,7 +115,7 @@ function FilterNav({ setOpt, creationDate, setCreationDate }) {
           )}
         </div>
       </nav>
-    </>
+    </div>
   );
 }
 

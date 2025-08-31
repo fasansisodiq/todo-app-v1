@@ -12,7 +12,7 @@ function OptionGroup({ label, children, myKey }) {
   return (
     <div
       className="w-full h-fit flex flex-col justify-start p-1 pl-2 text-slate-600 hover:bg-teal-200 dark:text-yellow-200 dark:bg-[#747976] dark:hover:bg-[#919397]"
-      key={myKey}
+      key={label + myKey}
     >
       <h2
         onClick={handleHide}

@@ -18,7 +18,7 @@ function AddNewTask() {
     task,
     setTask,
     addNewTask,
-    handleChange,
+    handleInputChange,
     handleCancel,
     initialTaskState,
   } = useTasks();
@@ -56,12 +56,15 @@ function AddNewTask() {
   }
   return (
     <TaskForm header="add new task" onSubmit={handleSubmit}>
-      <Title onChange={handleChange} value={task.title || ""} />
-      <TaskAssignee onChange={handleChange} value={task.assignee || ""} />
-      <TaskDueDate onChange={handleChange} value={task.dueDate || ""} />
-      <TaskClass onChange={handleChange} value={task.taskClass || ""} />
-      <Description onChange={handleChange} value={task.description || ""} />
-      <TaskPriority onChange={handleChange} checked={task.priority || ""} />
+      <Title onChange={handleInputChange} value={task.title || ""} />
+      <TaskAssignee onChange={handleInputChange} value={task.assignee || ""} />
+      <TaskDueDate onChange={handleInputChange} value={task.dueDate || ""} />
+      <TaskClass onChange={handleInputChange} value={task.taskClass || ""} />
+      <Description
+        onChange={handleInputChange}
+        value={task.description || ""}
+      />
+      <TaskPriority onChange={handleInputChange} value={task.priority || ""} />
       <TaskFormButtons
         submitLabel="add task"
         onSave={handleSubmit}

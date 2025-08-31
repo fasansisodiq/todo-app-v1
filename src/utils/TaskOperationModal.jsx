@@ -82,7 +82,7 @@ function TaskOperationModal({
               ) : (
                 <TaskFormButtons
                   submitLabel={submitLabel}
-                  onSave={onSave}
+                  onSave={() => onSave(submitLabel)}
                   disabled={!task.title && !task.description && !task.dueDate}
                   onCancel={onCloseTaskOperationModal}
                   className="text-base md:text-lg"

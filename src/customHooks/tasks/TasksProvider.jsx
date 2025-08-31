@@ -38,7 +38,7 @@ const initialTaskState = {
   assignee: "",
   dueDate: "",
   taskClass: "",
-  priority: false,
+  priority: "please select",
   description: "",
   completed: false,
   pending: false,
@@ -55,6 +55,7 @@ export function TasksProvider({ children }) {
   const [task, setTask] = useState(initialTaskState);
   const [sharedTasks, setSharedTasks] = useState(null);
   const [taskMenuId, setTaskMenuId] = useState(null);
+  const [targetLabel, setTargetLabel] = useState("");
   const [taskModal, setTaskModal] = useState({
     open: false,
     task: null,
@@ -958,13 +959,14 @@ export function TasksProvider({ children }) {
   }, [taskData]);
 
   // Handle input changes
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, type, value, checked } = e.target;
     setTask((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+
   const handleCancel = (route) => {
     navigate(`/layout/${route}`);
   };
@@ -993,7 +995,7 @@ export function TasksProvider({ children }) {
         task,
         setTask,
         error,
-        handleChange,
+        handleInputChange,
         addNewTask,
         deleteTask,
         updateTask,
@@ -1035,6 +1037,8 @@ export function TasksProvider({ children }) {
         taskMenuId,
         handleTaskMenuClose,
         handleTaskMenuOpen,
+        targetLabel,
+        setTargetLabel,
       }}
     >
       {children}

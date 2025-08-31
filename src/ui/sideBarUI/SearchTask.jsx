@@ -83,7 +83,7 @@ function SearchTask({ onClose }) {
   );
 
   return (
-    <div className="lg:pb-4 relative w-100 sm:w-200">
+    <div className="lg:pb-4 relative w-80 sm:w-160">
       <Search
         placeholder={"Search task #"}
         value={searchQuery}

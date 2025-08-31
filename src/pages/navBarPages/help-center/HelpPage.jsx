@@ -32,7 +32,7 @@ function HelpPage() {
         </h2>
         <FAQ searchQuery={searchQuery} />
       </section>
-      <section className="bg-emerald-50 dark:bg-[#2f3532]/60 rounded-lg p-4 flex flex-col items-center">
+      <footer className="bg-emerald-100 dark:bg-[#2f3532]/60  bg-gradient-to-br from-emerald-100 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] rounded-lg p-4 flex flex-col items-center">
         <h3 className="font-semibold mb-1 text-emerald-700 dark:text-emerald-400/75">
           Need more help?
         </h3>
@@ -47,21 +47,21 @@ function HelpPage() {
           <FiMail /> Email: todoprosuput@gmail.com
         </a>
         <a
-          href="https://wa.me/2349036115780"
+          href="https://wa.me/9036115780"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-emerald-800 dark:text-blue-300 underline font-medium mb-1"
         >
-          <FaWhatsapp /> WhatsApp: 09036115780
+          <FaWhatsapp /> WhatsApp: +2349036115780
         </a>
         <span className="flex items-center gap-2 text-emerald-800 dark:text-blue-300 font-medium">
           <FiPhone />
           Phone:{" "}
-          <a href="tel:09036115780" className="underline">
-            09036115780
+          <a href="tel:9036115780" className="underline">
+            +2349036115780
           </a>
         </span>
-      </section>
+      </footer>
     </div>
   );
 }

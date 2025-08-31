@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
-import { FiPlus } from "react-icons/fi";
-import QuickActionBtn from "../../utils/QuickActionBtn";
+import { GoPlus } from "react-icons/go";
+import CustomButton from "../../utils/CustomButton";
 
 const taskRoutes = [
   "today",
@@ -28,8 +28,12 @@ function OverviewScreen() {
     taskRoutes.some((route) => location.pathname === `/layout/${route}`);
 
   return (
-    <main className="w-full min-h-screen flex flex-col items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]  px-2 transition-colors duration-300">
-      <section className="w-full max-w-5xl bg-white/90 dark:bg-[#232b25]/90 rounded-2xl shadow-2xl border border-emerald-100 dark:border-emerald-900 p-6 md:p-10 flex flex-col gap-6 transition-colors duration-300">
+    <main className="w-full min-h-full flex flex-col items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]  px-2 pr-4 transition-colors duration-300">
+      <section
+        className={
+          "w-full max-w-5xl  rounded-2xl shadow-2xl border border-emerald-100 dark:border-emerald-900 p-6 md:p-10 flex flex-col gap-6 transition-colors duration-300 "
+        }
+      >
         {showHeaderAndFilter && (
           <header className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
             <div>
@@ -42,13 +46,16 @@ function OverviewScreen() {
             </div>
 
             {/* Add Task Button (example quick action) */}
-            <QuickActionBtn
+            <CustomButton
+              btnType="primary"
+              size="sm"
               label="new task"
+              icon={<GoPlus />}
               onClick={() => navigate("/layout/task/new")}
             />
           </header>
         )}
-        <div className="flex-1">
+        <div className="w-full flex-1 items-center">
           <Outlet />
         </div>
       </section>
