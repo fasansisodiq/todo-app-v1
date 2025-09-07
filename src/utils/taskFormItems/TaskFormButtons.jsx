@@ -12,7 +12,7 @@ function TaskFormButtons({
   return (
     <div className="flex justify-center items-center gap-5 pt-5 ">
       <CustomButton
-        size={"sm"}
+        size={"md"}
         btnType={"secondary"}
         label={"cancel"}
         onClick={onCancel}
@@ -20,7 +20,7 @@ function TaskFormButtons({
       {type === "link" ? (
         <Link to={to}>
           <CustomButton
-            size={"sm"}
+            size={"md"}
             btnType={"primary"}
             label={submitLabel}
             onClick={onSave}

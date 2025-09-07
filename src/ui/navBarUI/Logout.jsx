@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import CustomButton from "../../utils/CustomButton";
 import { useAuth } from "../../authentication/useAuth";
+import NavBtn from "../../pages/welcome/NavBtn";
 
 function Logout() {
   const navigate = useNavigate();
@@ -13,17 +13,7 @@ function Logout() {
 
   return (
     <div className="pt-2 sm:pt-0">
-      <CustomButton
-        label={"log out"}
-        type={"others"}
-        size={"sm"}
-        bg={"bg-emerald-600 dark:bg-emerald-800"}
-        txtColor={"text-white dark:text-yellow-200"}
-        hoverClass={
-          "hover:bg-emerald-700 hover:text-slate-800 dark:hover:bg-emerald-900 dark:hover:text-yellow-300"
-        }
-        onClick={handleLogOut}
-      />
+      <NavBtn label="log out" onClick={handleLogOut} />
     </div>
   );
 }

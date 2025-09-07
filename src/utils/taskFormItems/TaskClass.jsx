@@ -14,8 +14,8 @@ const taskClasses = [
 function TaskClass({ defaultValue, value, onChange }) {
   const bgStyle = "hover:bg-emerald-100 dark:hover:bg-[#2a3b2c]";
   return (
-    <div className="flex items-center gap-5">
-      <span>
+    <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
+      <span className="w-full self-start">
         <Label htmlFor="task type">task class:</Label>
       </span>
       <select

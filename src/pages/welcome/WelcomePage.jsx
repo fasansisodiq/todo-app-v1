@@ -1,6 +1,3 @@
-import { Link, useNavigate } from "react-router";
-import Button from "../../utils/Button";
-import { FcTodoList } from "react-icons/fc";
 // import Logo from "../../utils/Logo";
 import WhyTodoPro from "./WhyTodoPro";
 import Gif from "./Gif";
@@ -8,31 +5,67 @@ import FeatureList from "./FeatureList";
 import HowItWorks from "./HowItWorks";
 import SocialProof from "./SocialProof";
 import Testimonials from "./Testimonials";
+import StickyNav from "../../utils/StickyNaV";
+import { useState } from "react";
+import { BiMenu } from "react-icons/bi";
+import NavBtn from "./NavBtn";
 
 function WelcomePage() {
-  const navigate = useNavigate();
+  const [openMenu, setOpenMenu] = useState(false);
+
+  function handleToggleMenu() {
+    setOpenMenu(!openMenu);
+  }
+
   return (
-    <div className="min-h-screen flex flex-col items-center w-full bg-gradient-to-br from-emerald-50 via-white to-emerald-100 text-slate-800 font-sans">
+    <div className="relative min-h-screen flex flex-col items-center w-full bg-gradient-to-br from-emerald-50 via-white to-emerald-100 text-slate-800 font-sans">
       {/* Header */}
-      <nav className="w-full h-12 bg-emerald-50 sm:h-15 md:h-24  shadow-2xl fixed top-0 right-0 left-0 z-50 justify-between px-4  sm:px-6 md:px-8 flex  items-center ">
-        <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+      <StickyNav className="">
+        <div className="w-full flex justify-start  items-center gap-2 sm:gap-3 md:gap-4">
           <img
             src="/todopro-light-small.png"
-            className="size-10 sm:size-10 md:size-16"
+            className=" size-10 sm:size-10 md:size-16"
           />
 
-          <span className="text-2xl lg:text-4xl font-extrabold text-emerald-700 tracking-wide drop-shadow">
+          <span className="text-xl lg:text-2xl font-bold text-emerald-700 tracking-wide drop-shadow">
             todopro
           </span>
         </div>
-        <Link
-          to="/login"
-          className="w-fit h-fit  p-0.5 px-2 flex justify-center items-center  sm:px-3 md:px-4 rounded-full bg-emerald-600 hover:bg-emerald-30 transition-all duration-200 shadow-lg text-white text-xs"
-        >
-          log in
-          {/* <Button label={<span>login</span>} type="button" /> */}
-        </Link>
-      </nav>
+        <div className="sm:text-xl lg:text-2xl">
+          {openMenu ? (
+            <button
+              onClick={handleToggleMenu}
+              className="sm:text-2xl h-5 w-5 sm:h-8 sm:w-8 rounded flex items-center justify-center hover:bg-emerald-200 active:bg-emerald-200 "
+            >
+              &times;
+            </button>
+          ) : (
+            <BiMenu onClick={handleToggleMenu} />
+          )}
+        </div>
+      </StickyNav>
+      <>
+        {openMenu && (
+          <div
+            onClick={handleToggleMenu}
+            className={`w-screen mt-10 sm:mt-15 fixed inset-0 z-10 flex justify-center items-center bg-black/30 dark:bg-bg-[#181f1b] dark:rounded-2xl backdrop-blur-sm transition-all`}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className={`w-full p-4 pb-8 flex flex-col justify-between h-50 sm:h-100 absolute top-0 left-0 right-0 z-30 bg-gradient-to-r from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]  ${
+                openMenu ? "scale-100 opacity-100" : "scale-110 opacity-0"
+              }`}
+            >
+              <div>menu</div>
+              <div>page</div>
+              <div className="flex self-center gap-4  sm:gap-8">
+                <NavBtn to="login" label="Login" />
+                <NavBtn to="signup" label="Get started for free" />
+              </div>
+            </div>
+          </div>
+        )}
+      </>
 
       {/* Main Content Stacked */}
       <div className="flex flex-col gap-6 items-stretch w-full max-w-2xl px-2 pt-30 flex-1">
@@ -73,20 +106,7 @@ function WelcomePage() {
 
         {/* Call to action button */}
         <div className="flex justify-center items-center  sm:mt-2  mb-15 md:mb-20">
-          <Button
-            label={
-              <span className="flex items-center gap-4">
-                {/* <img
-                  src="/public/todopro-light-small.png"
-                  className="size-2 sm:size-4 md:size-6"
-                /> */}
-                Get Started
-              </span>
-            }
-            onClick={() => navigate("/signup")}
-            type="button"
-            className="px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg transition-all duration-200 text-base md:text-lg"
-          />
+          <NavBtn to={"signup"} label={"Get Started for free"} />
         </div>
       </div>
     </div>
