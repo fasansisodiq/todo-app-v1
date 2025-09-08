@@ -20,7 +20,7 @@ function TaskFormButtons({
       {type === "link" ? (
         <Link to={to}>
           <CustomButton
-            size={"sm"}
+            size={"md"}
             btnType={"primary"}
             label={submitLabel}
             onClick={onSave}

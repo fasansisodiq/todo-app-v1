@@ -55,6 +55,7 @@ function Input({
           }
           bg-white/90 text-slate-800 dark:bg-[#232b25]/90 dark:text-yellow-100
           placeholder:text-emerald-300 dark:placeholder:text-yellow-400 dark:placeholder:opacity-55 placeholder:font-medium
+          placeholder:text-sm sm:placeholder:text-base md:placeholder:text-lg lg:placeholder:text-xl
           focus:outline-none focus:ring-2 focus:ring-offset-0
           shadow transition-all duration-200 ${
             type === "date" ? "dark:[color-scheme:dark]" : ""

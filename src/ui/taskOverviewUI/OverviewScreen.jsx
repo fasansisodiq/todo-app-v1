@@ -35,7 +35,14 @@ function OverviewScreen() {
         }
       >
         {showHeaderAndFilter && (
-          <header className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
+          <header className="flex flex-col  items-center justify-between gap-4 mb-4">
+            {/* Add Task Button (example quick action) */}
+            <div className="w-full flex justify-end">
+              <QuickActionBtn
+                label="new task"
+                onClick={() => navigate("/layout/task/new")}
+              />
+            </div>
             <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-emerald-700 dark:text-yellow-200 tracking-wide">
                 Task Overview
@@ -44,6 +51,7 @@ function OverviewScreen() {
                 See your progress, stats, and manage your tasks at a glance.
               </p>
             </div>
+<<<<<<< HEAD
 
             {/* Add Task Button (example quick action) */}
             <CustomButton
@@ -53,6 +61,8 @@ function OverviewScreen() {
               icon={<GoPlus />}
               onClick={() => navigate("/layout/task/new")}
             />
+=======
+>>>>>>> 62f9fd032727d3c2b77cf99896cea68d9107e1ca
           </header>
         )}
         <div className="w-full flex-1 items-center">

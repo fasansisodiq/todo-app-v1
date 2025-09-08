@@ -54,13 +54,14 @@ const layoutRoutes = [
   { path: "notification", element: <NotificationPage /> },
   { path: "share", element: <SharedTaskPage /> },
   { path: "teams", element: <TeamCollabPage /> },
+  { path: "menu/profile", element: <UserProfile /> },
 
   // Navbar/Menu
-  { path: "settings", element: <SettingsPage /> },
-  { path: "progress", element: <ProgressPage /> },
-  { path: "help", element: <HelpPage /> },
+  { path: "menu/settings", element: <SettingsPage /> },
+  { path: "menu/progress", element: <ProgressPage /> },
+  { path: "menu/help", element: <HelpPage /> },
   { path: "menu", element: <MenuPage /> },
-  { path: "filter", element: <FilterPage /> },
+  { path: "menu/filter", element: <FilterPage /> },
 
   // Utility
   { path: "task/new", element: <AddNewTask /> },
@@ -71,7 +72,6 @@ const mainRoutes = [
   { path: "/", element: <WelcomePage /> },
   { path: "signup", element: <SignupPage /> },
   { path: "login", element: <LoginPage /> },
-  { path: "profile", element: <UserProfile /> },
   { path: "edit-profile", element: <EditProfile /> },
   { path: "forget-password", element: <ForgotPassword /> },
   { path: "accept-invite", element: <AcceptInvite /> },
