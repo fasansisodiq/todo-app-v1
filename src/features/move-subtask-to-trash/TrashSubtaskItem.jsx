@@ -15,13 +15,11 @@ function TrashedSubtaskItem({ subtask, idx }) {
   // Restore handler
   const handleRestore = async () => {
     await restoreTrashedSubtask(subtask.parentTaskId, subtask.id);
-    // setModalOpen(false);
   };
 
-  // Permanent delete handler
-  const handleDelete = async () => {
-    await deleteSubtask(subtask.parentTaskId, subtask.id);
-    // setModalOpen(false);
+  // Permanent delete subtask handler
+  const handleSubtaskDelete = async (sub) => {
+    await deleteSubtask(sub.id, sub.id);
   };
   const trashSubtaskOperationMenu = [
     {
@@ -41,34 +39,13 @@ function TrashedSubtaskItem({ subtask, idx }) {
     },
   ];
   function handleTrashSubtaskOperation(label) {
-    if (label === "restore") {
+    if (label === "restore" && label !== "") {
       handleRestore();
-    } else if (label === "permanent delete") {
-      handleDelete();
-    } else {
-      null;
+    } else if (label === "permanent delete" && label !== "") {
+      handleSubtaskDelete(subtask);
     }
   }
-  // const trashSubtaskOperationModal = [
-  //   {
-  //     id: "restore",
-  //     icon: <MdRestoreFromTrash />,
-  //     label: "restore",
-  //     action: handleRestore,
-  //   },
-  //   {
-  //     id: "delete",
-  //     icon: <MdDelete />,
-  //     label: "permanent delete",
-  //     action: handleDelete,
-  //   },
-  //   // {
-  //   //   id: "close",
-  //   //   icon: <MdCancel />,
-  //   //   label: "close",
-  //   //   action: () => setModalOpen(false),
-  //   // },
-  // ];
+
   return (
     <div
       className="flex items-center gap-3 p-3 rounded-lg border border-emerald-100 dark:border-emerald-800 bg-white dark:bg-[#23272f] shadow mb-2 relative "
@@ -153,7 +130,7 @@ function TrashedSubtaskItem({ subtask, idx }) {
         </div>
       )}
 
-      {/* Modern modal for subtask operations */}
+      {/*  Modal for subtask operations */}
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
         <div className="p-6 max-w-md mx-auto bg-white dark:bg-[#23272f] rounded-xl shadow-lg">
           <h3 className="text-lg font-bold mb-4 text-emerald-700 dark:text-yellow-300">
@@ -195,31 +172,11 @@ function TrashedSubtaskItem({ subtask, idx }) {
           <TaskFormButtons
             submitLabel={targetLabel}
             onCancel={() => setModalOpen(false)}
-            onSave={handleTrashSubtaskOperation(targetLabel)}
+            onSave={() => {
+              handleTrashSubtaskOperation(targetLabel);
+              setModalOpen(false);
+            }}
           />
-          {/* {trashSubtaskOperationModal.map((menu) => (
-            <div
-              className="flex justify-between items-center mt-4"
-              key={menu.id}
-            >
-              <button
-                className={`flex  p-2 rounded-lg transition  text-white
-                ${
-                  menu.label === "permanent delete"
-                    ? "bg-red-600 text-white hover:bg-red-700"
-                    : "bg-emerald-600 hover:bg-emerald-700 "
-                }
-                ${
-                  menu.label === "close" &&
-                  " dark:bg-slate-700 dark:hover:bg-slate-600"
-                }
-                `}
-                onClick={menu.action}
-              >
-                {capitalizeFirstLetter(menu.label)}
-              </button>
-            </div>
-          ))} */}
         </div>
       </Modal>
     </div>

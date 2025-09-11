@@ -37,16 +37,9 @@ function SideBar() {
   return (
     <aside
       className={`
-<<<<<<< HEAD
         w-36 sm:w-64 md:w-72 lg:w-80 xl:w-96 min-h-full pb-4
         flex flex-col gap-4 px-2 py-6 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] 
         border-r border-emerald-100
-=======
-        sticky top-0 z-30 w-36 sm:w-64 md:w-72 lg:w-80 xl:w-96 min-h-screen pb-4
-        flex flex-col gap-4 px-2 py-6  bg-gradient-to-b from-emerald-50 via-white to-emerald-100
-        border-r border-emerald-100 shadow-2xl rounded-tr-3xl rounded-br-3xl
-        transition-all duration-300 bg-white dark:bg-[#181f1b] dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25] 
->>>>>>> e4b1fe3b45161c1838ce5699ed3d1a3c06779ae2
         dark:border-emerald-900 dark:shadow-lg
       `}
       style={{

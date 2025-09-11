@@ -795,7 +795,9 @@ export function TeamCollabProvider({ children }) {
         }
         // Check if already invited or member
         if (
-          (teamData.invites || []).some((inv) => inv.email === inviteeEmail)
+          (teamData.invites || []).some(
+            (inv) => inv.inviteeEmail === inviteeEmail
+          )
         ) {
           toast("This email has already been invited.");
           setLoading(false);
@@ -825,6 +827,7 @@ export function TeamCollabProvider({ children }) {
 
         // Send in-app notification to invitee
         await addTeamNotifications({
+          userId: inviteeUserId,
           type: "team-invite",
           invitationData: {
             to: inviteeEmail,
@@ -854,6 +857,10 @@ export function TeamCollabProvider({ children }) {
 
   // Accept team invite by invitee
   const acceptTeamInvite = async (teamId, invitee) => {
+    if (!teamId) {
+      toast("Team ID is missing.");
+      return;
+    }
     try {
       const teamRef = doc(db, "teams", teamId);
       const teamSnap = await getDoc(teamRef);
@@ -894,16 +901,22 @@ export function TeamCollabProvider({ children }) {
       }
 
       //send notification to inviter
+      // Find inviter userId from team data
+      const inviterUserId = team.createdBy; // assuming createdBy is the inviter's uid
+
       await addTeamNotifications({
+        userId: inviterUserId, // <-- send to inviter!
         type: "accepted-invite",
         invitationData: {
           to: invitee.email,
           type: "accepted-invite",
           teamId: teamId,
-          teamName: teamName,
-          inviterName: currentUser.displayName || currentUser.email,
+          teamName: team.name,
+          inviterName:
+            team.members.find((m) => m.userId === inviterUserId)?.email || "",
           inviteeName: invitee.name || invitee.email,
-          inviterEmail: currentUser.email,
+          inviterEmail:
+            team.members.find((m) => m.userId === inviterUserId)?.email || "",
           inviteeEmail: invitee.email,
           createdAt: serverTimestamp(),
           status: "accepted",
@@ -916,24 +929,73 @@ export function TeamCollabProvider({ children }) {
   };
 
   // Remove team member only by the creator
-  const removeTeamMember = useCallback(async (teamId, memberObj) => {
-    const teamRef = doc(db, "teams", teamId);
-    await updateDoc(teamRef, {
-      members: arrayRemove(memberObj),
-    });
-  }, []);
+  const removeTeamMember = useCallback(
+    async (teamId, memberId) => {
+      const teamRef = doc(db, "teams", teamId);
+      const teamSnap = await getDoc(teamRef);
+      if (!teamSnap.exists()) return;
+      const team = teamSnap.data();
+
+      // Only team leader can remove members
+      const leader = (team.members || []).find((m) => m.role === "team leader");
+      if (!leader || leader.userId !== currentUser.uid) {
+        alert("Only the team leader can remove members.");
+        return;
+      }
+
+      // Find the exact member object
+      const memberObj = (team.members || []).find((m) => m.userId === memberId);
+      if (!memberObj) return;
+
+      await updateDoc(teamRef, {
+        members: arrayRemove(memberObj),
+      });
+    },
+    [currentUser]
+  );
 
   // Change member role
-  const changeMemberRole = useCallback(async (teamId, memberObj, newRole) => {
-    const teamRef = doc(db, "teams", teamId);
-    // Remove old member object, add new with updated role
-    await updateDoc(teamRef, {
-      members: arrayRemove(memberObj),
-    });
-    await updateDoc(teamRef, {
-      members: arrayUnion({ ...memberObj, role: newRole }),
-    });
-  }, []);
+  const changeMemberRole = useCallback(
+    async (teamId, memberId, newRole) => {
+      const teamRef = doc(db, "teams", teamId);
+      const teamSnap = await getDoc(teamRef);
+      if (!teamSnap.exists()) return;
+      const team = teamSnap.data();
+
+      // Only allow team leader to change roles
+      const leader = (team.members || []).find((m) => m.role === "team leader");
+      if (!leader || leader.userId !== currentUser.uid) {
+        toast("Only the team leader can change member roles.");
+        return;
+      }
+
+      // Find the exact member object in Firestore
+      const memberObj = (team.members || []).find((m) => m.userId === memberId);
+      if (!memberObj) {
+        toast("Member not found.");
+        return;
+      }
+
+      // Remove old member role, add new with updated role
+      await updateDoc(teamRef, {
+        members: arrayRemove(memberObj),
+      });
+      await updateDoc(teamRef, {
+        members: arrayUnion({ ...memberObj, role: newRole }),
+      });
+    },
+    [currentUser, toast]
+  );
+  // const changeMemberRole = useCallback(async (teamId, memberObj, newRole) => {
+  //   const teamRef = doc(db, "teams", teamId);
+  //   // Remove old member object, add new with updated role
+  //   await updateDoc(teamRef, {
+  //     members: arrayRemove(memberObj),
+  //   });
+  //   await updateDoc(teamRef, {
+  //     members: arrayUnion({ ...memberObj, role: newRole }),
+  //   });
+  // }, []);
 
   // Add a task to the team
   const addTeamTask = useCallback(async (teamId, task) => {

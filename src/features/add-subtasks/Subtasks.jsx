@@ -13,6 +13,7 @@ import Modal from "../../utils/Modal";
 import { useOperation } from "../../customHooks/operation/useOperation";
 import { GoPlus } from "react-icons/go";
 import CustomButton from "../../utils/CustomButton";
+import EditSubtaskModal from "../edit-subtask/EditSubtaskModal";
 
 const subtaskDetails = [
   "title",
@@ -66,12 +67,11 @@ function Subtasks({ task }) {
     closeSubtaskOperationModal();
   };
 
-  const handleSubtaskDelete = async (sub) => {
-    await deleteSubtask(task.id, sub.id);
+  const handleSubtaskEdit = () => {
+    onOpenSubTask();
     handleSubtaskMenuClose();
     closeSubtaskOperationModal();
   };
-
   const handleSubtaskTrash = async (sub) => {
     await trashSubtask(task.id, sub.id);
     handleSubtaskMenuClose();
@@ -82,7 +82,7 @@ function Subtasks({ task }) {
     {
       id: "view/edit",
       icon: <FaEdit />,
-      label: "  View / Edit",
+      label: "  View / Update",
       action: (sub) => {
         openSubtaskOperationModal(sub);
         handleSubtaskMenuClose();
@@ -105,10 +105,7 @@ function Subtasks({ task }) {
       id: "edit",
       icon: <FaEdit />,
       label: "Edit",
-      action: (sub) => {
-        openSubtaskOperationModal(sub);
-        handleSubtaskMenuClose();
-      },
+      action: handleSubtaskEdit,
     },
 
     {
@@ -134,7 +131,7 @@ function Subtasks({ task }) {
     },
     {
       label: "Edit",
-      action: () => handleSubtaskDelete(subtaskModal.subtask),
+      action: handleSubtaskEdit,
       style: "bg-blue-500  hover:bg-blue-600 ",
     },
   ];
@@ -293,6 +290,15 @@ function Subtasks({ task }) {
           </div>
         )}
       </Modal>
+      <>
+        {subtasks && (
+          <EditSubtaskModal
+            task={task}
+            subtaskId={task?.subtasks?.id}
+            subtask={subtasks}
+          />
+        )}
+      </>
     </>
   );
 }

@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import {
+  queueWrite,
+  getQueuedWrites,
+  clearQueuedWrites,
+} from "../../utils/offlineQueue";
 import TasksContext from "./TasksContext";
 import { auth, db } from "../../firebase";
 import {
@@ -60,6 +65,7 @@ export function TasksProvider({ children }) {
     open: false,
     task: null,
   });
+
   const [subtasksMap, setSubtasksMap] = useState({ subtaskTrash: [] });
   const {
     addNotifications,
@@ -84,13 +90,22 @@ export function TasksProvider({ children }) {
     (taskId) => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      return notifications.some(
-        (notif) =>
+      return notifications.some((notif) => {
+        if (
           notif.type === "due_soon" &&
           notif.taskData?.id === taskId &&
-          notif.createdAt &&
-          new Date(notif.createdAt).setHours(0, 0, 0, 0) === today.getTime()
-      );
+          notif.createdAt
+        ) {
+          // Handle Firestore Timestamp or JS Date/string
+          let notifDate =
+            typeof notif.createdAt.toDate === "function"
+              ? notif.createdAt.toDate()
+              : new Date(notif.createdAt);
+          notifDate.setHours(0, 0, 0, 0);
+          return notifDate.getTime() === today.getTime();
+        }
+        return false;
+      });
     },
     [notifications]
   );
@@ -142,17 +157,6 @@ export function TasksProvider({ children }) {
         : null,
     [currentUser]
   );
-  //function to alert the user for tasks due in two weeks
-  // function alertDueTasks(task) {
-  //   const dueDate = new Date(task.dueDate);
-  //   const now = new Date();
-  //   const twoWeeksFromNow = new Date();
-  //   twoWeeksFromNow.setDate(now.getDate() + 14);
-
-  //   if (dueDate <= twoWeeksFromNow && dueDate >= now) {
-  //     addNotifications({ type: "due_soon", task });
-  //   }
-  // }
 
   // Sort tasks by a given field
   const sortTasks = (tasks, sortBy) =>
@@ -193,6 +197,35 @@ export function TasksProvider({ children }) {
     return () => unsubscribe();
   }, [currentUser, getUserActivitiesRef, getUserTasksRef]);
 
+  // Retry queued writes when online
+  // useEffect(() => {
+  //   function retryQueued() {
+  //     if (navigator.onLine) {
+  //       // Retry tasks
+  //       const queuedTasks = getQueuedWrites("tasks");
+  //       queuedTasks.forEach(async (taskData) => {
+  //         try {
+  //           await addNewTask(taskData, { skipQueue: true });
+  //         } catch {}
+  //       });
+  //       clearQueuedWrites("tasks");
+
+  //       // Retry notifications
+  //       const queuedNotifs = getQueuedWrites("notifications");
+  //       queuedNotifs.forEach(async (notif) => {
+  //         try {
+  //           await addNotifications(notif, { skipQueue: true });
+  //         } catch (error) {
+  //           setError(error);
+  //         }
+  //       });
+  //       clearQueuedWrites("notifications");
+  //     }
+  //   }
+  //   window.addEventListener("online", retryQueued);
+  //   return () => window.removeEventListener("online", retryQueued);
+  // }, []);
+
   // Add new task
   const addNewTask = async (taskData) => {
     if (!currentUser) return;
@@ -223,6 +256,29 @@ export function TasksProvider({ children }) {
     }
   };
 
+  // const addNewSubtask = async (taskId, subtaskData) => {
+  //   if (!currentUser) return;
+  //   try {
+  //     const newId = uuidv4();
+  //     // ...fetch current subtasks...
+  //     const updatedSubtasks = [
+  //       ...currentSubtasks,
+  //       { ...subtaskData, id: newId },
+  //     ];
+  //     await updateDoc(taskDocRef, { subtasks: updatedSubtasks });
+  //     // ...log activity and notifications using newId...
+  //     await addSubtaskNotifications({
+  //       type: "add_subtask",
+  //       subtask: { ...subtaskData, id: newId },
+  //       task: { id: taskId, title: taskTitle, taskClass },
+  //     });
+  //     toast("Subtask added successfully!");
+  //   } catch (error) {
+  //     setError(error);
+  //     toast("Failed to add subtask!");
+  //   }
+  // };
+
   // Real-time updates for subtasks of a specific task
   // This function listens to changes in the subtasks of a specific task
   // and updates the subtasksMap state accordingly.
@@ -251,6 +307,14 @@ export function TasksProvider({ children }) {
   // Get subtasks for a specific task
   // This function retrieves subtasks from the subtasksMap state
   const getSubtasksForTask = (taskId) => subtasksMap[taskId] || [];
+
+  // Get a specific subtask by taskId and subtaskId
+  // This function retrieves a specific subtask from the subtasksMap state
+  // based on the provided taskId and subtaskId.
+  const getSubtask = (taskId, subtaskId) => {
+    const subtasks = getSubtasksForTask(taskId);
+    return subtasks.find((sub) => sub.id === subtaskId);
+  };
 
   // Add new subtask to a task's subtasks array field
   const addNewSubtask = async (taskId, subtaskData) => {
@@ -407,7 +471,7 @@ export function TasksProvider({ children }) {
 
       // Add notification
       await addSubtaskNotifications({
-        type: "subtask_trashed",
+        type: "trash_subtask",
         subtask: { ...subtaskToTrash, id: subtaskId },
         task: {
           id: taskId,
@@ -496,7 +560,7 @@ export function TasksProvider({ children }) {
 
       // Add notification
       await addSubtaskNotifications({
-        type: "subtask_restored",
+        type: "restore_subtask",
         subtask: { ...trashedSubtask, id: subtaskId },
         task: {
           id: taskId,
@@ -683,7 +747,7 @@ export function TasksProvider({ children }) {
     }
   };
 
-  // Delete a subtask from a task's subtaskytrash , with notifications and activity log(from trash as user subcollection)
+  // Delete a subtask from a task's subtasktrash , with notifications and activity log(from trash as user subcollection)
   const deleteSubtask = async (taskId, subtaskId) => {
     if (!currentUser) return;
     try {
@@ -698,7 +762,7 @@ export function TasksProvider({ children }) {
       const taskSnap = await getDocs(
         query(
           collection(db, "users", currentUser.uid, "subtaskTrash"),
-          where("__name__", "==", taskId)
+          where("__name__", "==", subtaskId)
         )
       );
       let deletedSubTaskData = null;
@@ -729,7 +793,7 @@ export function TasksProvider({ children }) {
       // Only add notification if we have the full subtask data
       if (deletedSubTaskData) {
         await addSubtaskNotifications({
-          type: "subtask_deleted",
+          type: "delete_subtask",
           subtask: {
             ...deletedSubTaskData,
             id: subtaskId,
@@ -1039,9 +1103,21 @@ export function TasksProvider({ children }) {
         handleTaskMenuOpen,
         targetLabel,
         setTargetLabel,
+        getSubtask,
       }}
     >
       {children}
     </TasksContext.Provider>
   );
 }
+//function to alert the user for tasks due in two weeks
+// function alertDueTasks(task) {
+//   const dueDate = new Date(task.dueDate);
+//   const now = new Date();
+//   const twoWeeksFromNow = new Date();
+//   twoWeeksFromNow.setDate(now.getDate() + 14);
+
+//   if (dueDate <= twoWeeksFromNow && dueDate >= now) {
+//     addNotifications({ type: "due_soon", task });
+//   }
+// }

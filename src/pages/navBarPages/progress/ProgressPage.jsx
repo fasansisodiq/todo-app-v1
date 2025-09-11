@@ -14,6 +14,7 @@ import { useTaskStats } from "./Utils";
 import WeeklySummary from "./WeeklySummary";
 import MonthlySummary from "./MonthlySummary";
 import { usePDF } from "react-to-pdf";
+import BackBtn from "../../../utils/BackBtn";
 
 function ProgressPage() {
   const { totalTasks, completedTasks, stats } = useTaskStats();
@@ -36,6 +37,7 @@ function ProgressPage() {
 
   return (
     <>
+      <BackBtn />
       <div
         ref={pdfRef}
         className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-100 flex flex-col items-center px-4 py-8 font-sans dark:bg-[#181f1b] dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]

@@ -7,7 +7,6 @@ import {
 } from "react-icons/bs";
 import BackBtn from "../../../utils/BackBtn";
 import { Link } from "react-router";
-// import H1 from "/../utils/H1";
 
 function MenuPage() {
   const menuNavLinkItems = [
@@ -40,10 +39,9 @@ function MenuPage() {
 
   return (
     <div className=" mt-4 absolute flex flex-col justify-start p-4 pl-5 gap-2 w-80 h-120 shadow-2xl border-4 border-white dark:border-emerald-900 bg-white dark:bg-[#232b25] rounded-2xl lg:text-2xl transition-colors duration-300">
-      <div className="flex justify-start items-center lg:gap-30 gap-2 w-full pb-2 lg:pb-4">
+      <div className="flex justify-start items-center lg:gap-5 gap-2 w-full pb-2 lg:pb-4">
         <BackBtn />
-        {/* <H1>Menu</H1> */}
-        <h1 className="text-center font-semibold text-slate-800 dark:text-yellow-200">
+        <h1 className="text-center font-semibold text-slate-800 dark:text-yellow-200 ">
           Menu
         </h1>
       </div>
@@ -57,8 +55,6 @@ function MenuPage() {
           <span>{item.element}</span>
         </Link>
       ))}
-      {/* <TaskFilter />
-      <ProfileUi /> */}
     </div>
   );
 }

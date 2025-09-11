@@ -1,7 +1,4 @@
-import { doc, onSnapshot } from "firebase/firestore";
 import NotifBtn from "./NotifBtn";
-import { db } from "../../firebase";
-import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
 const taskNotificationDatas = [
@@ -31,40 +28,39 @@ function NotificationCard({
   notifications,
   onMarkAsRead,
   currentUser,
-  activeTeamId,
   onAcceptTeamInvite,
   onChangeInviteStatus,
 }) {
-  // const [inviteeData, setInviteeData] = useState(null);
-
-  // useEffect(() => {
-  //   const docRef = doc(db, "teams", activeTeamId);
-  //   const unsubscribe = onSnapshot(docRef, (docSnap) => {
-  //     if (docSnap.exists()) {
-  //       setInviteeData(docSnap.data().invites || []);
-  //     } else {
-  //       console.log("No such document!");
-  //     }
-  //   });
-
-  //   // Cleanup the listener when the component unmounts
-  //   return () => unsubscribe();
-  // }, [activeTeamId]);
-  // console.log(inviteeData);
   if (!notifications) return null;
 
   //accept invite handler
   async function handleAcceptInvite() {
+    // Get teamId from the notification's invitationData
+    const teamId = notifications?.invitationData?.teamId;
+    // Build invitee object from currentUser (or notification data if needed)
+    const invitee = {
+      email: currentUser?.email,
+      name: currentUser?.displayName || currentUser?.email,
+      userId: currentUser?.uid,
+    };
+
     onMarkAsRead(notifications.id);
     onChangeInviteStatus(notifications.id);
-    onAcceptTeamInvite(activeTeamId, currentUser);
+    // Pass  teamId and invitee object
+    onAcceptTeamInvite(teamId, invitee);
   }
+
   // Helper to display High/Low for priority
   const getPriorityLabel = (priority) => {
     if (priority === true || priority === "on" || priority === "high")
       return "High";
     return "Low";
   };
+  // Choose best text color for bg
+  const messageTextColor = notifications.read
+    ? "text-emerald-800 dark:text-yellow-100"
+    : "text-emerald-900 dark:text-yellow-200";
+
   return (
     <div
       className={`p-4 rounded-xl shadow mb-3 flex ${
@@ -83,9 +79,11 @@ function NotificationCard({
         <div className="font-semibold text-emerald-700 dark:text-yellow-300">
           {notifications.title}
         </div>
-        <div className="text-slate-600 dark:text-yellow-100 text-sm">
-          {notifications.message}
-        </div>
+        {/* Highlighted message */}
+        <div
+          className={`text-sm mt-1 mb-2 leading-relaxed ${messageTextColor}`}
+          dangerouslySetInnerHTML={{ __html: notifications.message }}
+        />
         <>
           {notifications.taskData && !notifications.subtaskData && (
             <div className="text-xs mt-2">
@@ -130,29 +128,34 @@ function NotificationCard({
             ))}
         </>
         <div className="flex flex-col text-xs text-slate-400 dark:text-yellow-500">
-          {new Date(notifications.createdAt).toLocaleString()}
-          {/* <Link
-            to={`/layout/${
-              notifications?.taskData?.taskClass ||
-              notifications?.subtaskData?.taskClass
-            }`}
-            className="text-blue-600 hover:text-blue-800 font-semibold pt-1 underline"
-          >
-            view task details
-          </Link> */}
-          <Link
-            to={
-              (notifications?.taskData?.status !== "in progress" &&
-                `/layout/${notifications?.taskData?.status}`) ||
-              `/layout/${
-                notifications?.taskData?.taskClass ||
-                notifications?.subtaskData?.parentTaskClass
-              }`
-            }
-            className="text-blue-600 hover:text-blue-800 font-semibold pt-1 underline"
-          >
-            view task details
-          </Link>
+          {notifications.createdAt && (
+            <div>
+              {typeof notifications.createdAt.toDate === "function"
+                ? notifications.createdAt.toDate().toLocaleString(undefined, {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })
+                : new Date(notifications.createdAt).toLocaleString(undefined, {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}
+            </div>
+          )}
+          {notifications.taskData && notifications.taskData.id && (
+            <Link
+              to={
+                (notifications?.taskData?.status !== "in progress" &&
+                  `/layout/${notifications?.taskData?.status}`) ||
+                `/layout/${
+                  notifications?.taskData?.taskClass ||
+                  notifications?.subtaskData?.parentTaskClass
+                }`
+              }
+              className="text-blue-600 hover:text-blue-800 font-semibold pt-1 underline"
+            >
+              view task details
+            </Link>
+          )}
         </div>
       </div>
       {/* mark as read btn */}
@@ -167,9 +170,22 @@ function NotificationCard({
       {/* accept notification btn */}
       {!notifications.read &&
         teamNotifDatas &&
-        notifications?.invitationData && (
+        notifications?.invitationData &&
+        notifications.type === "team-invite" && (
           <span className="self-end">
             <NotifBtn label="Accept invite" onClick={handleAcceptInvite} />
+          </span>
+        )}
+      {/* For accepted-invite, show mark as read */}
+      {!notifications.read &&
+        teamNotifDatas &&
+        notifications?.invitationData &&
+        notifications.type === "accepted-invite" && (
+          <span className="self-end">
+            <NotifBtn
+              label="Mark as read"
+              onClick={() => onMarkAsRead(notifications.id)}
+            />
           </span>
         )}
     </div>

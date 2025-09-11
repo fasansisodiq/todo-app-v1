@@ -1,14 +1,13 @@
 import { initializeApp } from "firebase/app";
-
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyAdzg4yb6FRQGMxctiRVASW77x79VB_1Gg",
   authDomain: "todopro-716d1.firebaseapp.com",
@@ -19,12 +18,18 @@ const firebaseConfig = {
   measurementId: "G-NZVF1ZQ5L6",
 };
 
-// const { setTasks, setIsLoading } = useTasks();
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+
+// Enable new Firestore offline persistence
+export const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager(),
+  }),
+});
+
 export const googleProvider = new GoogleAuthProvider();
 
 export default app;

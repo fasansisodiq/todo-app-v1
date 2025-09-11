@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { useTeamCollab } from "../../customHooks/team-collaboration/useTeamCollab";
+import Modal from "../../utils/Modal";
 
 export default function TeamMembers() {
+  const [otherUserRole, setOtherUserRole] = useState(false);
+  const [newRole, setNewRole] = useState("");
   const { activeTeamId, teamMembers, onRemove, onRoleChange, currentUserId } =
     useTeamCollab();
   if (!activeTeamId) return null;
@@ -35,8 +39,11 @@ export default function TeamMembers() {
                 <option value="member">Member</option>
                 <option value="hr">HR</option>
                 <option value="manager">Manager</option>
-                {/* <option></option>
-                <option></option> */}
+                <option value="developer">Developer</option>
+                <option value="designer">Designer</option>
+                <option value={newRole} onClick={() => setOtherUserRole(true)}>
+                  Others
+                </option>
               </select>
               {onRemove && member.role !== "team leader" && (
                 <button
@@ -50,6 +57,43 @@ export default function TeamMembers() {
           </li>
         ))}
       </ul>
+      {otherUserRole && (
+        <Modal onClose={() => setOtherUserRole(false)} isOpen={otherUserRole}>
+          <h4 className="font-semibold text-emerald-700 dark:text-emerald-200 mb-2">
+            Other User Role
+          </h4>
+          <input
+            type="text"
+            value={newRole}
+            onChange={(e) => setNewRole(e.target.value)}
+            placeholder="Enter custom role"
+            className="w-full border border-emerald-200 dark:border-emerald-700 bg-white dark:bg-[#23272f] text-sm px-2 py-1 rounded mb-4"
+          />
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => {
+                if (newRole.trim() && onRoleChange) {
+                  onRoleChange(otherUserRole.userId, newRole.trim());
+                }
+                setOtherUserRole(false);
+                setNewRole("");
+              }}
+              className="px-4 py-2 bg-emerald-600 text-white dark:text-yellow-200 font-semibold rounded hover:bg-emerald-700 dark:hover:bg-emerald-800 transition-all duration-200"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => {
+                setOtherUserRole(false);
+                setNewRole("");
+              }}
+              className="px-4 py-2 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold rounded hover:bg-gray-400 dark:hover:bg-gray-600 transition-all duration-200"
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

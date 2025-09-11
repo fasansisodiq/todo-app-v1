@@ -12,11 +12,10 @@ import {
 import { db } from "../../firebase";
 import NotificationContext from "./NotificationContext";
 import { useAuth } from "../../authentication/useAuth";
-import { useTeamCollab } from "../team-collaboration/useTeamCollab";
+import { serverTimestamp } from "firebase/firestore";
 
 export function NotificationProvider({ children }) {
   const { currentUser } = useAuth();
-  // const { teamName } = useTeamCollab();
   const [updateCanceled, setUpdateCanceled] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,64 +24,67 @@ export function NotificationProvider({ children }) {
   // Memoized reference to user's notifications subcollection
   const getUserNotificationsRef = useCallback(
     (userId) =>
-      currentUser
-        ? collection(
-            db,
-            "users",
-            userId ? userId : currentUser.uid,
-            "notifications"
-          )
+      userId
+        ? collection(db, "users", userId, "notifications")
+        : currentUser
+        ? collection(db, "users", currentUser.uid, "notifications")
         : null,
     [currentUser]
   );
-  // //Memoized reference to team notifications subcollection
-  // const getTeamNotificationsRef = useCallback(
-  //   (teamId) =>
-  //     currentUser
-  //       ? collection(
-  //           db,
-  //           "teams",
-  //           teamId ? teamId : currentUser.uid,
-  //           "notifications"
-  //         )
-  //       : null,
-  //   [currentUser]
-  // );
-
-  // //add notification to team's subcollection
-  // const addTeamNotification = useCallback(
-  //   async (teamId, notification) => {
-  //     const teamNotificationsRef = getTeamNotificationsRef(teamId);
-  //     if (!currentUser || !teamNotificationsRef) return;
-  //     try {
-  //       await addDoc(teamNotificationsRef, {
-  //         ...notification,
-  //         createdAt: new Date().toISOString(),
-  //         status: "pending",
-  //       });
-  //     } catch (err) {
-  //       console.error("Failed to add team notification:", err);
-  //     }
-  //   },
-  //   [currentUser, getTeamNotificationsRef]
-  // );
+  const wasDueSoonNotifiedToday = useCallback(
+    (taskId) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return notifications.some((notif) => {
+        if (
+          notif.type === "due_soon" &&
+          notif.taskData?.id === taskId &&
+          notif.createdAt
+        ) {
+          // Handle Firestore Timestamp or JS Date/string
+          let notifDate =
+            typeof notif.createdAt.toDate === "function"
+              ? notif.createdAt.toDate()
+              : new Date(notif.createdAt);
+          notifDate.setHours(0, 0, 0, 0);
+          return notifDate.getTime() === today.getTime();
+        }
+        return false;
+      });
+    },
+    [notifications]
+  );
 
   // Add notification to user's subcollection
+  // const addNotification = useCallback(async (notification) => {
+  //   const userNotificationsRef = collection(
+  //     db,
+  //     "users",
+  //     notification.userId,
+  //     "notifications"
+  //   );
+  //   if (!userNotificationsRef) return;
+  //   await addDoc(userNotificationsRef, {
+  //     ...notification,
+  //     createdAt: serverTimestamp(),
+  //     read: false,
+  //   });
+  // }, []);
   const addNotification = useCallback(
     async (notification) => {
       const userNotificationsRef = getUserNotificationsRef(notification.userId);
-      if (!currentUser || !userNotificationsRef) return;
+      if (!userNotificationsRef) return;
       try {
         await addDoc(userNotificationsRef, {
           ...notification,
-          createdAt: new Date().toISOString(),
+          createdAt: serverTimestamp(),
           read: false,
         });
       } catch (err) {
         console.error("Failed to add notification:", err);
       }
     },
-    [currentUser, getUserNotificationsRef]
+    [getUserNotificationsRef]
   );
 
   // Real-time updates for notifications
@@ -156,39 +158,61 @@ export function NotificationProvider({ children }) {
     },
     [currentUser]
   );
+
+  // Utility function to capitalize and highlight message
+  function formatMessage(msg) {
+    // Uppercase and highlight important words (like task/subtask titles)
+
+    return msg
+      .toUpperCase()
+      .replace(
+        /"([^"]+)"/g,
+        (match, p1) =>
+          `<span class="text-[#059669] font-bold">"${p1.toUpperCase()}"</span>`
+      );
+  }
   //Add a new notification for various team actions
   const addTeamNotifications = useCallback(
-    async ({ type, invitationData }) => {
-      if (!currentUser || !invitationData) return;
+    async ({ userId, type, invitationData }) => {
+      if (!userId || !invitationData) {
+        console.error(
+          "Missing userId or invitationData in addTeamNotifications",
+          { userId, invitationData }
+        );
+        return;
+      }
       let title = "";
       let message = "";
 
       switch (type) {
         case "team-invite":
-          title = "Team Invitation";
-          message = `Hi ${
+          title = "TEAM INVITATION";
+          message = `Hi ${formatMessage(
             invitationData.inviteeName
-          } you've been invited to collaborate on the ${capitalizer(
+          )}, you've been invited to collaborate on the ${formatMessage(
             invitationData.teamName
-          )} project. Please review the tasks and let me know if you have any questions. Thanks! ".`; //
+          )} project. Please review the tasks and let me know if you have any questions. Thanks!`;
           break;
         case "accepted-invite":
-          title = "Invitation Accepted";
+          title = "INVITATION ACCEPTED";
           message = `Hi ${invitationData.inviterName}, ${
             invitationData.inviteeName
-          } has accepted your invitation to join the ${capitalizer(
+          } has accepted your invitation to join the "${formatMessage(
             invitationData.teamName
-          )} project.`;
+          )}" project.`;
           break;
 
         default:
-          title = "Team Notification";
-          message = `Team "${invitationData.teamName}" has an update.`; //
+          title = "TEAM NOTIFICATION";
+          message = formatMessage(
+            `Team ${formatMessage(invitationData.teamName)} has an update.`
+          );
       }
 
       try {
+        console.log("Adding team notification for userId:", userId);
         await addNotification({
-          userId: currentUser.uid,
+          userId,
           title,
           message,
           invitationData: {
@@ -210,7 +234,7 @@ export function NotificationProvider({ children }) {
         console.error("Failed to add notification:", error);
       }
     },
-    [currentUser, addNotification]
+    [addNotification]
   );
   // Add a new notification for various task actions
   const addNotifications = useCallback(
@@ -222,40 +246,32 @@ export function NotificationProvider({ children }) {
 
       switch (type) {
         case "add":
-          title = "Task Added";
-          message = `Task "${task.title}" was added.`;
+          title = "TASK ADDED";
+          message = `Task ${formatMessage(task.title)} was added.`;
           break;
         case "update":
-          title = "Task Updated";
-          message = `Task "${task.title}" was updated.`;
+          title = "TASK UPDATED";
+          message = `Task ${formatMessage(task.title)} was updated.`;
           break;
         case "trash":
-          title = "Task Trashed";
-          message = `Task "${task.title}" was moved to trash.`;
+          title = "TASK TRASHED";
+          message = `Task ${formatMessage(task.title)} was moved to trash.`;
           break;
         case "delete":
-          title = "Task Deleted";
-          message = `Task "${task.title}" was permanently deleted.`;
+          title = "TASK DELETED";
+          message = `Task ${formatMessage(
+            task.title
+          )} was permanently deleted.`;
           break;
         case "restore":
-          title = "Task Restored";
-          message = `Task "${task.title}" was restored.`;
+          title = "TASK RESTORED";
+          message = `Task ${formatMessage(task.title)} was restored.`;
           break;
         case "due_soon": {
-          // Check if a due_soon notification for this task was already sent today
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          // Find if a due_soon notification for this task and today already exists
-          const alreadySent = notifications.some(
-            (notif) =>
-              notif.type === "due_soon" &&
-              notif.taskData?.id === task.id &&
-              notif.createdAt &&
-              new Date(notif.createdAt).setHours(0, 0, 0, 0) === today.getTime()
-          );
-          if (alreadySent) return;
+          // Block if already sent today
+          if (wasDueSoonNotifiedToday(task.id)) return;
           // Compose message
-          title = "Task Due Soon";
+          title = "TASK DUE SOON";
           let daysLeft = null;
           if (task.dueDate) {
             const due = new Date(task.dueDate);
@@ -278,8 +294,8 @@ export function NotificationProvider({ children }) {
           break;
         }
         default:
-          title = "Task Notification";
-          message = `Task "${task.title}" has an update.`;
+          title = "TASK NOTIFICATION";
+          message = `Task ${formatMessage(task.title)} has an update.`;
       }
 
       try {
@@ -305,7 +321,7 @@ export function NotificationProvider({ children }) {
         console.error("Failed to add notification:", error);
       }
     },
-    [currentUser, addNotification, updateCanceled, notifications]
+    [currentUser, addNotification, updateCanceled, wasDueSoonNotifiedToday]
   );
 
   // Add a new notification for various subtask actions
@@ -318,28 +334,40 @@ export function NotificationProvider({ children }) {
 
       switch (type) {
         case "add_subtask":
-          title = "Subtask Added";
-          message = `Subtask "${subtask.title}" was added to task "${task.title}".`;
+          title = "SUBTASK ADDED";
+          message = `Subtask ${formatMessage(
+            subtask.title
+          )} was added to task "${task.title}".`;
           break;
         case "update_subtask":
-          title = "Subtask Updated";
-          message = `Subtask "${subtask.title}" was updated in task "${task.title}".`;
+          title = "SUBTASK UPDATED";
+          message = `Subtask ${formatMessage(
+            subtask.title
+          )} was updated in task "${task.title}".`;
           break;
         case "trash_subtask":
-          title = "Subtask Trashed";
-          message = `Subtask "${subtask.title}" was moved to trash from task "${task.title}".`;
+          title = "SUBTASK TRASHED";
+          message = `Subtask ${formatMessage(
+            subtask.title
+          )} was moved to trash from task "${task.title}".`;
           break;
         case "restore_subtask":
-          title = "Subtask Restored";
-          message = `Subtask "${subtask.title}" was restored to task "${task.title}".`;
+          title = "SUBTASK RESTORED";
+          message = `Subtask ${formatMessage(
+            subtask.title
+          )} was restored to task "${task.title}".`;
           break;
         case "delete_subtask":
-          title = "Subtask Deleted";
-          message = `Subtask "${subtask.title}" was permanently deleted from task "${task.title}".`;
+          title = "SUBTASK DELETED";
+          message = formatMessage(
+            `Subtask "${subtask.title}" was permanently deleted from task "${task.title}".`
+          );
           break;
         default:
-          title = "Subtask Notification";
-          message = `Subtask "${subtask.title}" in task "${task.title}" has an update.`;
+          title = "SUBTASK NOTIFICATION";
+          message = `Subtask ${formatMessage(subtask.title)} in task "${
+            task.title
+          }" has an update.`;
       }
 
       try {

@@ -9,7 +9,7 @@ import { useTeamCollab } from "../../customHooks/team-collaboration/useTeamColla
 import { useAuth } from "../../authentication/useAuth";
 
 function NotificationPage() {
-  const { acceptTeamInvite, activeTeamId } = useTeamCollab();
+  const { acceptTeamInvite } = useTeamCollab();
   const { currentUser } = useAuth();
   const { notifications, loading, markAsRead, changeInviteStatus } =
     useNotifications();
@@ -69,7 +69,6 @@ function NotificationPage() {
               key={notif.id}
               notifications={notif}
               onMarkAsRead={markAsRead}
-              activeTeamId={activeTeamId}
               onChangeInviteStatus={changeInviteStatus}
               onAcceptTeamInvite={acceptTeamInvite}
               currentUser={currentUser}

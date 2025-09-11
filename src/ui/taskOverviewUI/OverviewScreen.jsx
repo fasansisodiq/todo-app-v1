@@ -1,6 +1,7 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
 import { GoPlus } from "react-icons/go";
 import CustomButton from "../../utils/CustomButton";
+import QuickActionBtn from "../../utils/QuickActionBtn";
 
 const taskRoutes = [
   "today",
@@ -51,18 +52,6 @@ function OverviewScreen() {
                 See your progress, stats, and manage your tasks at a glance.
               </p>
             </div>
-<<<<<<< HEAD
-
-            {/* Add Task Button (example quick action) */}
-            <CustomButton
-              btnType="primary"
-              size="sm"
-              label="new task"
-              icon={<GoPlus />}
-              onClick={() => navigate("/layout/task/new")}
-            />
-=======
->>>>>>> 62f9fd032727d3c2b77cf99896cea68d9107e1ca
           </header>
         )}
         <div className="w-full flex-1 items-center">
