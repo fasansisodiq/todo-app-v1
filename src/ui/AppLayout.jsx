@@ -34,7 +34,7 @@ function AppLayout() {
       </>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex  min-h-screen mt20 sm:mt-25">
+      <div className="flex-1 flex  min-h-screen mt-20 sm:mt-25">
         {/* Sticky Sidebar */}
         <aside className=" min-h-full ">
           <SideBar />
