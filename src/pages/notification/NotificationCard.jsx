@@ -58,7 +58,7 @@ function NotificationCard({
   };
   // Choose best text color for bg
   const messageTextColor = notifications.read
-    ? "text-emerald-800 dark:text-yellow-100"
+    ? "text-emerald-600 dark:text-yellow-100"
     : "text-emerald-900 dark:text-yellow-200";
 
   return (
