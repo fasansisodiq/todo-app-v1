@@ -50,7 +50,7 @@ function NotificationPage() {
     : sortedNotifications.slice(0, 5);
 
   return (
-    <div className="max-w-2xl mx-auto py-8 px-2">
+    <div className="max-w-full sm:max-w-2xl mx-auto py-8 px-2">
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 mb-4 px-4 py-2 rounded-lg bg-emerald-600 text-white dark:text-yellow-200 font-semibold shadow hover:bg-emerald-700 dark:hover:text-yellow-500 dark:hover:bg-emerald-900 transition-all duration-200"
