@@ -88,7 +88,7 @@ function NotificationCard({
           {notifications.taskData && !notifications.subtaskData && (
             <div className="text-xs mt-2">
               {taskNotificationDatas.map((data) => (
-                <div key={data.label} className={`${notifications.read && "text-slate-200/70 dark:text-yellow-200/70"}`}>
+                <div key={data.label} className={`${notifications.read && "text-slate-200 dark:text-yellow-200/70"}`}>
                   {data.label}:{" "}
                   <span className={`font-semibold ${notifications.read && " text-slate-400 dark:text-yellow-100"}`}>
                     {notifications.taskData[data.value]}
