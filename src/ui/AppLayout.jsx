@@ -40,7 +40,7 @@ function AppLayout() {
           <SideBar />
         </aside>
         {/* Main Content */}
-        <main className="flex-1 flex flex-col overflow-y-auto">
+        <main className="w-full flex-1 flex flex-col overflow-y-auto">
           <OperationProvider>
             <OverviewScreen />
           </OperationProvider>
