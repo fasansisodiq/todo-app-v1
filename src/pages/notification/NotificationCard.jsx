@@ -58,7 +58,7 @@ function NotificationCard({
   };
   // Choose best text color for bg
   const messageTextColor = notifications.read
-    ? "text-emerald-600 dark:text-yellow-100"
+    ? "text-slate-600 dark:text-yellow-100"
     : "text-emerald-900 dark:text-yellow-200";
 
   return (
@@ -88,9 +88,9 @@ function NotificationCard({
           {notifications.taskData && !notifications.subtaskData && (
             <div className="text-xs mt-2">
               {taskNotificationDatas.map((data) => (
-                <div key={data.label} className="text-slate-400 dark:text-yellow-200/70">
+                <div key={data.label} className={`${notifications.read && "text-slate-200/70 dark:text-yellow-200/70"}`}>
                   {data.label}:{" "}
-                  <span className="font-semibold text-slate-900 dark:text-yellow-100">
+                  <span className={`font-semibold ${notifications.read && " text-slate-400 dark:text-yellow-100"}`}>
                     {notifications.taskData[data.value]}
                   </span>
                 </div>
