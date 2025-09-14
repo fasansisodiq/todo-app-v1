@@ -32,7 +32,7 @@ function OverviewScreen() {
     <main className="w-full min-h-full flex flex-col items-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]  px-2 transition-colors duration-300">
       <section
         className={
-          "w-full sm:max-w-5xl  rounded-2xl shadow-2xl border border-emerald-100 dark:border-emerald-900 p-4 sm:p-6 md:p-10 flex flex-col gap-6 transition-colors duration-300 "
+          "w-full sm:max-w-5xl  rounded-2xl shadow-2xl border border-emerald-100 dark:border-emerald-900 p-2 sm:p-6 md:p-10 flex flex-col gap-6 transition-colors duration-300 "
         }
       >
         {showHeaderAndFilter && (
