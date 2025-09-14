@@ -63,7 +63,7 @@ function NotificationCard({
 
   return (
     <div
-      className={`p-4 rounded-xl shadow mb-3 flex ${
+      className={`w-full p-1 sm:p-4 rounded-xl shadow mb-3 flex ${
         !notifications.read &&
         teamNotifDatas &&
         notifications?.invitationData &&
