@@ -76,7 +76,7 @@ function NotificationCard({
         }`}
     >
       <div>
-        <div className={`font-semibold text-emerald-700 dark:text-yellow-300 ${notifications.read && "text-slate-700"}}`>
+        <div className={`font-semibold text-emerald-700 dark:text-yellow-300 ${notifications.read && "text-slate-700"}`}>
           {notifications.title}
         </div>
         {/* Highlighted message */}
