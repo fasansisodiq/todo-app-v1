@@ -11,7 +11,7 @@ function Modal({ isOpen, onClose, children, alertingModalOpen = false }) {
       <div
         onClick={(e) => e.stopPropagation()}
         className={`
-          relative bg-white dark:bg-[#181f1b] border border-emerald-100 dark:border-yellow-300  rounded-2xl shadow-2xl
+          relative bg-white dark:bg-[#181f1b] border border-emerald-100 dark:border-yellow-300 max-w-md rounded-2xl shadow-2xl
           flex flex-col items-center justify-center
           p-6 max-w-full mx-auto
           transition-all duration-300
