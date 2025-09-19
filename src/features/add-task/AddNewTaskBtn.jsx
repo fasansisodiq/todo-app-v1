@@ -3,7 +3,7 @@ import TodoNavigator from "../../utils/TodoNavigator";
 
 function AddNewTaskBtn() {
   return (
-    <div className="pb-2 ">
+    <>
       <TodoNavigator
         to="task/new"
         mClassName={
@@ -16,7 +16,7 @@ function AddNewTaskBtn() {
         }
         message={"add new task"}
       />
-    </div>
+    </>
   );
 }
 
