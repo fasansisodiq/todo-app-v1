@@ -14,7 +14,7 @@ function Navbar() {
         mClassName={""}
         message={"More options"}
         element={
-          <span className="flex items-center justify-center  text-lg lg:text-2xl text-emerald-600 hover:text-emerald-800 transition-colors duration-200">
+          <span className="flex items-center justify-center  text-xl lg:text-2xl text-emerald-600 hover:text-emerald-800 transition-colors duration-200">
             <BiMenu />
           </span>
         }
