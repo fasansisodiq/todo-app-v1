@@ -87,14 +87,13 @@ function ReusableTaskItem({ task }) {
   }
 
   const taskOperationsLabel = [
-    // {
-    //   id: "view",
-    //   icon: <FcViewDetails />,
-    //   label: "  View Details",
-    //   action: () => {
-    //     "";
-    //   },
-    // },
+     {
+       id: "view",
+       icon: <FcViewDetails />,
+       label: "  View Details",
+      
+        
+     },
     {
       id: "subtask",
       icon: <TbSubtask />,
