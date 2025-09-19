@@ -17,7 +17,7 @@ function Search({ handleSearch, placeholder, value, onChange }) {
           <CiSearch />
         </button>
         <input
-          className="flex-1 h-6 sm:h-10 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base bg-transparent border-none outline-none px-3 text-slate-900 dark:text-yellow-100 text-base placeholder:text-emerald-400 dark:placeholder:text-yellow-400 rounded-full transition-all duration-200 focus:placeholder:text-emerald-600 dark:focus:placeholder:text-yellow-200"
+          className="flex-1 h-8 sm:h-10 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base bg-transparent border-none outline-none px-3 text-slate-900 dark:text-yellow-100 text-base placeholder:text-emerald-400 dark:placeholder:text-yellow-400 rounded-full transition-all duration-200 focus:placeholder:text-emerald-600 dark:focus:placeholder:text-yellow-200"
           type="search"
           name="search"
           id="search"
