@@ -63,7 +63,7 @@ function NotificationCard({
 
   return (
     <div
-      className={`flex flex-col gap-4 sm:gap-0 sm:flex-row w-full p-1 sm:p-4 rounded-xl shadow mb-3 flex ${
+      className={`flex flex-col gap-2 sm:gap-0 sm:flex-row w-full p-1 sm:p-4 rounded-xl shadow mb-3 flex ${
         !notifications.read &&
         teamNotifDatas &&
         notifications?.invitationData &&
@@ -159,7 +159,7 @@ function NotificationCard({
         </div>
       </div>
       {/* mark as read btn */}
-<div className=" flex self-end">
+<div className="flex self-end pb-2 sm:pb-0 ">
       {!notifications.read &&
         taskNotificationDatas &&
         notifications.taskData && (
