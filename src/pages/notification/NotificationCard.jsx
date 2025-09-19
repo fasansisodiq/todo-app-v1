@@ -159,6 +159,7 @@ function NotificationCard({
         </div>
       </div>
       {/* mark as read btn */}
+<div>
       {!notifications.read &&
         taskNotificationDatas &&
         notifications.taskData && (
@@ -188,6 +189,7 @@ function NotificationCard({
             />
           </span>
         )}
+</div>
     </div>
   );
 }
