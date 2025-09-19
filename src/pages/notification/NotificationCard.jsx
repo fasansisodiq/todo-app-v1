@@ -159,7 +159,7 @@ function NotificationCard({
         </div>
       </div>
       {/* mark as read btn */}
-<div className="flex self-end pb-2 sm:pb-0 ">
+<div className=" self-end pb-2 pr-1 sm:pr-0 sm:pb-0 ">
       {!notifications.read &&
         taskNotificationDatas &&
         notifications.taskData && (
