@@ -12,7 +12,7 @@ function Logout() {
   };
 
   return (
-    <div className="pt-0 sm:pt-0">
+    <div className="">
       <NavBtn label="log out" onClick={handleLogOut} />
     </div>
   );
