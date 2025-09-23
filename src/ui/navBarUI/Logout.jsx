@@ -5,13 +5,13 @@ import NavBtn from "../../pages/welcome/NavBtn";
 
 function Logout() {
   const navigate = useNavigate();
-const {toggleDarkMode} = useDarkMode();
+//const {toggleDarkMode} = useDarkMode();
   const { logOut } = useAuth();
   // Function to sign out the current user
   const handleLogOut = () => {
     logOut();
     navigate("/login");
-toggleDarkMode();
+//toggleDarkMode();
   };
 
   return (
