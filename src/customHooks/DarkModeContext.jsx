@@ -6,11 +6,11 @@ export function DarkModeProvider({ children }) {
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
       return (
-        localStorage.getItem("darkMode") === "true" ||
+        localStorage.getItem("darkMode") === "false" ||
         window.matchMedia("(prefers-color-scheme: dark)").matches
       );
     }
-    return false;
+    return true;
   });
 
   useEffect(() => {
