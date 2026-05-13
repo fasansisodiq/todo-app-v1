@@ -55,6 +55,7 @@ function LoginPage() {
     try {
       await googleSignin();
     } catch (error) {
+       toast(`${error}or check if the email you enter isa valid google email address`)
       console.log(error);
     }
   };

@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
 
 function DateRangePicker() {
-  const [daterange, setDaterange] = useState({ start: null, end: null });
-  const [start, setStart] = useState(daterange?.start || "");
-  const [end, setEnd] = useState(daterange?.end || "");
+  const [dateRange, setDateRange] = useState({ start: null, end: null });
+  const [start, setStart] = useState(dateRange?.start || "");
+  const [end, setEnd] = useState(dateRange?.end || "");
 
-  // Keep local state in sync with parent daterange
+  // Keep local state in sync with parent dateRange
   useEffect(() => {
-    if (daterange?.start !== start) setStart(daterange?.start || "");
-    if (daterange?.end !== end) setEnd(daterange?.end || "");
+    if (dateRange?.start !== start) setStart(dateRange?.start || "");
+    if (dateRange?.end !== end) setEnd(dateRange?.end || "");
     // eslint-disable-next-line
-  }, [daterange]);
+  }, [dateRange]);
 
   const handleStartChange = (e) => {
-    const newStart = e.target.daterange;
+    const newStart = e.target.dateRange;
     setStart(newStart);
-    setDaterange && setDaterange({ start: newStart, end });
+    setDateRange && setDateRange({ start: newStart, end });
   };
 
   const handleEndChange = (e) => {
-    const newEnd = e.target.daterange;
+    const newEnd = e.target.dateRange;
     setEnd(newEnd);
-    setDaterange && setDaterange({ start, end: newEnd });
+    setDateRange && setDateRange({ start, end: newEnd });
   };
 
   return (
@@ -36,7 +36,7 @@ function DateRangePicker() {
         <input
           id="start-date"
           type="date"
-          daterange={start}
+          dateRange={start}
           onChange={handleStartChange}
           className="rounded border border-emerald-200 dark:border-yellow-200 px-2 py-1 text-sm dark:[color-scheme:dark] focus:border-emerald-500 dark:focus:border-yellow-500 focus:ring-emerald-100 dark:focus:ring-yellow-100 transition"
         />
@@ -54,7 +54,7 @@ function DateRangePicker() {
         <input
           id="end-date"
           type="date"
-          daterange={end}
+          dateRange={end}
           onChange={handleEndChange}
           className="rounded border border-emerald-200 dark:border-yellow-200 px-2 py-1 text-sm dark:[color-scheme:dark] focus:border-emerald-500 dark:focus:border-yellow-500 focus:ring-emerald-100 dark:focus:ring-yellow-100 transition"
         />

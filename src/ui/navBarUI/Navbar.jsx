@@ -4,21 +4,36 @@ import DisplayHoverMessage from "../../utils/DisplayHoverMessage";
 import Logout from "./Logout";
 import AddNewTaskBtn from "../../features/add-task/AddNewTaskBtn";
 import StickyNav from "../../utils/StickyNaV";
+import MenuPage from "../../pages/navBarPages/menu/MenuPage";
+import { useState } from "react";
 
 function Navbar() {
+  const [openMenu, setOpenMenu] = useState(false)
+  function handleMenuToggle(){
+    setOpenMenu(!openMenu)
+  }
   return (
     <StickyNav>
       <AddNewTaskBtn />
+      <>  
       <TodoNavigator
         to={"menu"}
-        mClassName={""}
         message={"More options"}
         element={
-          <span className="flex items-center justify-center  text-xl lg:text-2xl text-emerald-600 hover:text-emerald-800 transition-colors duration-200">
+         
+          <span className=" flex items-center justify-center  text-xl lg:text-2xl text-emerald-600 hover:text-emerald-800 transition-colors duration-200"
+          onClick={handleMenuToggle}
+          >
             <BiMenu size-10 />
           </span>
+          
+        
         }
+        
       />
+      <div className="absolute top-16 z-5 right-90" >{openMenu && <MenuPage onMenuOpen={handleMenuToggle}/>}</div>
+      </>
+    
 
       <DisplayHoverMessage
         element={

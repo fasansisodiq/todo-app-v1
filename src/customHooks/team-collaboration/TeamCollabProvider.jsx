@@ -943,12 +943,20 @@ export function TeamCollabProvider({ children }) {
         return;
       }
 
+      function teamDataFinder(data) {
+        return data.find((m) => m.userId === memberId);
+      }
+
       // Find the exact member object
       const memberObj = (team.members || []).find((m) => m.userId === memberId);
-      if (!memberObj) return;
+      const idArr = (team.memberIds || []).find((m) => m.userId === memberId);
+      // const memberObj = teamDataFinder(team.members || []);
+      // const idArr = teamDataFinder(team.memberIds || []);
+      if (!memberObj && !idArr) return;
 
       await updateDoc(teamRef, {
         members: arrayRemove(memberObj),
+        memberIds: arrayRemove(idArr),
       });
     },
     [currentUser]
@@ -971,6 +979,7 @@ export function TeamCollabProvider({ children }) {
 
       // Find the exact member object in Firestore
       const memberObj = (team.members || []).find((m) => m.userId === memberId);
+
       if (!memberObj) {
         toast("Member not found.");
         return;
@@ -986,16 +995,6 @@ export function TeamCollabProvider({ children }) {
     },
     [currentUser, toast]
   );
-  // const changeMemberRole = useCallback(async (teamId, memberObj, newRole) => {
-  //   const teamRef = doc(db, "teams", teamId);
-  //   // Remove old member object, add new with updated role
-  //   await updateDoc(teamRef, {
-  //     members: arrayRemove(memberObj),
-  //   });
-  //   await updateDoc(teamRef, {
-  //     members: arrayUnion({ ...memberObj, role: newRole }),
-  //   });
-  // }, []);
 
   // Add a task to the team
   const addTeamTask = useCallback(async (teamId, task) => {

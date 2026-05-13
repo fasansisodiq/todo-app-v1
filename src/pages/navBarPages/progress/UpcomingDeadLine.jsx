@@ -6,8 +6,9 @@ function UpcomingDeadLine() {
   const { upComingDeadlines } = useTaskStats();
   return (
     <div className="bg-white dark:bg-[#2f3532] rounded-xl shadow p-6">
-      <h2 className="text-lg font-bold text-emerald-700 dark:text-emerald-300 mb-4 flex items-center gap-2">
-        <MdOutlineUpcoming /> Upcoming Deadlines
+      <h2 className=" text-lg font-bold text-emerald-700 dark:text-emerald-300 mb-4 flex items-center gap-2">
+        <MdOutlineUpcoming /> 
+        <span>Upcoming Deadlines</span>
       </h2>
       <ul className="space-y-2">
         {upComingDeadlines.length === 0 ? (

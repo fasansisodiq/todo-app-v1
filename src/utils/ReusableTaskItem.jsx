@@ -2,6 +2,7 @@ import { FaCheckCircle, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { MdCancel, MdPending } from "react-icons/md";
 import { SiProgress } from "react-icons/si";
 import { useNavigate } from "react-router";
+import { FcViewDetails } from "react-icons/fc";
 
 import TaskOperationModal from "./TaskOperationModal";
 import { useTasks } from "../customHooks/tasks/useTasks";
@@ -87,13 +88,11 @@ function ReusableTaskItem({ task }) {
   }
 
   const taskOperationsLabel = [
-     {
-       id: "view",
-       icon: <FcViewDetails />,
-       label: "  View Details",
-      
-        
-     },
+    {
+      id: "view",
+      icon: <FcViewDetails />,
+      label: "  View Details",
+    },
     {
       id: "subtask",
       icon: <TbSubtask />,

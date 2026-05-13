@@ -14,15 +14,8 @@ import TeamDetails from "./TeamDetails";
 export default function TeamDashboard() {
   // const [activeTeamId, setActiveTeamId] = useState(null);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
-  const { currentUser } = useAuth();
-  const {
-    activeTeamId,
-    teamMembers,
-    onRemove,
-    onInvite,
-    onRoleChange,
-    currentUserId,
-  } = useTeamCollab();
+  // const { currentUser } = useAuth();
+  const { activeTeamId } = useTeamCollab();
 
   return (
     <div className="flex flex-col sm:flex-row h-screen bg-emerald-50 dark:bg-[#181c23] transition-colors">

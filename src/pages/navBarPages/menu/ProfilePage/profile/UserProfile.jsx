@@ -36,13 +36,11 @@ function UserProfile() {
       bg="bg-gradient-to-br from-emerald-50 via-white to-emerald-100 dark:bg-[#232b25]  dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]
         dark:border-yellow-100 dark:shadow-lg"
     >
-      <div className="relative flex flex-col min-h-screen px-4 py-6 rounded-xl shadow-2xl max-w-2xl mx-auto border border-emerald-100 font-sans text-base">
-        <span className=" absolute top-0 -right-34 ">
-          <DarkModeToggle />
-        </span>
+      
+      
         {/* Header */}
-        <span className="flex justify-between items-center w-full mb-2">
-          <BackBtn />
+        <span className="flex justify-end items-center w-full mb-2">
+          {/* <BackBtn /> */}
           <EditProfileBtn />
         </span>
         {/* Title */}
@@ -76,7 +74,7 @@ function UserProfile() {
         {/* <div className="mt-auto mb-8 flex justify-center">
           <DeleteAccount />
         </div> */}
-      </div>
+      
     </ProfileDesign>
   );
 }

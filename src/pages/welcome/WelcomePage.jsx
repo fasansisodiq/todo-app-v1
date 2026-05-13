@@ -20,15 +20,15 @@ function WelcomePage() {
   return (
     <div className="relative min-h-screen flex flex-col items-center w-full bg-gradient-to-br from-emerald-50 via-white to-emerald-100 text-slate-800 font-sans">
       {/* Header */}
-      <StickyNav className="">
+      <StickyNav>
         <div className="w-full flex justify-start  items-center gap-2 sm:gap-3 md:gap-4">
           <img
             src="/todopro-light-small.png"
             className=" size-10 sm:size-10 md:size-16"
           />
 
-          <span className="text-xl lg:text-2xl font-bold text-emerald-700 tracking-wide drop-shadow">
-            todopro
+          <span className="text-xl lg:text-2xl font-bold text-emerald-700 italic tracking-wide drop-shadow">
+            Todopro
           </span>
         </div>
         <div className="sm:text-xl lg:text-2xl">
@@ -56,8 +56,10 @@ function WelcomePage() {
                 openMenu ? "scale-100 opacity-100" : "scale-110 opacity-0"
               }`}
             >
-              <div>menu</div>
+              <div>menus</div>
+              <div>menus</div>
               <div>page</div>
+              <div>others</div>
               <div className="flex self-center gap-4  sm:gap-8">
                 <NavBtn to="login" label="Login" />
                 <NavBtn to="signup" label="Get started for free" />
@@ -88,7 +90,7 @@ function WelcomePage() {
         {/* Features */}
         <div className="mt-4">
           <h2 className="text-lg lg:text-xl font-bold text-emerald-700 mb-2">
-            Key Features
+            Key Features :
           </h2>
           <FeatureList />
         </div>

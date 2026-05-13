@@ -37,7 +37,7 @@ function ProgressPage() {
 
   return (
     <>
-      <BackBtn />
+      {/* <BackBtn label="back to layout" /> */}
       <div
         ref={pdfRef}
         className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-100 flex flex-col items-center px-4 py-8 font-sans dark:bg-[#181f1b] dark:from-[#232b25] dark:via-[#181f1b] dark:to-[#232b25]
@@ -53,7 +53,7 @@ function ProgressPage() {
         </div>
 
         {/* Filter/Date Range Picker */}
-        <div className="w-full max-w-4xl flex justify-end mb-4 exclude-from-pdf">
+        <div className="w-full max-w-4xl flex justify-end mb-8 exclude-from-pdf">
           <DateRangePicker />
         </div>
 
@@ -114,7 +114,7 @@ function ProgressPage() {
         </div>
 
         {/* Upcoming Deadlines & Achievements */}
-        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="w-full max-w-4xl flex flex-col lg:grid lg:grid-cols-2 gap-6 mb-8">
           <UpcomingDeadLine />
           <Achievement />
         </div>

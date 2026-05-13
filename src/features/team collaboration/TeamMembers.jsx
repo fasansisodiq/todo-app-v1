@@ -26,7 +26,14 @@ export default function TeamMembers() {
               <select
                 value={member.role}
                 onChange={(e) =>
-                  onRoleChange && onRoleChange(member.userId, e.target.value)
+                  onRoleChange &&
+                  onRoleChange(
+                    activeTeamId,
+                    member.userId,
+                    e.target.value.toLowerCase() === "Others"
+                      ? newRole
+                      : e.target.value
+                  )
                 }
                 className="rounded border border-emerald-200 dark:border-emerald-700 bg-white dark:bg-[#23272f] text-xs px-2 py-1"
                 disabled={
@@ -41,13 +48,11 @@ export default function TeamMembers() {
                 <option value="manager">Manager</option>
                 <option value="developer">Developer</option>
                 <option value="designer">Designer</option>
-                <option value={newRole} onClick={() => setOtherUserRole(true)}>
-                  Others
-                </option>
+                <option value={newRole}>Others</option>
               </select>
               {onRemove && member.role !== "team leader" && (
                 <button
-                  onClick={() => onRemove(member.userId)}
+                  onClick={() => onRemove(activeTeamId, member.userId)}
                   className="text-red-500 hover:text-red-700 text-xs px-2 py-1"
                 >
                   Remove

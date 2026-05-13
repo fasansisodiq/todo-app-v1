@@ -35,6 +35,7 @@ import NotificationPage from "./pages/notification/NotificationPage";
 import ForgotPassword from "./pages/ForgetPasswordPage";
 import TeamCollabPage from "./pages/sideBarPages/TeamCollabPage";
 import AcceptInvite from "./features/team collaboration/AcceptInvite";
+import { elements } from "chart.js";
 
 const layoutRoutes = [
   // Sidebar
@@ -54,14 +55,15 @@ const layoutRoutes = [
   { path: "notification", element: <NotificationPage /> },
   { path: "share", element: <SharedTaskPage /> },
   { path: "teams", element: <TeamCollabPage /> },
-  { path: "menu/profile", element: <UserProfile /> },
+  { path: "profile", element: <UserProfile /> },
 
   // Navbar/Menu
-  { path: "menu/settings", element: <SettingsPage /> },
-  { path: "menu/progress", element: <ProgressPage /> },
-  { path: "menu/help", element: <HelpPage /> },
-  { path: "menu", element: <MenuPage /> },
-  { path: "menu/filter", element: <FilterPage /> },
+  { path: "settings", element: <SettingsPage /> },
+  { path: "progress", element: <ProgressPage /> },
+  { path: "help", element: <HelpPage /> },
+  { path: "menu" , elements:<span></span>},
+  // { path: "menu", element: <MenuPage /> },
+  { path: "filter", element: <FilterPage /> },
 
   // Utility
   { path: "task/new", element: <AddNewTask /> },

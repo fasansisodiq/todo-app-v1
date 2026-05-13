@@ -8,7 +8,7 @@ function ProfileItemLabel({ label, data, icon, onClick }) {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`flex justify-start items-center gap-2 py-1 px-3 rounded transition-colors ${
+      className={`flex justify-start items-center gap-2 py-1 rounded transition-colors ${
         onClick ? "hover:bg-gray-100 cursor-pointer" : ""
       } text-base`}
       onClick={onClick}
